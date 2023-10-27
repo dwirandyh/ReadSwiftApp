@@ -2,6 +2,7 @@ import 'package:article_bookmark/domain/entity/article_entity.dart';
 import 'package:article_bookmark/presentation/view/article_bookmark_header.dart';
 import 'package:article_bookmark/presentation/view/article_item.dart';
 import 'package:flutter/material.dart';
+import 'package:uikit/theme/uikit_theme.dart';
 
 class ArticleBookmarkPage extends StatelessWidget {
   const ArticleBookmarkPage({super.key});
@@ -33,7 +34,9 @@ class ArticleBookmarkPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).extension<UIKitThemeColor>()!;
     return Scaffold(
+      backgroundColor: colors.background,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),

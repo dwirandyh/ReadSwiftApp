@@ -1,5 +1,5 @@
-name: article_bookmark
-description: A new Flutter package project.
+name: uikit
+description: A new Flutter project.
 version: 0.0.1
 homepage:
 
@@ -10,9 +10,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
-  uikit:
-    path: ../uikit
 
 dev_dependencies:
   flutter_test:

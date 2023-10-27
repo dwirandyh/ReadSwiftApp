@@ -39,6 +39,8 @@ dependencies:
   # Local packages
   article_bookmark:
       path: packages/article_bookmark
+  uikit:
+      path: packages/uikit
 
 dev_dependencies:
   flutter_test:
