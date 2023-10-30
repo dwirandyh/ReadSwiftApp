@@ -17,7 +17,8 @@ class ArticleBookmarkPage extends StatelessWidget {
                 "Deep Dive into Core Location in iOS: Geofencing (Region Monitoring)",
             author: "Dwi Randy H",
             datePublished: DateTime.now(),
-            leadImage: "",
+            leadImage:
+                "https://miro.medium.com/v2/resize:fit:4800/0*EOwLviJ4rkdIC_Q9",
             content: "Content of deep dive into core location",
             url:
                 "https://dwirandyh.medium.com/deep-dive-into-core-location-in-ios-geofencing-region-monitoring-7846802c968e",
@@ -38,20 +39,24 @@ class ArticleBookmarkPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: colors.background,
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ArticleBookmarkHeader(),
-              SizedBox(
-                height: 16,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Padding(
+              padding: EdgeInsets.only(
+                top: 16,
+                left: 16,
+                right: 16,
               ),
-              Expanded(
-                child: _articleList(5),
-              ),
-            ],
-          ),
+              child: ArticleBookmarkHeader(),
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            Expanded(
+              child: _articleList(5),
+            ),
+          ],
         ),
       ),
     );
