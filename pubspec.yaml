@@ -41,6 +41,8 @@ dependencies:
       path: packages/article_bookmark
   uikit:
       path: packages/uikit
+  network:
+      path: packages/network
 
 dev_dependencies:
   flutter_test:
