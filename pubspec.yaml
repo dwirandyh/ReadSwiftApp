@@ -39,6 +39,8 @@ dependencies:
   # Local packages
   article_bookmark:
       path: packages/article_bookmark
+  authentication:
+      path: packages/authentication
   uikit:
       path: packages/uikit
   network:

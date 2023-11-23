@@ -1,7 +1,7 @@
 import 'package:article_bookmark/domain/entity/article_entity.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:uikit/theme/uikit_theme.dart';
+import 'package:uikit/theme/uikit_theme_color.dart';
 
 class ArticleItem extends StatelessWidget {
   final ArticleEntity article;

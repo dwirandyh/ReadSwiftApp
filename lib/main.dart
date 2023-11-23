@@ -1,5 +1,5 @@
+import 'package:authentication/presentation/view/login_page.dart';
 import 'package:flutter/material.dart';
-import 'package:readswift_app/main_page.dart';
 import 'package:uikit/theme/uikit_theme.dart';
 
 void main() {
@@ -14,17 +14,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData.light().copyWith(
-        extensions: <ThemeExtension<dynamic>>[
-          UIKitThemeColor.light,
-        ],
-      ),
-      darkTheme:
-          ThemeData.dark().copyWith(extensions: <ThemeExtension<dynamic>>[
-        UIKitThemeColor.dark,
-      ]),
-      themeMode: ThemeMode.light,
-      home: MainPage(),
+      theme: UIKitTheme.light,
+      darkTheme: UIKitTheme.dark,
+      themeMode: ThemeMode.system,
+      // home: MainPage(),
+      home: LoginPage(),
     );
   }
 }
