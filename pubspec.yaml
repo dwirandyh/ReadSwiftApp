@@ -38,13 +38,15 @@ dependencies:
 
   # Local packages
   article_bookmark:
-      path: packages/article_bookmark
+    path: packages/article_bookmark
   authentication:
-      path: packages/authentication
+    path: packages/authentication
+  foundation:
+    path: packages/foundation
   uikit:
-      path: packages/uikit
+    path: packages/uikit
   network:
-      path: packages/network
+    path: packages/network
 
 dev_dependencies:
   flutter_test:

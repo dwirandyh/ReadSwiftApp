@@ -10,7 +10,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  foundation:
+    path: ../foundation
+  network:
+    path: ../network
   uikit:
     path: ../uikit
 

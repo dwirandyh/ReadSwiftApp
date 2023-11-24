@@ -7,19 +7,21 @@ class UIKitButton extends StatelessWidget {
   final VoidCallback onPressed;
   final UIKitButtonType type;
   final Image? icon;
+  final bool isEnabled;
   const UIKitButton({
     super.key,
     required this.onPressed,
     required this.text,
     this.type = UIKitButtonType.elevated,
     this.icon,
+    this.isEnabled = true,
   });
 
   Widget _elevatedButton(BuildContext context) {
     return SizedBox(
       height: 40,
       child: ElevatedButton(
-        onPressed: onPressed,
+        onPressed: isEnabled ? onPressed : null,
         child: Text(text),
       ),
     );

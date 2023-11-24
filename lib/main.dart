@@ -1,4 +1,4 @@
-import 'package:authentication/presentation/view/login_page.dart';
+import 'package:authentication/view/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:uikit/theme/uikit_theme.dart';
 

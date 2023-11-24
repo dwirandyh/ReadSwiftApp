@@ -10,19 +10,24 @@ abstract interface class HttpNetwork {
     return HttpNetworkImpl(client: http.Client());
   }
 
-  Future<Map<String, dynamic>> get(Uri url);
+  Future<Map<String, dynamic>> get(URLResolver url);
 
-  Future<Map<String, dynamic>> post(Uri url, Map<String, dynamic> body);
+  Future<Map<String, dynamic>> post(URLResolver url, Map<String, dynamic> body);
 }
 
 class HttpNetworkImpl extends HttpNetwork {
   final http.Client client;
 
+  final Map<String, String> headers = {
+    'Content-type': 'application/json',
+    'Accept': 'application/json',
+  };
+
   HttpNetworkImpl({required this.client});
 
   @override
-  Future<Map<String, dynamic>> get(Uri url) async {
-    var response = await client.get(url);
+  Future<Map<String, dynamic>> get(URLResolver url) async {
+    var response = await client.get(url.fullURI(), headers: headers);
     if (response.statusCode >= 200 && response.statusCode < 300) {
       var jsonResponse =
           convert.jsonDecode(response.body) as Map<String, dynamic>;
@@ -33,9 +38,11 @@ class HttpNetworkImpl extends HttpNetwork {
   }
 
   @override
-  Future<Map<String, dynamic>> post(Uri url, Map<String, dynamic> body) async {
+  Future<Map<String, dynamic>> post(
+      URLResolver url, Map<String, dynamic> body) async {
     var encodedBody = convert.jsonEncode(body);
-    var response = await client.post(url, body: encodedBody);
+    var response =
+        await client.post(url.fullURI(), body: encodedBody, headers: headers);
     if (response.statusCode >= 200 && response.statusCode < 300) {
       var jsonResponse =
           convert.jsonDecode(response.body) as Map<String, dynamic>;
@@ -43,5 +50,16 @@ class HttpNetworkImpl extends HttpNetwork {
     } else {
       throw NetworkException(statusCode: response.statusCode);
     }
+  }
+}
+
+class URLResolver {
+  const URLResolver({required this.path});
+
+  final String path;
+  static const String baseURL = "http://10.0.2.2:80";
+
+  Uri fullURI() {
+    return Uri.parse("${URLResolver.baseURL}/api/$path");
   }
 }
