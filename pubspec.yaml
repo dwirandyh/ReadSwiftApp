@@ -43,10 +43,12 @@ dependencies:
     path: packages/authentication
   foundation:
     path: packages/foundation
-  uikit:
-    path: packages/uikit
   network:
     path: packages/network
+  storage:
+    path: packages/storage
+  uikit:
+      path: packages/uikit
 
 dev_dependencies:
   flutter_test:

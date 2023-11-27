@@ -1,3 +1,4 @@
+import 'package:authentication/model/user.dart';
 import 'package:authentication/repository/authentication_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,7 +10,7 @@ part 'login_state.dart';
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginBloc({
     required this.authenticationRepository,
-  }) : super(const LoginState(LoginStatus.idle, "")) {
+  }) : super(const LoginState(LoginStatus.initial, "")) {
     on<LoginRequested>(_onLoginRequested);
   }
 
@@ -21,8 +22,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   ) async {
     emit(state.copyWith(status: LoginStatus.loading));
     try {
-      await authenticationRepository.login(
+      User user = await authenticationRepository.login(
           email: event.email, password: event.password);
+      await authenticationRepository.saveAuthenticatedUser(user: user);
       emit(state.copyWith(
         status: LoginStatus.success,
         message: "Login Success, navigate to home later",

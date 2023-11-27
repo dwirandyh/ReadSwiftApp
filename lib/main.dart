@@ -17,8 +17,7 @@ class MyApp extends StatelessWidget {
       theme: UIKitTheme.light,
       darkTheme: UIKitTheme.dark,
       themeMode: ThemeMode.system,
-      // home: MainPage(),
-      home: LoginPage(),
+      home: LoginPage.create(),
     );
   }
 }
