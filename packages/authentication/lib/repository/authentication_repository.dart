@@ -11,6 +11,12 @@ abstract class AuthenticationRepository {
     required String password,
   });
 
+  Future<User> register({
+    required String name,
+    required String email,
+    required String password,
+  });
+
   Future<void> saveAuthenticatedUser({required User user});
   Future<User?> getAuthenticatedUser();
 }
@@ -30,11 +36,36 @@ class AuthenticationRepositoryImpl extends AuthenticationRepository {
     Map<String, dynamic> body = {"email": email, "password": password};
     Map<String, dynamic> response =
         await client.post(const URLResolver(path: "user/login"), body);
-    dynamic data = response["data"];
+    dynamic userData = response["data"];
     return User(
-      id: data["id"],
-      name: data["name"],
-      emailVerifiedAt: DateTime.tryParse(data["email_verified_at"] ?? ""),
+      id: userData["id"],
+      name: userData["name"],
+      email: userData["email"],
+      emailVerifiedAt: DateTime.tryParse(userData["email_verified_at"] ?? ""),
+      accessToken: response["access_token"],
+      tokenType: response["token_type"],
+    );
+  }
+
+  @override
+  Future<User> register({
+    required String name,
+    required String email,
+    required String password,
+  }) async {
+    Map<String, dynamic> body = {
+      "name": name,
+      "email": email,
+      "password": password
+    };
+    Map<String, dynamic> response =
+        await client.post(const URLResolver(path: "user"), body);
+    dynamic userData = response["data"];
+    return User(
+      id: userData["id"],
+      name: userData["name"],
+      email: userData["email"],
+      emailVerifiedAt: DateTime.tryParse(userData["email_verified_at"] ?? ""),
       accessToken: response["access_token"],
       tokenType: response["token_type"],
     );

@@ -5,6 +5,7 @@ class User {
   const User({
     required this.id,
     required this.name,
+    required this.email,
     this.emailVerifiedAt,
     required this.accessToken,
     required this.tokenType,
@@ -12,6 +13,7 @@ class User {
 
   final int id;
   final String name;
+  final String email;
   final DateTime? emailVerifiedAt;
   final String accessToken;
   final String tokenType;
@@ -20,6 +22,7 @@ class User {
     return {
       'id': id,
       'name': name,
+      'email': email,
       'emailVerifiedAt': emailVerifiedAt?.toIso8601String(),
       'accessToken': accessToken,
       'tokenType': tokenType,
@@ -30,6 +33,7 @@ class User {
     return User(
       id: json['id'],
       name: json['name'],
+      email: json['email'],
       emailVerifiedAt: json['emailVerifiedAt'] != null
           ? DateTime.parse(json['emailVerifiedAt'])
           : null,

@@ -8,27 +8,40 @@ class UIKitTextField extends StatelessWidget {
   final String title;
   final String placeholder;
   final List<ValidationRule> rules;
-  final String fieldName;
+  final String? fieldName;
   final TextEditingController? controller;
   final bool obscureText;
+  final FormFieldValidator<String>? validator;
 
   const UIKitTextField({
     super.key,
     required this.title,
     required this.placeholder,
     this.rules = const [],
-    this.fieldName = "Field",
+    this.fieldName,
     this.controller,
     this.obscureText = false,
+    this.validator,
   });
 
   String? _validate(String? value) {
     for (var rule in rules) {
       switch (rule) {
-        case ValidationRule.email:
-          return ValidationHelper.validateEmail(value ?? "");
         case ValidationRule.isEmtpy:
-          return ValidationHelper.validateIsEmpty(value ?? "", fieldName);
+          String? isEmptyError = ValidationHelper.validateIsEmpty(
+            value ?? "",
+            fieldName ?? title,
+          );
+          if (isEmptyError != null) {
+            return isEmptyError;
+          }
+          break;
+        case ValidationRule.email:
+          String? emailError = ValidationHelper.validateEmail(value ?? "");
+          if (emailError != null) {
+            return emailError;
+          }
+          break;
       }
     }
     return null;
@@ -50,7 +63,7 @@ class UIKitTextField extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         TextFormField(
-          validator: _validate,
+          validator: validator ?? _validate,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           obscureText: obscureText,
           controller: controller,

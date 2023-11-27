@@ -8,13 +8,13 @@ part 'login_event.dart';
 part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
+  final AuthenticationRepository authenticationRepository;
+
   LoginBloc({
     required this.authenticationRepository,
   }) : super(const LoginState(LoginStatus.initial, "")) {
     on<LoginRequested>(_onLoginRequested);
   }
-
-  final AuthenticationRepository authenticationRepository;
 
   Future<void> _onLoginRequested(
     LoginRequested event,

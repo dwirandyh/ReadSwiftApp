@@ -1,4 +1,4 @@
-import 'package:authentication/view/login_page.dart';
+import 'package:authentication/authentication.dart';
 import 'package:flutter/material.dart';
 import 'package:uikit/theme/uikit_theme.dart';
 
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: UIKitTheme.light,
       darkTheme: UIKitTheme.dark,
       themeMode: ThemeMode.system,
-      home: LoginPage.create(),
+      home: RegisterPage.create(),
     );
   }
 }
