@@ -1,12 +1,13 @@
-import 'package:authentication/bloc/login_bloc.dart';
+import 'package:authentication/bloc/login/login_bloc.dart';
 import 'package:authentication/repository/authentication_repository.dart';
-import 'package:authentication/view/login_alternative_view.dart';
-import 'package:authentication/view/login_form.dart';
+import 'package:authentication/view/login/login_alternative_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:network/network.dart';
 import 'package:storage/secure_storage.dart';
 import 'package:uikit/uikit.dart';
+
+import 'login_form.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});

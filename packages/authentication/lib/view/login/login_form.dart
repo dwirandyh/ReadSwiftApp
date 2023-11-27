@@ -1,4 +1,4 @@
-import 'package:authentication/bloc/login_bloc.dart';
+import 'package:authentication/bloc/login/login_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uikit/button/uikit_button.dart';
