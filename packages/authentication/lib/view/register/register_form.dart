@@ -28,7 +28,6 @@ class _RegisterFormState extends State<RegisterForm> {
 
   @override
   Widget build(BuildContext context) {
-    final color = context.theme.uikit;
     return Form(
       key: _formKey,
       child: Column(

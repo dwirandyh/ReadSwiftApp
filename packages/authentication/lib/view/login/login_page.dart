@@ -3,6 +3,7 @@ import 'package:authentication/repository/authentication_repository.dart';
 import 'package:authentication/view/login/login_alternative_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:network/network.dart';
 import 'package:storage/secure_storage.dart';
 import 'package:uikit/uikit.dart';
@@ -53,17 +54,33 @@ class LoginPage extends StatelessWidget {
               child: UILoading(
                 isLoading: state.status == LoginStatus.loading ? true : false,
                 child: Padding(
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.fromLTRB(16, 24, 16, 16),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        "Log In to Your Account",
-                        style: TextStyle(
-                          fontSize: 26,
-                          fontWeight: FontWeight.w700,
-                          color: color.title,
-                        ),
+                      Row(
+                        children: [
+                          Text(
+                            "Log In to Your Account",
+                            style: TextStyle(
+                              fontSize: 26,
+                              fontWeight: FontWeight.w700,
+                              color: color.title,
+                            ),
+                          ),
+                          const Spacer(),
+                          SizedBox(
+                            width: 24,
+                            height: 24,
+                            child: IconButton(
+                              padding: const EdgeInsets.all(0),
+                              onPressed: () {
+                                context.pop();
+                              },
+                              icon: const Icon(Icons.close),
+                            ),
+                          )
+                        ],
                       ),
                       const SizedBox(height: 28),
                       Text(

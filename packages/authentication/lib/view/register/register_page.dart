@@ -3,6 +3,7 @@ import 'package:authentication/repository/authentication_repository.dart';
 import 'package:authentication/view/register/register_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:network/network.dart';
 import 'package:storage/secure_storage.dart';
 import 'package:uikit/uikit.dart';
@@ -29,7 +30,7 @@ class RegisterPage extends StatelessWidget {
               type: ToastType.error,
             );
           } else if (state is RegisterSuccess) {
-            // Navigate to home page
+            context.goNamed("Home");
           }
         },
         child: const RegisterPage(),
@@ -51,17 +52,33 @@ class RegisterPage extends StatelessWidget {
                   SliverFillRemaining(
                     hasScrollBody: false,
                     child: Padding(
-                      padding: const EdgeInsets.all(16),
+                      padding: const EdgeInsets.fromLTRB(16, 24, 16, 16),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            "Register Account",
-                            style: TextStyle(
-                              fontSize: 26,
-                              fontWeight: FontWeight.w700,
-                              color: color.title,
-                            ),
+                          Row(
+                            children: [
+                              Text(
+                                "Register Account",
+                                style: TextStyle(
+                                  fontSize: 26,
+                                  fontWeight: FontWeight.w700,
+                                  color: color.title,
+                                ),
+                              ),
+                              const Spacer(),
+                              SizedBox(
+                                width: 24,
+                                height: 24,
+                                child: IconButton(
+                                  padding: const EdgeInsets.all(0),
+                                  onPressed: () {
+                                    context.pop();
+                                  },
+                                  icon: const Icon(Icons.close),
+                                ),
+                              )
+                            ],
                           ),
                           const SizedBox(height: 28),
                           Text(
@@ -78,17 +95,17 @@ class RegisterPage extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               const Text(
-                                "You don't have an account? ",
+                                "You already have an account? ",
                                 style: TextStyle(
                                   fontSize: 12,
                                 ),
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  print("tapped");
+                                  context.pushNamed("LoginPage");
                                 },
                                 child: const Text(
-                                  "Sign Up",
+                                  "Sign In",
                                   style: TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w700,

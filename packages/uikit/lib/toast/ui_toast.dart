@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uikit/uikit.dart';
 
 enum ToastType { info, error }
 
@@ -74,7 +75,7 @@ class UIToastState extends State<UIToast> with SingleTickerProviderStateMixin {
           child: Container(
             padding: const EdgeInsets.all(16.0),
             decoration: BoxDecoration(
-              color: widget.type == ToastType.error ? Colors.red : Colors.black,
+              color: backgroundColor(widget.type),
               borderRadius: BorderRadius.circular(10.0),
             ),
             child: Text(
@@ -85,6 +86,16 @@ class UIToastState extends State<UIToast> with SingleTickerProviderStateMixin {
         ),
       ),
     );
+  }
+
+  Color backgroundColor(ToastType type) {
+    final color = context.theme.uikit;
+    switch (type) {
+      case ToastType.info:
+        return color.accent;
+      case ToastType.error:
+        return color.danger;
+    }
   }
 
   @override

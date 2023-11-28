@@ -1,5 +1,5 @@
-import 'package:authentication/authentication.dart';
 import 'package:flutter/material.dart';
+import 'package:readswift_app/router.dart';
 import 'package:uikit/theme/uikit_theme.dart';
 
 void main() {
@@ -12,12 +12,12 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Flutter Demo',
       theme: UIKitTheme.light,
       darkTheme: UIKitTheme.dark,
       themeMode: ThemeMode.system,
-      home: RegisterPage.create(),
+      routerConfig: appRouter,
     );
   }
 }

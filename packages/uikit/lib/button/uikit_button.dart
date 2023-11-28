@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:uikit/uikit.dart';
 
-enum UIKitButtonType { elevated, outlined }
+enum UIKitButtonType { elevated, outlined, text }
 
 class UIKitButton extends StatelessWidget {
   final String text;
@@ -21,8 +22,33 @@ class UIKitButton extends StatelessWidget {
     return SizedBox(
       height: 40,
       child: ElevatedButton(
-        onPressed: isEnabled ? onPressed : null,
-        child: Text(text),
+        onPressed: onPressed,
+        child: Row(
+          children: [
+            if (icon != null) icon!,
+            Expanded(
+              child: Center(
+                child: Text(text),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _textButton(BuildContext context) {
+    final color = context.theme.uikit;
+    return SizedBox(
+      height: 40,
+      child: TextButton(
+        onPressed: onPressed,
+        child: Text(
+          text,
+          style: TextStyle(
+            color: color.accent,
+          ),
+        ),
       ),
     );
   }
@@ -53,6 +79,8 @@ class UIKitButton extends StatelessWidget {
         return _elevatedButton(context);
       case UIKitButtonType.outlined:
         return _outlinedButton(context);
+      case UIKitButtonType.text:
+        return _textButton(context);
     }
   }
 }
