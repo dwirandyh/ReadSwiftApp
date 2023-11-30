@@ -1,3 +1,4 @@
+import 'package:authentication/authentication.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:readswift_app/onboarding/onboard_slideshow.dart';
@@ -50,7 +51,7 @@ class OnboardPage extends StatelessWidget {
               const SizedBox(height: 32),
               UIKitButton(
                 onPressed: () {
-                  context.pushNamed("RegisterPage");
+                  context.push(AuthenticationRouter.registerPage);
                 },
                 text: "Register Now",
                 type: UIKitButtonType.elevated,
@@ -58,7 +59,7 @@ class OnboardPage extends StatelessWidget {
               const SizedBox(height: 8),
               UIKitButton(
                 onPressed: () {
-                  context.pushNamed("LoginPage");
+                  context.push(AuthenticationRouter.loginPage);
                 },
                 text: "Log In",
                 type: UIKitButtonType.text,

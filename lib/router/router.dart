@@ -20,14 +20,12 @@ final GoRouter appRouter = GoRouter(
     ),
     GoRoute(
       path: '/onboard',
-      name: "Onboard",
       builder: (context, state) {
         return const OnboardPage();
       },
     ),
     GoRoute(
       path: "/main",
-      name: "Main",
       builder: (context, state) {
         return const MainPage();
       },

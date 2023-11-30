@@ -1,3 +1,4 @@
+import 'package:authentication/authentication.dart';
 import 'package:authentication/bloc/register/register_bloc.dart';
 import 'package:authentication/repository/authentication_repository.dart';
 import 'package:authentication/view/register/register_form.dart';
@@ -105,7 +106,7 @@ class RegisterPage extends StatelessWidget {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  context.pushNamed("LoginPage");
+                                  context.push(AuthenticationRouter.loginPage);
                                 },
                                 child: const Text(
                                   "Sign In",
