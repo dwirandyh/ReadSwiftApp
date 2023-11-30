@@ -10,6 +10,7 @@ class OnboardPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
@@ -23,7 +24,7 @@ class OnboardPage extends StatelessWidget {
                   fontWeight: FontWeight.w700,
                 ),
               ),
-              SizedBox(height: 24),
+              const SizedBox(height: 24),
               const SizedBox(
                 width: double.infinity,
                 height: 300,

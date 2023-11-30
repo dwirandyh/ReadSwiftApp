@@ -1,10 +1,10 @@
-import 'package:article_bookmark/domain/entity/article_entity.dart';
+import 'package:article_bookmark/model/article.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:uikit/theme/uikit_theme_color.dart';
 
 class ArticleItem extends StatelessWidget {
-  final ArticleEntity article;
+  final Article article;
 
   const ArticleItem({
     super.key,

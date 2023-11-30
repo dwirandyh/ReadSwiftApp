@@ -60,6 +60,7 @@ class _RegisterFormState extends State<RegisterForm> {
             rules: const [
               ValidationRule.isEmtpy,
             ],
+            obscureText: true,
             controller: _passwordTextController,
           ),
           const SizedBox(height: 16),
@@ -75,6 +76,7 @@ class _RegisterFormState extends State<RegisterForm> {
               }
               return null;
             },
+            obscureText: true,
             controller: _confirmPasswordTextController,
           ),
           const SizedBox(height: 24),

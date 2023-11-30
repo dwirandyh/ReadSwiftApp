@@ -2,6 +2,7 @@ import 'dart:convert' as convert;
 
 import 'package:http/http.dart' as http;
 import 'package:network/network/network_exception.dart';
+import 'package:network/network/url_resolver.dart';
 
 abstract interface class HttpNetwork {
   HttpNetwork();
@@ -50,16 +51,5 @@ class HttpNetworkImpl extends HttpNetwork {
     } else {
       throw NetworkException(statusCode: response.statusCode);
     }
-  }
-}
-
-class URLResolver {
-  const URLResolver({required this.path});
-
-  final String path;
-  static const String baseURL = "http://10.0.2.2:80";
-
-  Uri fullURI() {
-    return Uri.parse("${URLResolver.baseURL}/api/$path");
   }
 }

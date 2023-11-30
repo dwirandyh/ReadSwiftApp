@@ -1,5 +1,5 @@
-import 'package:authentication/model/user.dart';
 import 'package:authentication/repository/authentication_repository.dart';
+import 'package:authentication_api/authentication_api.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:network/network.dart';

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:authentication/model/user.dart';
 import 'package:authentication/utils/storage_key.dart';
+import 'package:authentication_api/authentication_api.dart';
 import 'package:network/network.dart';
 import 'package:storage/secure_storage.dart';
 
@@ -19,6 +19,7 @@ abstract class AuthenticationRepository {
 
   Future<void> saveAuthenticatedUser({required User user});
   Future<User?> getAuthenticatedUser();
+  Future<void> logout();
 }
 
 class AuthenticationRepositoryImpl extends AuthenticationRepository {
@@ -92,5 +93,10 @@ class AuthenticationRepositoryImpl extends AuthenticationRepository {
     }
 
     return null;
+  }
+
+  @override
+  Future<void> logout() async {
+    await secureStorageService.deleteValue(StorageKey.authenticatedUser);
   }
 }

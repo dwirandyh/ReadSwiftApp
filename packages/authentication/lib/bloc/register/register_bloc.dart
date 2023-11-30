@@ -1,4 +1,5 @@
 import 'package:authentication/repository/authentication_repository.dart';
+import 'package:authentication_api/authentication_api.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:network/network.dart';
 
@@ -20,8 +21,9 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   ) async {
     try {
       emit(RegisterLoading());
-      await authenticationRepository.register(
+      User user = await authenticationRepository.register(
           name: event.name, email: event.email, password: event.password);
+      await authenticationRepository.saveAuthenticatedUser(user: user);
       emit(RegisterSuccess());
     } catch (error) {
       String message = "Failed to register, please try again later";

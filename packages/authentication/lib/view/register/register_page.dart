@@ -1,6 +1,7 @@
 import 'package:authentication/bloc/register/register_bloc.dart';
 import 'package:authentication/repository/authentication_repository.dart';
 import 'package:authentication/view/register/register_form.dart';
+import 'package:authentication_api/authentication_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -30,7 +31,9 @@ class RegisterPage extends StatelessWidget {
               type: ToastType.error,
             );
           } else if (state is RegisterSuccess) {
-            context.goNamed("Home");
+            context
+                .read<AuthenticationBlocAPI>()
+                .add(AuthenticationStatusRequested());
           }
         },
         child: const RegisterPage(),

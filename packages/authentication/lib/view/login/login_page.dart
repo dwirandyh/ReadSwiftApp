@@ -1,6 +1,7 @@
 import 'package:authentication/bloc/login/login_bloc.dart';
 import 'package:authentication/repository/authentication_repository.dart';
 import 'package:authentication/view/login/login_alternative_view.dart';
+import 'package:authentication_api/authentication_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -44,11 +45,9 @@ class LoginPage extends StatelessWidget {
                     type: ToastType.error,
                   );
                 } else if (state.status == LoginStatus.success) {
-                  UIToast.showToast(
-                    context: context,
-                    message: state.message,
-                    type: ToastType.info,
-                  );
+                  context
+                      .read<AuthenticationBlocAPI>()
+                      .add(AuthenticationStatusRequested());
                 }
               },
               child: UILoading(
