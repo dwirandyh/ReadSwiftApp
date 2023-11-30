@@ -1,5 +1,7 @@
-import 'package:article_bookmark/presentation/view/article_bookmark_page.dart';
+import 'package:article_bookmark/view/article_bookmark_page.dart';
+import 'package:authentication_api/authentication_api.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -14,9 +16,7 @@ class _MainPageState extends State<MainPage> {
     Icon(
       Icons.rss_feed,
     ),
-    Icon(
-      Icons.settings,
-    ),
+    SettingPage(),
   ];
 
   int _selectedIndex = 0;
@@ -52,6 +52,24 @@ class _MainPageState extends State<MainPage> {
         ],
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
+      ),
+    );
+  }
+}
+
+class SettingPage extends StatelessWidget {
+  const SettingPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: IconButton(
+        onPressed: () {
+          context
+              .read<AuthenticationBlocAPI>()
+              .add(AuthenticationLogoutRequested());
+        },
+        icon: Icon(Icons.logout),
       ),
     );
   }

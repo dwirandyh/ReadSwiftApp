@@ -1,8 +1,8 @@
-import 'package:article_bookmark/domain/entity/article_entity.dart';
-import 'package:article_bookmark/presentation/view/article_bookmark_header.dart';
-import 'package:article_bookmark/presentation/view/article_item.dart';
+import 'package:article_bookmark/model/article.dart';
+import 'package:article_bookmark/view/article_bookmark_header.dart';
+import 'package:article_bookmark/view/article_item.dart';
 import 'package:flutter/material.dart';
-import 'package:uikit/theme/uikit_theme.dart';
+import 'package:uikit/theme/uikit_theme_color.dart';
 
 class ArticleBookmarkPage extends StatelessWidget {
   const ArticleBookmarkPage({super.key});
@@ -11,7 +11,7 @@ class ArticleBookmarkPage extends StatelessWidget {
     return ListView.builder(
       itemBuilder: (context, index) {
         return ArticleItem(
-          article: ArticleEntity(
+          article: Article(
             id: 0,
             title:
                 "Deep Dive into Core Location in iOS: Geofencing (Region Monitoring)",

@@ -1,4 +1,4 @@
-class ArticleEntity {
+class Article {
   final int id;
   final String title;
   final String? author;
@@ -10,7 +10,7 @@ class ArticleEntity {
   final String? excerpt;
   final int? wordCount;
 
-  ArticleEntity({
+  Article({
     required this.id,
     required this.title,
     this.author,

@@ -11,6 +11,9 @@ dependencies:
   flutter:
     sdk: flutter
 
+# Internal Packages
+  foundation:
+    path: ../foundation
   uikit:
     path: ../uikit
 
