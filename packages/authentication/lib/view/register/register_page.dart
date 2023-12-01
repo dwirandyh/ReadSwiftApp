@@ -18,7 +18,7 @@ class RegisterPage extends StatelessWidget {
       create: (context) {
         return RegisterBloc(
           authenticationRepository: AuthenticationRepositoryImpl(
-            client: HttpNetwork.client(),
+            client: HttpNetwork.client,
             secureStorageService: SecureStorageService.instance(),
           ),
         );

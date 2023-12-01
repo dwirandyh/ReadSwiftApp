@@ -10,7 +10,7 @@ class AuthenticationDI {
     GetIt.I.registerLazySingleton<AuthenticationBlocAPI>(
       () => AuthenticationBloc(
         repository: AuthenticationRepositoryImpl(
-          client: HttpNetwork.client(),
+          client: HttpNetwork.client,
           secureStorageService: SecureStorageService.instance(),
         ),
       ),
