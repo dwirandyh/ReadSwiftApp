@@ -21,7 +21,7 @@ abstract interface class HttpNetwork {
   static HttpNetwork client = _instance;
 
   void addInterceptor(Interceptor interceptor);
-  void removeInterceptor(Interceptor interceptor);
+  void removeInterceptor(Type interceptorType);
 
   Future<Map<String, dynamic>> get(URLResolver url);
 
@@ -39,13 +39,12 @@ class HttpNetworkImpl extends HttpNetwork {
   }
 
   @override
-  void removeInterceptor(Interceptor interceptor) {
-    client.interceptors.remove(interceptor);
+  void removeInterceptor(Type interceptorType) {
+    client.interceptors.removeWhere((e) => e.runtimeType == interceptorType);
   }
 
   @override
   Future<Map<String, dynamic>> get(URLResolver url) async {
-    // var response = await client.get(url.fullURI(), headers: headers);
     var response = await client.get(url.fullURI());
 
     int? statusCode = response.statusCode;

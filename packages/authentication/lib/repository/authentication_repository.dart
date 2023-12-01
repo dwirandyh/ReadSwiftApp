@@ -1,8 +1,8 @@
 import 'dart:convert';
 
+import 'package:authentication/external/interceptor/authentication_interceptor.dart';
 import 'package:authentication/utils/storage_key.dart';
 import 'package:authentication_api/authentication_api.dart';
-import 'package:network/interceptor/authentication_interceptor.dart';
 import 'package:network/network.dart';
 import 'package:storage/secure_storage.dart';
 
@@ -99,12 +99,12 @@ class AuthenticationRepositoryImpl extends AuthenticationRepository {
         return null;
       }
     }
-
     return null;
   }
 
   @override
   Future<void> logout() async {
     await secureStorageService.deleteValue(StorageKey.authenticatedUser);
+    client.removeInterceptor(AuthenticationInterceptor);
   }
 }
