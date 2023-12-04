@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:authentication/external/interceptor/authentication_interceptor.dart';
 import 'package:authentication/utils/storage_key.dart';
 import 'package:authentication_api/authentication_api.dart';
 import 'package:network/network.dart';
@@ -86,17 +87,24 @@ class AuthenticationRepositoryImpl extends AuthenticationRepository {
     if (jsonString != null) {
       try {
         Map<String, dynamic> userJson = jsonDecode(jsonString);
-        return User.fromJson(userJson);
+        User user = User.fromJson(userJson);
+        client.addInterceptor(
+          AuthenticationInterceptor(
+            tokenType: user.tokenType,
+            token: user.accessToken,
+          ),
+        );
+        return user;
       } catch (e) {
         return null;
       }
     }
-
     return null;
   }
 
   @override
   Future<void> logout() async {
     await secureStorageService.deleteValue(StorageKey.authenticatedUser);
+    client.removeInterceptor(AuthenticationInterceptor);
   }
 }

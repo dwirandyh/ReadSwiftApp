@@ -1,12 +1,17 @@
 import 'package:article_bookmark/model/article.dart';
-import 'package:article_bookmark/view/article_bookmark_header.dart';
-import 'package:article_bookmark/view/article_item.dart';
+import 'package:article_bookmark/view/article/article_bookmark_header.dart';
+import 'package:article_bookmark/view/article/article_item.dart';
 import 'package:flutter/material.dart';
 import 'package:uikit/theme/uikit_theme_color.dart';
 
-class ArticleBookmarkPage extends StatelessWidget {
+class ArticleBookmarkPage extends StatefulWidget {
   const ArticleBookmarkPage({super.key});
 
+  @override
+  State<ArticleBookmarkPage> createState() => _ArticleBookmarkPageState();
+}
+
+class _ArticleBookmarkPageState extends State<ArticleBookmarkPage> {
   Widget _articleList(int itemCount) {
     return ListView.builder(
       itemBuilder: (context, index) {

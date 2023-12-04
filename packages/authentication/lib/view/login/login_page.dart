@@ -19,7 +19,7 @@ class LoginPage extends StatelessWidget {
       create: (context) {
         return LoginBloc(
           authenticationRepository: AuthenticationRepositoryImpl(
-            client: HttpNetwork.client(),
+            client: HttpNetwork.client,
             secureStorageService: SecureStorageService.instance(),
           ),
         );

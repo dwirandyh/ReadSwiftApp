@@ -27,7 +27,7 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: "/main",
       builder: (context, state) {
-        return const MainPage();
+        return MainPage.create();
       },
     ),
     ...AuthenticationRouter.routes,
