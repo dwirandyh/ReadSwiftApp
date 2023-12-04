@@ -28,7 +28,7 @@ class OnboardPage extends StatelessWidget {
               const SizedBox(height: 24),
               const SizedBox(
                 width: double.infinity,
-                height: 330,
+                height: 340,
                 child: OnboardSlideshow(children: [
                   OnboardSlideshowItem(
                     title: "Save what really catches your attention.",

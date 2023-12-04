@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class Article {
   final int id;
   final String title;
@@ -22,4 +24,19 @@ class Article {
     this.excerpt,
     this.wordCount,
   });
+
+  String? formattedPublishedDate() {
+    if (datePublished != null) {
+      return DateFormat.MMMd().format(datePublished!);
+    }
+    return null;
+  }
+
+  String? estimatedReadingTime() {
+    if (wordCount != null) {
+      int minutes = (wordCount! / 200).ceil();
+      return "$minutes min read";
+    }
+    return null;
+  }
 }

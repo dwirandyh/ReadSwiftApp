@@ -32,13 +32,15 @@ class OnboardSlideshowItem extends StatelessWidget {
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 8),
-        Text(
-          subtitle,
-          style: TextStyle(
-            fontSize: 14,
-            color: color.caption,
+        Expanded(
+          child: Text(
+            subtitle,
+            style: TextStyle(
+              fontSize: 14,
+              color: color.caption,
+            ),
+            textAlign: TextAlign.center,
           ),
-          textAlign: TextAlign.center,
         ),
       ],
     );

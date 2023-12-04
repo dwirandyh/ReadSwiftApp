@@ -71,12 +71,12 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
     }
   }
 
-  static const List<Widget> _pages = <Widget>[
-    ArticleBookmarkPage(),
-    Icon(
+  static final List<Widget> _pages = <Widget>[
+    ArticleBookmarkPage.create(),
+    const Icon(
       Icons.rss_feed,
     ),
-    SettingPage(),
+    const SettingPage(),
   ];
 
   int _selectedIndex = 0;

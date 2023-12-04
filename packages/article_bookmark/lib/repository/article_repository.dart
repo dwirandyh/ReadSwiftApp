@@ -2,6 +2,7 @@ import 'package:article_bookmark/model/article.dart';
 import 'package:network/network.dart';
 
 abstract class ArticleRepository {
+  Future<List<Article>> fetchArticle({required int page});
   Future<Article> saveToBookmark({required String url});
 }
 
@@ -9,6 +10,29 @@ class ArticleRepositoryImpl extends ArticleRepository {
   final HttpNetwork client;
 
   ArticleRepositoryImpl({required this.client});
+
+  @override
+  Future<List<Article>> fetchArticle({required int page}) async {
+    Map<String, dynamic> parameters = {"page": page};
+    Map<String, dynamic> response =
+        await client.get(URLResolver(path: "article", parameters: parameters));
+    List articleData = response["data"] as List;
+    return articleData.map((dynamic json) {
+      final map = json as Map<String, dynamic>;
+      return Article(
+        id: map["id"] as int,
+        title: map["title"] as String,
+        author: map["author"] as String?,
+        datePublished: DateTime.tryParse(map["date_published"]),
+        leadImage: map["lead_image_url"] as String?,
+        content: map["content"] as String?,
+        url: map["url"] as String,
+        domain: map["domain"] as String,
+        excerpt: map["excerpt"] as String?,
+        wordCount: map["word_count"] as int?,
+      );
+    }).toList();
+  }
 
   @override
   Future<Article> saveToBookmark({required String url}) async {

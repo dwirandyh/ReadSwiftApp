@@ -23,12 +23,12 @@ class ArticleItem extends StatelessWidget {
             borderRadius: BorderRadius.circular(8),
             child: CachedNetworkImage(
               imageUrl: leadImageURL,
-              width: 80,
-              height: 80,
+              width: 90,
+              height: 90,
               fit: BoxFit.cover,
             ),
           ),
-          SizedBox(height: 12),
+          const SizedBox(height: 12),
           Wrap(
             spacing: 24,
             children: [
@@ -84,21 +84,44 @@ class ArticleItem extends StatelessWidget {
                     children: [
                       Text(article.domain),
                       const SizedBox(height: 8),
-                      Text(
-                        article.title,
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: color.title,
+                      SizedBox(
+                        height: 70,
+                        child: Text(
+                          article.title,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: color.title,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          maxLines: 3,
                         ),
                       ),
                       const SizedBox(height: 8),
                       Wrap(
                         spacing: 8,
                         children: [
-                          Text("Aug 20"),
-                          Text("•"),
-                          Text("5 min read"),
+                          Text(
+                            article.formattedPublishedDate() ?? "",
+                            style: TextStyle(
+                              color: color.caption,
+                              fontSize: 12,
+                            ),
+                          ),
+                          Text(
+                            "•",
+                            style: TextStyle(
+                              color: color.caption,
+                              fontSize: 12,
+                            ),
+                          ),
+                          Text(
+                            article.estimatedReadingTime() ?? "",
+                            style: TextStyle(
+                              color: color.caption,
+                              fontSize: 12,
+                            ),
+                          ),
                         ],
                       )
                     ],
