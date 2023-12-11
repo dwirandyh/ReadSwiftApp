@@ -14,7 +14,7 @@ class ArticleItem extends StatelessWidget {
   Widget _thumbnail(BuildContext context) {
     final String? leadImageURL = article.leadImage;
     if (leadImageURL == null) {
-      return Placeholder();
+      return const Placeholder();
     } else {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.end,

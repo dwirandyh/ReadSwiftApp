@@ -1,10 +1,7 @@
-import 'package:article_bookmark/bloc/article/article_bloc.dart';
-import 'package:article_bookmark/repository/article_repository.dart';
 import 'package:article_bookmark/view/article/article_bookmark_header.dart';
-import 'package:article_bookmark/view/article/article_list.dart';
+import 'package:article_bookmark/view/article/article_per_tag_section.dart';
+import 'package:article_bookmark/view/tag/tag_filter_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:network/network.dart';
 import 'package:uikit/theme/uikit_theme_color.dart';
 
 class ArticleBookmarkPage extends StatefulWidget {
@@ -14,33 +11,26 @@ class ArticleBookmarkPage extends StatefulWidget {
   State<ArticleBookmarkPage> createState() => _ArticleBookmarkPageState();
 
   static Widget create() {
-    return BlocProvider<ArticleBloc>(
-      create: (_) => ArticleBloc(
-          articleRepository: ArticleRepositoryImpl(client: HttpNetwork.client))
-        ..add(ArticleFetched()),
-      child: const ArticleBookmarkPage._(),
-    );
+    return const ArticleBookmarkPage._();
   }
 }
 
-class _ArticleBookmarkPageState extends State<ArticleBookmarkPage> {
-  Widget _articleList(int itemCount) {
-    return BlocBuilder<ArticleBloc, ArticleState>(
-      builder: (context, state) {
-        switch (state.status) {
-          case ArticleStatus.initial:
-            return const Center(child: CircularProgressIndicator());
-          case ArticleStatus.success:
-            return ArticleList(articles: state.articles);
-          case ArticleStatus.failure:
-            return const Center(child: Text("failed to fetch articles"));
-        }
-      },
-    );
+class _ArticleBookmarkPageState extends State<ArticleBookmarkPage>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+  final PageController _controller = PageController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     final colors = Theme.of(context).extension<UIKitThemeColor>()!;
     return Scaffold(
       backgroundColor: colors.background,
@@ -59,8 +49,17 @@ class _ArticleBookmarkPageState extends State<ArticleBookmarkPage> {
             const SizedBox(
               height: 16,
             ),
+            const TagFilterView(),
             Expanded(
-              child: _articleList(5),
+              child: PageView(
+                controller: _controller,
+                onPageChanged: (index) {},
+                children: [
+                  ArticlePerTagSection.create(null),
+                  ArticlePerTagSection.create(1),
+                  ArticlePerTagSection.create(2),
+                ],
+              ),
             ),
           ],
         ),

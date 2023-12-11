@@ -9,9 +9,11 @@ part 'article_state.dart';
 
 class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
   final ArticleRepository articleRepository;
+  final int? tagId;
   int page = 1;
 
-  ArticleBloc({required this.articleRepository}) : super(const ArticleState()) {
+  ArticleBloc({required this.articleRepository, this.tagId})
+      : super(const ArticleState()) {
     on<ArticleFetched>(_onArticleFetched, transformer: droppable());
   }
 
@@ -41,7 +43,7 @@ class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
         emit(
           state.copyWith(
             status: ArticleStatus.success,
-            articles: articles,
+            articles: List.of(state.articles)..addAll(articles),
             hasReachMax: false,
           ),
         );

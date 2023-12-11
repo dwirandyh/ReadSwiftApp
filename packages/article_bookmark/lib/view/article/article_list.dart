@@ -7,7 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class ArticleList extends StatefulWidget {
   final List<Article> articles;
 
-  ArticleList({super.key, required this.articles});
+  const ArticleList({super.key, required this.articles});
 
   @override
   State<ArticleList> createState() => _ArticleListState();
