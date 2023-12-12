@@ -9,7 +9,7 @@ import 'package:article_bookmark/view/tag/tag_filter_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:network/network.dart';
-import 'package:uikit/theme/uikit_theme_color.dart';
+import 'package:uikit/uikit.dart';
 
 class ArticleBookmarkPage extends StatefulWidget {
   const ArticleBookmarkPage._({super.key});
@@ -18,11 +18,9 @@ class ArticleBookmarkPage extends StatefulWidget {
   State<ArticleBookmarkPage> createState() => _ArticleBookmarkPageState();
 
   static Widget create() {
-    return BlocProvider(
+    return BlocProvider<TagBloc>(
       create: (context) => TagBloc(
-        tagRepository: TagRepositoryImpl(
-          client: HttpNetwork.client,
-        ),
+        tagRepository: TagRepositoryImpl(client: HttpNetwork.client),
       )..add(TagFetched()),
       child: const ArticleBookmarkPage._(),
     );
@@ -41,6 +39,38 @@ class _ArticleBookmarkPageState extends State<ArticleBookmarkPage>
   void dispose() {
     _pageController.dispose();
     super.dispose();
+  }
+
+  void _onPageChanged(int index) {
+    if (_timer != null) {
+      _timer?.cancel();
+    }
+
+    _timer = Timer(const Duration(milliseconds: 300), () {
+      if (index == 0) {
+        context.read<TagBloc>().add(SelectedTagChanged(tag: Tag.all()));
+      } else {
+        List<Tag> tags = context.read<TagBloc>().state.tags;
+        context.read<TagBloc>().add(SelectedTagChanged(tag: tags[index - 1]));
+      }
+    });
+  }
+
+  void _tagBlocListener(BuildContext context, TagState state) {
+    if (!_pageController.hasClients) {
+      return;
+    }
+
+    Tag? selectedTag = state.selectedTag;
+    if (selectedTag != Tag.all()) {
+      int selectedIndex =
+          state.tags.indexWhere((element) => element == selectedTag);
+      _pageController.jumpToPage(
+        selectedIndex + 1,
+      );
+    } else {
+      _pageController.jumpToPage(0);
+    }
   }
 
   @override
@@ -65,48 +95,17 @@ class _ArticleBookmarkPageState extends State<ArticleBookmarkPage>
             const SizedBox(
               height: 16,
             ),
-            TagFilterView(),
+            const TagFilterView(),
             Expanded(
               child: BlocConsumer<TagBloc, TagState>(
-                listener: (context, state) {
-                  if (!_pageController.hasClients) {
-                    return;
-                  }
-
-                  Tag? selectedTag = state.selectedTag;
-                  if (selectedTag != Tag.all()) {
-                    int selectedIndex = state.tags
-                        .indexWhere((element) => element == selectedTag);
-                    _pageController.jumpToPage(
-                      selectedIndex + 1,
-                    );
-                  } else {
-                    _pageController.jumpToPage(0);
-                  }
-                },
+                listener: _tagBlocListener,
                 builder: (context, state) {
                   return BlocBuilder<TagBloc, TagState>(
                     builder: (context, state) {
                       if (state.status == TagStatus.success) {
                         return PageView.builder(
                           controller: _pageController,
-                          onPageChanged: (index) {
-                            if (_timer != null) {
-                              _timer?.cancel();
-                            }
-
-                            _timer =
-                                Timer(const Duration(milliseconds: 300), () {
-                              if (index == 0) {
-                                context
-                                    .read<TagBloc>()
-                                    .add(SelectedTagChanged(tag: Tag.all()));
-                              } else {
-                                context.read<TagBloc>().add(SelectedTagChanged(
-                                    tag: state.tags[index - 1]));
-                              }
-                            });
-                          },
+                          onPageChanged: _onPageChanged,
                           itemBuilder: (context, index) {
                             if (index == 0) {
                               return ArticlePerTagSection.create(null);

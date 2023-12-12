@@ -3,6 +3,7 @@ import 'package:network/network.dart';
 
 abstract class TagRepository {
   Future<List<Tag>> fetchTag({required int page});
+  Future<Tag> addTag({required String tag});
 }
 
 class TagRepositoryImpl extends TagRepository {
@@ -23,5 +24,16 @@ class TagRepositoryImpl extends TagRepository {
         name: map["name"] as String,
       );
     }).toList();
+  }
+
+  @override
+  Future<Tag> addTag({required String tag}) async {
+    Map<String, dynamic> body = {"name": tag};
+    Map<String, dynamic> response =
+        await client.post(const URLResolver(path: "tag"), body);
+    return Tag(
+      id: response["data"]["id"],
+      name: response["data"]["name"],
+    );
   }
 }

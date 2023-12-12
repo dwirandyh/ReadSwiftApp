@@ -25,7 +25,7 @@ class TagBloc extends Bloc<TagEvent, TagState> {
     }
   }
 
-  Future<void> _onSelectedTagChanged(
+  void _onSelectedTagChanged(
       SelectedTagChanged event, Emitter<TagState> emit) async {
     emit(state.copyWith(selectedTag: event.tag));
   }

@@ -23,6 +23,11 @@ class UIKitButton extends StatelessWidget {
       height: 40,
       child: ElevatedButton(
         onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(4),
+          ),
+        ),
         child: Row(
           children: [
             if (icon != null) icon!,
