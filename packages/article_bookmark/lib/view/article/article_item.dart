@@ -54,9 +54,9 @@ class ArticleItem extends StatelessWidget {
                 height: 16,
                 width: 16,
                 child: IconButton(
-                  padding: EdgeInsets.all(0),
+                  padding: const EdgeInsets.all(0),
                   onPressed: () {},
-                  icon: Icon(Icons.more_vert),
+                  icon: const Icon(Icons.more_vert),
                 ),
               )
             ],

@@ -1,4 +1,5 @@
 import 'package:article_bookmark/model/article.dart';
+import 'package:article_bookmark/model/tag.dart';
 import 'package:article_bookmark/repository/article_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
@@ -9,10 +10,10 @@ part 'article_state.dart';
 
 class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
   final ArticleRepository articleRepository;
-  final int? tagId;
+  final Tag? tag;
   int page = 1;
 
-  ArticleBloc({required this.articleRepository, this.tagId})
+  ArticleBloc({required this.articleRepository, this.tag})
       : super(const ArticleState()) {
     on<ArticleFetched>(_onArticleFetched, transformer: droppable());
   }
@@ -25,7 +26,7 @@ class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
     try {
       if (state.status == ArticleStatus.initial) {
         List<Article> articles =
-            await articleRepository.fetchArticle(page: page);
+            await articleRepository.fetchArticle(page: page, tag: tag);
         return emit(
           state.copyWith(
             status: ArticleStatus.success,
@@ -36,7 +37,8 @@ class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
       }
 
       page += 1;
-      List<Article> articles = await articleRepository.fetchArticle(page: page);
+      List<Article> articles =
+          await articleRepository.fetchArticle(page: page, tag: tag);
       if (articles.isEmpty) {
         emit(state.copyWith(hasReachMax: true));
       } else {
