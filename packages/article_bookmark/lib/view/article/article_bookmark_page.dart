@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:article_bookmark/bloc/tag/tag_bloc.dart';
 import 'package:article_bookmark/model/tag.dart';
 import 'package:article_bookmark/repository/tag_repository.dart';
@@ -32,6 +34,7 @@ class _ArticleBookmarkPageState extends State<ArticleBookmarkPage>
   @override
   bool get wantKeepAlive => true;
   Tag? selectedTag;
+  Timer? _timer;
   final PageController _pageController = PageController();
 
   @override
@@ -88,8 +91,12 @@ class _ArticleBookmarkPageState extends State<ArticleBookmarkPage>
                         return PageView.builder(
                           controller: _pageController,
                           onPageChanged: (index) {
-                            Future.delayed(const Duration(milliseconds: 500),
-                                () {
+                            if (_timer != null) {
+                              _timer?.cancel();
+                            }
+
+                            _timer =
+                                Timer(const Duration(milliseconds: 300), () {
                               if (index == 0) {
                                 context
                                     .read<TagBloc>()
