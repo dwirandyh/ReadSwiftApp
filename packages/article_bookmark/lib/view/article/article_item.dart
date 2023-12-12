@@ -1,4 +1,5 @@
 import 'package:article_bookmark/model/article.dart';
+import 'package:article_bookmark/view/article/add_article_tag/add_article_tag_view.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:uikit/theme/uikit_theme_color.dart';
@@ -30,35 +31,40 @@ class ArticleItem extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           Wrap(
-            spacing: 24,
+            spacing: 16,
             children: [
               SizedBox(
-                height: 16,
-                width: 16,
+                width: 24,
+                height: 24,
                 child: IconButton(
-                  padding: EdgeInsets.all(0),
-                  onPressed: () {},
-                  icon: Icon(Icons.star_border),
+                  iconSize: 24,
+                  padding: EdgeInsets.zero,
+                  onPressed: () {
+                    AddArticleTagView.show(context: context, articleTags: []);
+                  },
+                  icon: const Icon(Icons.playlist_add),
                 ),
               ),
               SizedBox(
-                height: 16,
-                width: 16,
+                width: 24,
+                height: 24,
                 child: IconButton(
-                  padding: EdgeInsets.all(0),
+                  iconSize: 24,
+                  padding: EdgeInsets.zero,
                   onPressed: () {},
-                  icon: Icon(Icons.share),
+                  icon: const Icon(Icons.share),
                 ),
               ),
               SizedBox(
-                height: 16,
-                width: 16,
+                width: 24,
+                height: 24,
                 child: IconButton(
-                  padding: const EdgeInsets.all(0),
+                  iconSize: 24,
+                  padding: EdgeInsets.zero,
                   onPressed: () {},
                   icon: const Icon(Icons.more_vert),
                 ),
-              )
+              ),
             ],
           )
         ],
