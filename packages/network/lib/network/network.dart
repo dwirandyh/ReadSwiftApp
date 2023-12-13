@@ -25,7 +25,10 @@ abstract interface class HttpNetwork {
 
   Future<Map<String, dynamic>> get(URLResolver url);
 
-  Future<Map<String, dynamic>> post(URLResolver url, Map<String, dynamic> body);
+  Future<Map<String, dynamic>> post(URLResolver url,
+      {Map<String, dynamic>? body});
+  Future<Map<String, dynamic>> delete(URLResolver url,
+      {Map<String, dynamic>? body});
 }
 
 class HttpNetworkImpl extends HttpNetwork {
@@ -56,10 +59,24 @@ class HttpNetworkImpl extends HttpNetwork {
   }
 
   @override
-  Future<Map<String, dynamic>> post(
-      URLResolver url, Map<String, dynamic> body) async {
+  Future<Map<String, dynamic>> post(URLResolver url,
+      {Map<String, dynamic>? body}) async {
     var encodedBody = convert.jsonEncode(body);
     var response = await client.post(url.fullURI(), data: encodedBody);
+
+    int? statusCode = response.statusCode;
+    if (statusCode != null && statusCode >= 200 && statusCode < 300) {
+      return response.data;
+    } else {
+      throw NetworkException(statusCode: statusCode ?? 0);
+    }
+  }
+
+  @override
+  Future<Map<String, dynamic>> delete(URLResolver url,
+      {Map<String, dynamic>? body}) async {
+    var encodedBody = convert.jsonEncode(body);
+    var response = await client.delete(url.fullURI(), data: encodedBody);
 
     int? statusCode = response.statusCode;
     if (statusCode != null && statusCode >= 200 && statusCode < 300) {

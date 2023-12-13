@@ -4,13 +4,13 @@ class Tag extends Equatable {
   final int id;
   final String name;
 
-  Tag({
+  const Tag({
     required this.id,
     required this.name,
   });
 
   static Tag all() {
-    return Tag(id: -1, name: "All");
+    return const Tag(id: -1, name: "All");
   }
 
   Tag copyWith({
@@ -24,6 +24,5 @@ class Tag extends Equatable {
   }
 
   @override
-  // TODO: implement props
   List<Object?> get props => [id, name];
 }

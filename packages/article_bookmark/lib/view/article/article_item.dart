@@ -1,5 +1,5 @@
 import 'package:article_bookmark/model/article.dart';
-import 'package:article_bookmark/view/article/add_article_tag/add_article_tag_view.dart';
+import 'package:article_bookmark/view/article/article_tag/add_article_tag_view.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:uikit/theme/uikit_theme_color.dart';
@@ -40,7 +40,11 @@ class ArticleItem extends StatelessWidget {
                   iconSize: 24,
                   padding: EdgeInsets.zero,
                   onPressed: () {
-                    AddArticleTagView.show(context: context, articleTags: []);
+                    AddArticleTagView.show(
+                      context: context,
+                      article: article,
+                      articleTags: article.tags,
+                    );
                   },
                   icon: const Icon(Icons.playlist_add),
                 ),

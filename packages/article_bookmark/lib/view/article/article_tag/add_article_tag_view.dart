@@ -1,6 +1,8 @@
+import 'package:article_bookmark/bloc/article/article_bloc.dart';
 import 'package:article_bookmark/bloc/tag/tag_bloc.dart';
+import 'package:article_bookmark/model/article.dart';
 import 'package:article_bookmark/model/tag.dart';
-import 'package:article_bookmark/view/article/add_article_tag/add_article_tag_item.dart';
+import 'package:article_bookmark/view/article/article_tag/add_article_tag_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -8,17 +10,39 @@ import 'package:uikit/uikit.dart';
 
 class AddArticleTagView extends StatelessWidget {
   final List<Tag> articleTags;
-  const AddArticleTagView({super.key, required this.articleTags});
+  final Article article;
+
+  const AddArticleTagView(
+      {super.key, required this.article, required this.articleTags});
 
   static void show(
-      {required BuildContext context, required List<Tag> articleTags}) {
+      {required BuildContext context,
+      required Article article,
+      required List<Tag> articleTags}) {
     showModalBottomSheet(
       context: context,
       builder: (bottomSheetContext) {
-        return BlocProvider<TagBloc>.value(
-          value: BlocProvider.of<TagBloc>(context),
-          child: AddArticleTagView(
-            articleTags: articleTags,
+        return MultiBlocProvider(
+          providers: [
+            BlocProvider<TagBloc>.value(
+              value: BlocProvider.of<TagBloc>(context),
+            ),
+            BlocProvider<ArticleBloc>.value(
+              value: BlocProvider.of<ArticleBloc>(context),
+            )
+          ],
+          child: BlocConsumer<ArticleBloc, ArticleState>(
+            listener: (context, state) {
+              print(state);
+            },
+            builder: (context, state) {
+              Article currentArticle = state.articles
+                  .firstWhere((element) => element.id == article.id);
+              return AddArticleTagView(
+                article: currentArticle,
+                articleTags: currentArticle.tags,
+              );
+            },
           ),
         );
       },
@@ -69,6 +93,15 @@ class AddArticleTagView extends StatelessWidget {
                 return AddArticleTagItem(
                   tag: tag,
                   isChecked: articleTags.contains(tag),
+                  onChanged: (isChecked) {
+                    if (isChecked == true) {
+                      context.read<ArticleBloc>().add(ArticleTagAdded(
+                          article: article.copyWith(), tag: tag.copyWith()));
+                    } else {
+                      context.read<ArticleBloc>().add(ArticleTagRemoved(
+                          article: article.copyWith(), tag: tag.copyWith()));
+                    }
+                  },
                 );
               },
               itemCount: tags.length,

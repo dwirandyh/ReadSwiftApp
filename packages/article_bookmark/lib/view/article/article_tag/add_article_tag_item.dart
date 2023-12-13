@@ -5,8 +5,10 @@ import 'package:uikit/uikit.dart';
 class AddArticleTagItem extends StatelessWidget {
   final Tag tag;
   final bool isChecked;
+  final ValueChanged<bool?>? onChanged;
+
   const AddArticleTagItem(
-      {super.key, required this.tag, required this.isChecked});
+      {super.key, required this.tag, required this.isChecked, this.onChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +17,7 @@ class AddArticleTagItem extends StatelessWidget {
       children: [
         Checkbox(
           value: isChecked,
-          onChanged: (value) {},
+          onChanged: onChanged,
         ),
         Text(
           tag.name,

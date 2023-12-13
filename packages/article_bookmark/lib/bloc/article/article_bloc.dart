@@ -16,6 +16,8 @@ class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
   ArticleBloc({required this.articleRepository, this.tag})
       : super(const ArticleState()) {
     on<ArticleFetched>(_onArticleFetched, transformer: droppable());
+    on<ArticleTagAdded>(_onArticleTagAdded);
+    on<ArticleTagRemoved>(_onArticleTagRemoved);
   }
 
   Future<void> _onArticleFetched(
@@ -53,5 +55,39 @@ class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
     } catch (_) {
       emit(state.copyWith(status: ArticleStatus.failure));
     }
+  }
+
+  Future<void> _onArticleTagAdded(
+      ArticleTagAdded event, Emitter<ArticleState> emit) async {
+    try {
+      await articleRepository.addTag(id: event.article.id, tagId: event.tag.id);
+
+      final List<Article> updatedArticles = state.articles.map((element) {
+        return (element.id == event.article.id)
+            ? element.copyWith(tags: [...element.tags, event.tag])
+            : element;
+      }).toList();
+
+      emit(state.copyWith(articles: updatedArticles));
+    } catch (_) {}
+  }
+
+  Future<void> _onArticleTagRemoved(
+      ArticleTagRemoved event, Emitter<ArticleState> emit) async {
+    try {
+      await articleRepository.removeTag(
+          id: event.article.id, tagId: event.tag.id);
+
+      final List<Article> updatedArticles = state.articles.map((element) {
+        return (element.id == event.article.id)
+            ? element.copyWith(
+                tags: element.tags
+                    .where((tag) => tag.id != event.tag.id)
+                    .toList())
+            : element;
+      }).toList();
+
+      emit(state.copyWith(articles: updatedArticles));
+    } catch (_) {}
   }
 }

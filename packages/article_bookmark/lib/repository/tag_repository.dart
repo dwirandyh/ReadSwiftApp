@@ -30,7 +30,7 @@ class TagRepositoryImpl extends TagRepository {
   Future<Tag> addTag({required String tag}) async {
     Map<String, dynamic> body = {"name": tag};
     Map<String, dynamic> response =
-        await client.post(const URLResolver(path: "tag"), body);
+        await client.post(const URLResolver(path: "tag"), body: body);
     return Tag(
       id: response["data"]["id"],
       name: response["data"]["name"],
