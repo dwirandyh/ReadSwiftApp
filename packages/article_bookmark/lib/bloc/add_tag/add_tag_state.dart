@@ -20,5 +20,5 @@ class AddTagError extends AddTagState {
   const AddTagError({required this.error});
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [error];
 }
