@@ -12,7 +12,6 @@ dependencies:
     sdk: flutter
   dio: ^5.4.0
   foundation:
-    path: ../foundation
 
 dev_dependencies:
   flutter_test:

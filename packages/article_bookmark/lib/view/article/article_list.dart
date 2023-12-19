@@ -68,6 +68,5 @@ class _ArticleListState extends State<ArticleList> {
       itemCount: widget.articles.length,
       controller: _scrollController,
     );
-    ;
   }
 }
