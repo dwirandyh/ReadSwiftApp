@@ -5,7 +5,7 @@ import 'package:uikit/theme/uikit_theme_color.dart';
 enum ValidationRule { isEmtpy, email }
 
 class UIKitTextField extends StatelessWidget {
-  final String title;
+  final String? title;
   final String placeholder;
   final List<ValidationRule> rules;
   final String? fieldName;
@@ -15,7 +15,7 @@ class UIKitTextField extends StatelessWidget {
 
   const UIKitTextField({
     super.key,
-    required this.title,
+    this.title,
     required this.placeholder,
     this.rules = const [],
     this.fieldName,
@@ -30,7 +30,7 @@ class UIKitTextField extends StatelessWidget {
         case ValidationRule.isEmtpy:
           String? isEmptyError = ValidationHelper.validateIsEmpty(
             value ?? "",
-            fieldName ?? title,
+            fieldName ?? title ?? "",
           );
           if (isEmptyError != null) {
             return isEmptyError;
@@ -53,14 +53,15 @@ class UIKitTextField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          title,
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-            color: color.caption,
+        if (title != null)
+          Text(
+            title!,
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+              color: color.caption,
+            ),
           ),
-        ),
         const SizedBox(height: 8),
         TextFormField(
           validator: validator ?? _validate,
@@ -80,7 +81,7 @@ class UIKitTextField extends StatelessWidget {
             isDense: true,
             contentPadding: const EdgeInsets.fromLTRB(14, 14, 14, 14),
           ),
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w400,
           ),

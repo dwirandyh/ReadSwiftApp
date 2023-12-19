@@ -3,10 +3,13 @@ import 'package:uikit/theme/uikit_theme_color.dart';
 
 class UIKitTheme {
   static final light = ThemeData.light().copyWith(
+    colorScheme: ThemeData.light().colorScheme.copyWith(
+          primary: const Color.fromRGBO(34, 177, 169, 1.0),
+        ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         foregroundColor: Colors.white,
-        backgroundColor: Color.fromRGBO(34, 177, 169, 1.0),
+        backgroundColor: const Color.fromRGBO(34, 177, 169, 1.0),
         elevation: 0,
         shadowColor: Colors.transparent,
         textStyle: const TextStyle(
@@ -17,8 +20,8 @@ class UIKitTheme {
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
-        foregroundColor: Color.fromRGBO(98, 97, 97, 1.0),
-        side: BorderSide(
+        foregroundColor: const Color.fromRGBO(98, 97, 97, 1.0),
+        side: const BorderSide(
           width: 1,
           color: Color.fromRGBO(98, 97, 97, 1.0),
         ),
@@ -33,7 +36,7 @@ class UIKitTheme {
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         foregroundColor: Colors.white,
-        backgroundColor: Color.fromRGBO(34, 177, 169, 1.0),
+        backgroundColor: const Color.fromRGBO(34, 177, 169, 1.0),
         elevation: 0,
         textStyle: const TextStyle(
           fontSize: 16,
@@ -43,8 +46,8 @@ class UIKitTheme {
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
-        foregroundColor: Color.fromRGBO(194, 194, 194, 1.0),
-        side: BorderSide(
+        foregroundColor: const Color.fromRGBO(194, 194, 194, 1.0),
+        side: const BorderSide(
           width: 1,
           color: Color.fromRGBO(194, 194, 194, 1.0),
         ),
