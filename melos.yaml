@@ -1,0 +1,32 @@
+name: ReadSwiftApp
+
+packages:
+  - packages/**
+  - '*'
+
+scripts:
+  pub:install:
+    run: melos bootstrap
+    description: Run pub get for all packages 
+  clean:
+    run: melos run clean:flutter --no-select
+    description: Runs "flutter clean" in all Flutter packages
+  clean:flutter:
+    run: melos exec -c 4 --fail-fast -- "flutter clean"
+    description: Run Flutter clean for a specific package in this project.
+  analyze:
+    run: dart analyze .
+  test:
+    run: melos run test:selective_unit_test --no-select
+    description: Run all Flutter tests in this project.
+  generate:all:
+    run: melos run generate:dart && melos run generate:flutter
+    description: Build all generated files for Dart & Flutter packages in this project.
+
+  generate:dart:
+    run: melos exec -c 1 --depends-on="build_runner" --no-flutter -- "dart run build_runner build --delete-conflicting-outputs"
+    description: Build all generated files for Dart packages in this project.
+
+  generate:flutter:
+    run: melos exec -c 1 --depends-on="build_runner" --flutter -- "flutter pub run build_runner build --delete-conflicting-outputs"
+    description: Build all generated files for Flutter packages in this project.
