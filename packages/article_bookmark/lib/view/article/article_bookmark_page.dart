@@ -1,11 +1,15 @@
-import 'package:article_bookmark/bloc/article/article_bloc.dart';
-import 'package:article_bookmark/repository/article_repository.dart';
+import 'dart:async';
+
+import 'package:article_bookmark/bloc/tag/tag_bloc.dart';
+import 'package:article_bookmark/model/tag.dart';
+import 'package:article_bookmark/repository/tag_repository.dart';
 import 'package:article_bookmark/view/article/article_bookmark_header.dart';
-import 'package:article_bookmark/view/article/article_list.dart';
+import 'package:article_bookmark/view/article/article_per_tag_section.dart';
+import 'package:article_bookmark/view/tag/tag_filter_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:network/network.dart';
-import 'package:uikit/theme/uikit_theme_color.dart';
+import 'package:uikit/uikit.dart';
 
 class ArticleBookmarkPage extends StatefulWidget {
   const ArticleBookmarkPage._({super.key});
@@ -14,33 +18,65 @@ class ArticleBookmarkPage extends StatefulWidget {
   State<ArticleBookmarkPage> createState() => _ArticleBookmarkPageState();
 
   static Widget create() {
-    return BlocProvider<ArticleBloc>(
-      create: (_) => ArticleBloc(
-          articleRepository: ArticleRepositoryImpl(client: HttpNetwork.client))
-        ..add(ArticleFetched()),
+    return BlocProvider<TagBloc>(
+      create: (context) => TagBloc(
+        tagRepository: TagRepositoryImpl(client: HttpNetwork.client),
+      )..add(TagFetched()),
       child: const ArticleBookmarkPage._(),
     );
   }
 }
 
-class _ArticleBookmarkPageState extends State<ArticleBookmarkPage> {
-  Widget _articleList(int itemCount) {
-    return BlocBuilder<ArticleBloc, ArticleState>(
-      builder: (context, state) {
-        switch (state.status) {
-          case ArticleStatus.initial:
-            return const Center(child: CircularProgressIndicator());
-          case ArticleStatus.success:
-            return ArticleList(articles: state.articles);
-          case ArticleStatus.failure:
-            return const Center(child: Text("failed to fetch articles"));
-        }
-      },
-    );
+class _ArticleBookmarkPageState extends State<ArticleBookmarkPage>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+  Tag? selectedTag;
+  Timer? _timer;
+  final PageController _pageController = PageController();
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  void _onPageChanged(int index) {
+    if (_timer != null) {
+      _timer?.cancel();
+    }
+
+    _timer = Timer(const Duration(milliseconds: 300), () {
+      if (index == 0) {
+        context.read<TagBloc>().add(SelectedTagChanged(tag: Tag.all()));
+      } else {
+        List<Tag> tags = context.read<TagBloc>().state.tags;
+        context.read<TagBloc>().add(SelectedTagChanged(tag: tags[index - 1]));
+      }
+    });
+  }
+
+  void _tagBlocListener(BuildContext context, TagState state) {
+    if (!_pageController.hasClients) {
+      return;
+    }
+
+    Tag? selectedTag = state.selectedTag;
+    if (selectedTag != Tag.all()) {
+      int selectedIndex =
+          state.tags.indexWhere((element) => element == selectedTag);
+      _pageController.jumpToPage(
+        selectedIndex + 1,
+      );
+    } else {
+      _pageController.jumpToPage(0);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     final colors = Theme.of(context).extension<UIKitThemeColor>()!;
     return Scaffold(
       backgroundColor: colors.background,
@@ -59,8 +95,36 @@ class _ArticleBookmarkPageState extends State<ArticleBookmarkPage> {
             const SizedBox(
               height: 16,
             ),
+            const TagFilterView(),
             Expanded(
-              child: _articleList(5),
+              child: BlocConsumer<TagBloc, TagState>(
+                listener: _tagBlocListener,
+                builder: (context, state) {
+                  return BlocBuilder<TagBloc, TagState>(
+                    builder: (context, state) {
+                      if (state.status == TagStatus.success) {
+                        return PageView.builder(
+                          controller: _pageController,
+                          onPageChanged: _onPageChanged,
+                          itemBuilder: (context, index) {
+                            if (index == 0) {
+                              return ArticlePerTagSection.create(null);
+                            } else {
+                              return ArticlePerTagSection.create(
+                                  state.tags[index - 1]);
+                            }
+                          },
+                          itemCount: state.tags.length + 1,
+                        );
+                      } else {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                    },
+                  );
+                },
+              ),
             ),
           ],
         ),

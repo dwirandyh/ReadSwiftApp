@@ -1,4 +1,5 @@
 import 'package:article_bookmark/model/article.dart';
+import 'package:article_bookmark/model/tag.dart';
 import 'package:article_bookmark/repository/article_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
@@ -9,10 +10,14 @@ part 'article_state.dart';
 
 class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
   final ArticleRepository articleRepository;
+  final Tag? tag;
   int page = 1;
 
-  ArticleBloc({required this.articleRepository}) : super(const ArticleState()) {
+  ArticleBloc({required this.articleRepository, this.tag})
+      : super(const ArticleState()) {
     on<ArticleFetched>(_onArticleFetched, transformer: droppable());
+    on<ArticleTagAdded>(_onArticleTagAdded);
+    on<ArticleTagRemoved>(_onArticleTagRemoved);
   }
 
   Future<void> _onArticleFetched(
@@ -23,7 +28,7 @@ class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
     try {
       if (state.status == ArticleStatus.initial) {
         List<Article> articles =
-            await articleRepository.fetchArticle(page: page);
+            await articleRepository.fetchArticle(page: page, tag: tag);
         return emit(
           state.copyWith(
             status: ArticleStatus.success,
@@ -34,14 +39,15 @@ class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
       }
 
       page += 1;
-      List<Article> articles = await articleRepository.fetchArticle(page: page);
+      List<Article> articles =
+          await articleRepository.fetchArticle(page: page, tag: tag);
       if (articles.isEmpty) {
         emit(state.copyWith(hasReachMax: true));
       } else {
         emit(
           state.copyWith(
             status: ArticleStatus.success,
-            articles: articles,
+            articles: List.of(state.articles)..addAll(articles),
             hasReachMax: false,
           ),
         );
@@ -49,5 +55,39 @@ class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
     } catch (_) {
       emit(state.copyWith(status: ArticleStatus.failure));
     }
+  }
+
+  Future<void> _onArticleTagAdded(
+      ArticleTagAdded event, Emitter<ArticleState> emit) async {
+    try {
+      await articleRepository.addTag(id: event.article.id, tagId: event.tag.id);
+
+      final List<Article> updatedArticles = state.articles.map((element) {
+        return (element.id == event.article.id)
+            ? element.copyWith(tags: [...element.tags, event.tag])
+            : element;
+      }).toList();
+
+      emit(state.copyWith(articles: updatedArticles));
+    } catch (_) {}
+  }
+
+  Future<void> _onArticleTagRemoved(
+      ArticleTagRemoved event, Emitter<ArticleState> emit) async {
+    try {
+      await articleRepository.removeTag(
+          id: event.article.id, tagId: event.tag.id);
+
+      final List<Article> updatedArticles = state.articles.map((element) {
+        return (element.id == event.article.id)
+            ? element.copyWith(
+                tags: element.tags
+                    .where((tag) => tag.id != event.tag.id)
+                    .toList())
+            : element;
+      }).toList();
+
+      emit(state.copyWith(articles: updatedArticles));
+    } catch (_) {}
   }
 }

@@ -7,7 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class ArticleList extends StatefulWidget {
   final List<Article> articles;
 
-  ArticleList({super.key, required this.articles});
+  const ArticleList({super.key, required this.articles});
 
   @override
   State<ArticleList> createState() => _ArticleListState();
@@ -51,23 +51,10 @@ class _ArticleListState extends State<ArticleList> {
     return ListView.builder(
       itemBuilder: (context, index) {
         Article article = widget.articles[index];
-        return ArticleItem(
-          article: Article(
-            id: article.id,
-            title: article.title,
-            datePublished: article.datePublished,
-            leadImage: article.leadImage,
-            content: article.content,
-            url: article.url,
-            domain: article.domain,
-            excerpt: article.excerpt,
-            wordCount: article.wordCount,
-          ),
-        );
+        return ArticleItem(article: article);
       },
       itemCount: widget.articles.length,
       controller: _scrollController,
     );
-    ;
   }
 }
