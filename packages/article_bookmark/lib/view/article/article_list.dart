@@ -1,8 +1,10 @@
 import 'package:article_bookmark/bloc/article/article_bloc.dart';
+import 'package:article_bookmark/external/ArticleBookmarkRouter.dart';
 import 'package:article_bookmark/model/article.dart';
 import 'package:article_bookmark/view/article/article_item.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class ArticleList extends StatefulWidget {
   final List<Article> articles;
@@ -51,7 +53,15 @@ class _ArticleListState extends State<ArticleList> {
     return ListView.builder(
       itemBuilder: (context, index) {
         Article article = widget.articles[index];
-        return ArticleItem(article: article);
+        return InkWell(
+          onTap: () {
+            context.push(
+              ArticleBookmarkRouter.articleDetailPage,
+              extra: article,
+            );
+          },
+          child: ArticleItem(article: article),
+        );
       },
       itemCount: widget.articles.length,
       controller: _scrollController,

@@ -1,3 +1,4 @@
+import 'package:article_bookmark/external/ArticleBookmarkRouter.dart';
 import 'package:authentication/authentication.dart';
 import 'package:authentication_api/authentication_api.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +32,7 @@ final GoRouter appRouter = GoRouter(
       },
     ),
     ...AuthenticationRouter.routes,
+    ...ArticleBookmarkRouter.routes,
   ],
   redirect: (context, state) {
     final authStatus = context.read<AuthenticationBlocAPI>().state.status;
