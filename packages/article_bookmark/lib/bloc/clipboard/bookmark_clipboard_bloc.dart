@@ -31,6 +31,8 @@ class BookmarkClipboardBloc
       BookmarkClipboardSaveRequested event,
       Emitter<BookmarkClipboardState> emit) async {
     try {
+      emit(BookmarkClipboardLinkUpdated(
+          url: event.link, isBeingSubmitted: true));
       await articleRepository.saveToBookmark(url: event.link);
       emit(BookmarkClipboardSaved());
     } catch (error) {

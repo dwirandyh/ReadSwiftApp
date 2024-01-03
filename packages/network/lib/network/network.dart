@@ -80,7 +80,10 @@ class HttpNetworkImpl extends HttpNetwork {
 
     int? statusCode = response.statusCode;
     if (statusCode != null && statusCode >= 200 && statusCode < 300) {
-      return response.data;
+      if (response.data is Map<String, dynamic>) {
+        return response.data;
+      }
+      return {};
     } else {
       throw NetworkException(statusCode: statusCode ?? 0);
     }

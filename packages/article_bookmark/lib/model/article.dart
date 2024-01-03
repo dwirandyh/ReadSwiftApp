@@ -64,6 +64,13 @@ class Article extends Equatable {
     return null;
   }
 
+  String? fullFormattedPublishedDate() {
+    if (datePublished != null) {
+      return DateFormat("MMMM d, y hh:mm a").format(datePublished!);
+    }
+    return null;
+  }
+
   String? estimatedReadingTime() {
     if (wordCount != null) {
       int minutes = (wordCount! / 200).ceil();
