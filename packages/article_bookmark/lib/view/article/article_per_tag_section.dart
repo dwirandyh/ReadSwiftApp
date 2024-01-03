@@ -1,3 +1,4 @@
+import 'package:article_bookmark/article_bookmark.dart';
 import 'package:article_bookmark/bloc/article/article_bloc.dart';
 import 'package:article_bookmark/model/tag.dart';
 import 'package:article_bookmark/repository/article_repository.dart';
@@ -11,15 +12,29 @@ class ArticlePerTagSection extends StatelessWidget {
 
   const ArticlePerTagSection._({super.key, this.tag});
 
-  static Widget create(Tag? tag) {
-    return BlocProvider(
-      create: (context) => ArticleBloc(
-        articleRepository: ArticleRepositoryImpl(
-          client: HttpNetwork.client,
+  static Widget create(BuildContext context, Tag? tag) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => ArticleBloc(
+            articleRepository: ArticleRepositoryImpl(
+              client: HttpNetwork.client,
+            ),
+            tag: tag,
+          )..add(ArticleFetched()),
         ),
-        tag: tag,
-      )..add(ArticleFetched()),
-      child: ArticlePerTagSection._(tag: tag),
+        BlocProvider<BookmarkClipboardBloc>.value(
+          value: BlocProvider.of<BookmarkClipboardBloc>(context),
+        ),
+      ],
+      child: BlocListener<BookmarkClipboardBloc, BookmarkClipboardState>(
+        listener: (context, state) {
+          if (tag == null && state is BookmarkClipboardSaved) {
+            context.read<ArticleBloc>().add(ArticleRefreshed());
+          }
+        },
+        child: ArticlePerTagSection._(tag: tag),
+      ),
     );
   }
 

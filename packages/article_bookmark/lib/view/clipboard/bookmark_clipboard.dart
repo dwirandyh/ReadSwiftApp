@@ -34,6 +34,35 @@ class BookmarkClipboard extends StatefulWidget {
 }
 
 class _BookmarkClipboardState extends State<BookmarkClipboard> {
+  Widget saveButton(String url, bool isBeingSubmitted) {
+    if (isBeingSubmitted) {
+      return const Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16),
+        child: SizedBox(
+          width: 24,
+          height: 24,
+          child: CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+          ),
+        ),
+      );
+    } else {
+      return TextButton(
+        onPressed: () {
+          context
+              .read<BookmarkClipboardBloc>()
+              .add(BookmarkClipboardSaveRequested(link: url));
+        },
+        child: const Text(
+          "Save",
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final color = context.theme.uikit;
@@ -45,7 +74,7 @@ class _BookmarkClipboardState extends State<BookmarkClipboard> {
           if (state is BookmarkClipboardLinkUpdated) {
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 8),
-              child: Container(
+              child: SizedBox(
                 width: MediaQuery.sizeOf(context).width - 32,
                 child: Row(
                   children: [
@@ -77,18 +106,7 @@ class _BookmarkClipboardState extends State<BookmarkClipboard> {
                         ],
                       ),
                     ),
-                    TextButton(
-                      onPressed: () {
-                        context.read<BookmarkClipboardBloc>().add(
-                            BookmarkClipboardSaveRequested(link: state.url));
-                      },
-                      child: const Text(
-                        "Save",
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                    )
+                    saveButton(state.url, state.isBeingSubmitted),
                   ],
                 ),
               ),

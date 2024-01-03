@@ -3,6 +3,7 @@ import 'package:article_bookmark/bloc/article/article_bloc.dart';
 import 'package:article_bookmark/model/article.dart';
 import 'package:article_bookmark/repository/article_repository.dart';
 import 'package:article_bookmark/repository/tag_repository.dart';
+import 'package:article_bookmark/utility/article_action_utility.dart';
 import 'package:article_bookmark/view/article/article_tag/add_article_tag_view.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -48,7 +49,7 @@ class ArticleItem extends StatelessWidget {
   Widget _thumbnail(BuildContext context) {
     final String? leadImageURL = article.leadImage;
     if (leadImageURL == null) {
-      return const Placeholder();
+      return const SizedBox();
     } else {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.end,
@@ -61,52 +62,58 @@ class ArticleItem extends StatelessWidget {
               height: 90,
               fit: BoxFit.cover,
             ),
-          ),
-          const SizedBox(height: 12),
-          Wrap(
-            spacing: 16,
-            children: [
-              SizedBox(
-                width: 24,
-                height: 24,
-                child: IconButton(
-                  iconSize: 24,
-                  padding: EdgeInsets.zero,
-                  onPressed: () {
-                    AddArticleTagView.show(
-                      context: context,
-                      article: article,
-                      articleTags: article.tags,
-                    );
-                  },
-                  icon: const Icon(Icons.playlist_add),
-                ),
-              ),
-              SizedBox(
-                width: 24,
-                height: 24,
-                child: IconButton(
-                  iconSize: 24,
-                  padding: EdgeInsets.zero,
-                  onPressed: () {},
-                  icon: const Icon(Icons.share),
-                ),
-              ),
-              SizedBox(
-                width: 24,
-                height: 24,
-                child: IconButton(
-                  iconSize: 24,
-                  padding: EdgeInsets.zero,
-                  onPressed: () {},
-                  icon: const Icon(Icons.more_vert),
-                ),
-              ),
-            ],
           )
         ],
       );
     }
+  }
+
+  Widget _thumbnailAction(BuildContext context) {
+    return Wrap(
+      spacing: 16,
+      children: [
+        SizedBox(
+          width: 24,
+          height: 24,
+          child: IconButton(
+            iconSize: 24,
+            padding: EdgeInsets.zero,
+            onPressed: () {
+              AddArticleTagView.show(
+                context: context,
+                article: article,
+                articleTags: article.tags,
+              );
+            },
+            icon: const Icon(Icons.playlist_add),
+          ),
+        ),
+        SizedBox(
+          width: 24,
+          height: 24,
+          child: IconButton(
+            iconSize: 24,
+            padding: EdgeInsets.zero,
+            onPressed: () {
+              ArticleActionUtility.shareArticle(context, article);
+            },
+            icon: const Icon(Icons.share),
+          ),
+        ),
+        SizedBox(
+          width: 24,
+          height: 24,
+          child: IconButton(
+            iconSize: 24,
+            padding: EdgeInsets.zero,
+            onPressed: () {
+              context.read<ArticleBloc>().add(ArticleDeleted(article: article));
+            },
+            icon: const Icon(Icons.delete),
+          ),
+        ),
+      ],
+    );
   }
 
   @override
@@ -140,33 +147,6 @@ class ArticleItem extends StatelessWidget {
                           maxLines: 3,
                         ),
                       ),
-                      const SizedBox(height: 8),
-                      Wrap(
-                        spacing: 8,
-                        children: [
-                          Text(
-                            article.formattedPublishedDate() ?? "",
-                            style: TextStyle(
-                              color: color.caption,
-                              fontSize: 12,
-                            ),
-                          ),
-                          Text(
-                            "•",
-                            style: TextStyle(
-                              color: color.caption,
-                              fontSize: 12,
-                            ),
-                          ),
-                          Text(
-                            article.estimatedReadingTime() ?? "",
-                            style: TextStyle(
-                              color: color.caption,
-                              fontSize: 12,
-                            ),
-                          ),
-                        ],
-                      )
                     ],
                   ),
                 ),
@@ -175,7 +155,41 @@ class ArticleItem extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(height: 16),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: Row(
+              children: [
+                Wrap(
+                  spacing: 8,
+                  children: [
+                    Text(
+                      article.formattedPublishedDate() ?? "",
+                      style: TextStyle(
+                        color: color.caption,
+                        fontSize: 12,
+                      ),
+                    ),
+                    Text(
+                      "•",
+                      style: TextStyle(
+                        color: color.caption,
+                        fontSize: 12,
+                      ),
+                    ),
+                    Text(
+                      article.estimatedReadingTime() ?? "",
+                      style: TextStyle(
+                        color: color.caption,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ],
+                ),
+                Spacer(),
+                _thumbnailAction(context)
+              ],
+            ),
+          ),
           Divider(
             color: color.caption,
           )

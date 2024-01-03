@@ -64,7 +64,7 @@ class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
     Emitter<ArticleState> emit,
   ) async {
     page = 1;
-    emit(state.copyWith(hasReachMax: false));
+    emit(state.copyWith(hasReachMax: false, status: ArticleStatus.initial));
 
     await _onArticleFetched(ArticleFetched(), emit);
   }
@@ -86,8 +86,8 @@ class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
       ArticleTagRemoved event, Emitter<ArticleState> emit) async {
     try {
       final List<Article> updatedArticles = List.of(state.articles);
-      updatedArticles
-          .removeWhere((element) => element.tags.contains(event.tag));
+      updatedArticles.removeWhere((element) =>
+          element.tags.contains(event.tag) && element == event.article);
 
       emit(state.copyWith(articles: updatedArticles));
     } catch (_) {}

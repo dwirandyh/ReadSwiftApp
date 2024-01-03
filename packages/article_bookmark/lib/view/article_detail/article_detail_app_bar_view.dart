@@ -1,10 +1,9 @@
 import 'package:article_bookmark/bloc/article/article_bloc.dart';
 import 'package:article_bookmark/model/article.dart';
+import 'package:article_bookmark/utility/article_action_utility.dart';
 import 'package:article_bookmark/view/article/article_tag/add_article_tag_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:foundation/foundation.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ArticleDetailAppBarView extends StatelessWidget {
@@ -20,21 +19,6 @@ class ArticleDetailAppBarView extends StatelessWidget {
     } catch (_) {}
   }
 
-  Future<void> shareArticle(BuildContext context) async {
-    String sharedText =
-        "Check out this story i saved on ReadSwift \n${article.url}";
-    bool isIpad = await DeviceInfo.isIpad();
-    if (isIpad && context.mounted) {
-      final box = context.findRenderObject() as RenderBox?;
-      if (box != null) {
-        await Share.share(sharedText,
-            sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
-      }
-    } else {
-      await Share.share(sharedText);
-    }
-  }
-
   List<Widget> _appBarActions(BuildContext context) {
     return [
       IconButton(
@@ -43,7 +27,7 @@ class ArticleDetailAppBarView extends StatelessWidget {
       ),
       IconButton(
         onPressed: () {
-          shareArticle(context);
+          ArticleActionUtility.shareArticle(context, article);
         },
         icon: const Icon(Icons.share),
       ),

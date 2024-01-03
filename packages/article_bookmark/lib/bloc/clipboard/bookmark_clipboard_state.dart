@@ -11,5 +11,7 @@ class BookmarkClipboardFailed extends BookmarkClipboardState {}
 
 class BookmarkClipboardLinkUpdated extends BookmarkClipboardState {
   final String url;
-  BookmarkClipboardLinkUpdated({required this.url});
+  final bool isBeingSubmitted;
+  BookmarkClipboardLinkUpdated(
+      {required this.url, this.isBeingSubmitted = false});
 }

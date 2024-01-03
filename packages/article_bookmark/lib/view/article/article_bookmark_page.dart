@@ -108,10 +108,10 @@ class _ArticleBookmarkPageState extends State<ArticleBookmarkPage>
                           onPageChanged: _onPageChanged,
                           itemBuilder: (context, index) {
                             if (index == 0) {
-                              return ArticlePerTagSection.create(null);
+                              return ArticlePerTagSection.create(context, null);
                             } else {
                               return ArticlePerTagSection.create(
-                                  state.tags[index - 1]);
+                                  context, state.tags[index - 1]);
                             }
                           },
                           itemCount: state.tags.length + 1,
