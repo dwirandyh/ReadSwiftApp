@@ -43,3 +43,12 @@ class ArticleTagRemoved extends ArticleEvent {
   @override
   List<Object?> get props => [article, tag];
 }
+
+class ArticleDeleted extends ArticleEvent {
+  final Article article;
+
+  const ArticleDeleted({required this.article});
+
+  @override
+  List<Object?> get props => throw UnimplementedError();
+}

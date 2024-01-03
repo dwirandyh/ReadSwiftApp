@@ -29,7 +29,7 @@ class ArticleDetailPage extends StatelessWidget {
             articleRepository: ArticleRepositoryImpl(
               client: HttpNetwork.client,
             ),
-          )..add(AddArticleTagFetched()),
+          ),
         )
       ],
       child: ArticleDetailPage._(

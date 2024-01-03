@@ -7,6 +7,7 @@ abstract class ArticleRepository {
   Future<Article> saveToBookmark({required String url});
   Future<void> addTag({required int id, required int tagId});
   Future<void> removeTag({required int id, required int tagId});
+  Future<void> deleteArticle({required id});
 }
 
 class ArticleRepositoryImpl extends ArticleRepository {
@@ -72,5 +73,10 @@ class ArticleRepositoryImpl extends ArticleRepository {
   @override
   Future<void> removeTag({required int id, required int tagId}) async {
     await client.delete(URLResolver(path: "article/$id/remove-tag/$tagId"));
+  }
+
+  @override
+  Future<void> deleteArticle({required id}) async {
+    await client.delete(URLResolver(path: "article/$id"));
   }
 }

@@ -28,7 +28,7 @@ class ArticleItem extends StatelessWidget {
             articleRepository: ArticleRepositoryImpl(
               client: HttpNetwork.client,
             ),
-          )..add(AddArticleTagFetched()),
+          ),
         ),
       ],
       child: BlocListener<AddArticleTagBloc, AddArticleTagState>(

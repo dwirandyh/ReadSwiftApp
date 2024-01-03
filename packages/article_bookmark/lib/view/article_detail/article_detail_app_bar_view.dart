@@ -1,6 +1,8 @@
+import 'package:article_bookmark/bloc/article/article_bloc.dart';
 import 'package:article_bookmark/model/article.dart';
 import 'package:article_bookmark/view/article/article_tag/add_article_tag_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foundation/foundation.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -8,6 +10,9 @@ import 'package:url_launcher/url_launcher.dart';
 class ArticleDetailAppBarView extends StatelessWidget {
   final Article article;
   const ArticleDetailAppBarView({super.key, required this.article});
+
+  static const int _popupMenuAddToTag = 0;
+  static const int _popupMenuDelete = 1;
 
   Future<void> openOriginalWeb() async {
     try {
@@ -47,7 +52,7 @@ class ArticleDetailAppBarView extends StatelessWidget {
         itemBuilder: (context) {
           return [
             const PopupMenuItem<int>(
-              value: 0,
+              value: _popupMenuAddToTag,
               child: Wrap(
                 spacing: 8,
                 children: [
@@ -57,7 +62,7 @@ class ArticleDetailAppBarView extends StatelessWidget {
               ),
             ),
             const PopupMenuItem<int>(
-              value: 1,
+              value: _popupMenuDelete,
               child: Wrap(
                 spacing: 8,
                 children: [
@@ -69,9 +74,16 @@ class ArticleDetailAppBarView extends StatelessWidget {
           ];
         },
         onSelected: (index) {
-          if (index == 0) {
-            AddArticleTagView.show(
-                context: context, article: article, articleTags: article.tags);
+          switch (index) {
+            case _popupMenuAddToTag:
+              AddArticleTagView.show(
+                  context: context,
+                  article: article,
+                  articleTags: article.tags);
+              break;
+            case _popupMenuDelete:
+              context.read<ArticleBloc>().add(ArticleDeleted(article: article));
+              break;
           }
         },
       )

@@ -25,7 +25,8 @@ class AddArticleTagView extends StatelessWidget {
         return MultiBlocProvider(
           providers: [
             BlocProvider<AddArticleTagBloc>.value(
-              value: BlocProvider.of<AddArticleTagBloc>(context),
+              value: BlocProvider.of<AddArticleTagBloc>(context)
+                ..add(AddArticleTagFetched()),
             ),
             BlocProvider<ArticleBloc>.value(
               value: BlocProvider.of<ArticleBloc>(context),

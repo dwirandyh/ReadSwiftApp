@@ -19,6 +19,7 @@ class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
     on<ArticleTagAdded>(_onArticleTagAdded);
     on<ArticleTagRemoved>(_onArticleTagRemoved);
     on<ArticleRefreshed>(_onArticleRefreshed);
+    on<ArticleDeleted>(_onArticleDeleted);
   }
 
   Future<void> _onArticleFetched(
@@ -90,5 +91,18 @@ class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
 
       emit(state.copyWith(articles: updatedArticles));
     } catch (_) {}
+  }
+
+  Future<void> _onArticleDeleted(
+      ArticleDeleted event, Emitter<ArticleState> emit) async {
+    try {
+      await articleRepository.deleteArticle(id: event.article.id);
+      final List<Article> updatedArticles = List.of(state.articles);
+      updatedArticles.removeWhere((element) => element == event.article);
+
+      emit(state.copyWith(articles: updatedArticles));
+    } catch (error) {
+      print(error);
+    }
   }
 }
