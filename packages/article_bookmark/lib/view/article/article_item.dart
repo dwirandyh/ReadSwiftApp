@@ -1,16 +1,49 @@
+import 'package:article_bookmark/bloc/article/add_article_tag/add_article_tag_bloc.dart';
+import 'package:article_bookmark/bloc/article/article_bloc.dart';
 import 'package:article_bookmark/model/article.dart';
+import 'package:article_bookmark/repository/article_repository.dart';
+import 'package:article_bookmark/repository/tag_repository.dart';
 import 'package:article_bookmark/view/article/article_tag/add_article_tag_view.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:network/network.dart';
 import 'package:uikit/theme/uikit_theme_color.dart';
 
 class ArticleItem extends StatelessWidget {
   final Article article;
 
-  const ArticleItem({
+  const ArticleItem._({
     super.key,
     required this.article,
   });
+
+  static Widget create({required Article article}) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => AddArticleTagBloc(
+            article: article,
+            tagRepository: TagRepositoryImpl(client: HttpNetwork.client),
+            articleRepository: ArticleRepositoryImpl(
+              client: HttpNetwork.client,
+            ),
+          )..add(AddArticleTagFetched()),
+        ),
+      ],
+      child: BlocListener<AddArticleTagBloc, AddArticleTagState>(
+        listener: (context, state) {
+          if (state is AddArticleTagRemoved) {
+            context.read<ArticleBloc>().add(
+                ArticleTagRemoved(article: article, tag: state.removedTag));
+          }
+        },
+        child: ArticleItem._(
+          article: article,
+        ),
+      ),
+    );
+  }
 
   Widget _thumbnail(BuildContext context) {
     final String? leadImageURL = article.leadImage;

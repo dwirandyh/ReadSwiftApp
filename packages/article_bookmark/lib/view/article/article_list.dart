@@ -57,10 +57,13 @@ class _ArticleListState extends State<ArticleList> {
           onTap: () {
             context.push(
               ArticleBookmarkRouter.articleDetailPage,
-              extra: article,
+              extra: {
+                "article": article,
+                "articleBloc": context.read<ArticleBloc>()
+              },
             );
           },
-          child: ArticleItem(article: article),
+          child: ArticleItem.create(article: article),
         );
       },
       itemCount: widget.articles.length,

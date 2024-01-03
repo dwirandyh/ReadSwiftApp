@@ -18,6 +18,7 @@ class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
     on<ArticleFetched>(_onArticleFetched, transformer: droppable());
     on<ArticleTagAdded>(_onArticleTagAdded);
     on<ArticleTagRemoved>(_onArticleTagRemoved);
+    on<ArticleRefreshed>(_onArticleRefreshed);
   }
 
   Future<void> _onArticleFetched(
@@ -57,11 +58,19 @@ class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
     }
   }
 
+  Future<void> _onArticleRefreshed(
+    ArticleRefreshed event,
+    Emitter<ArticleState> emit,
+  ) async {
+    page = 1;
+    emit(state.copyWith(hasReachMax: false));
+
+    await _onArticleFetched(ArticleFetched(), emit);
+  }
+
   Future<void> _onArticleTagAdded(
       ArticleTagAdded event, Emitter<ArticleState> emit) async {
     try {
-      await articleRepository.addTag(id: event.article.id, tagId: event.tag.id);
-
       final List<Article> updatedArticles = state.articles.map((element) {
         return (element.id == event.article.id)
             ? element.copyWith(tags: [...element.tags, event.tag])
@@ -75,17 +84,9 @@ class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
   Future<void> _onArticleTagRemoved(
       ArticleTagRemoved event, Emitter<ArticleState> emit) async {
     try {
-      await articleRepository.removeTag(
-          id: event.article.id, tagId: event.tag.id);
-
-      final List<Article> updatedArticles = state.articles.map((element) {
-        return (element.id == event.article.id)
-            ? element.copyWith(
-                tags: element.tags
-                    .where((tag) => tag.id != event.tag.id)
-                    .toList())
-            : element;
-      }).toList();
+      final List<Article> updatedArticles = List.of(state.articles);
+      updatedArticles
+          .removeWhere((element) => element.tags.contains(event.tag));
 
       emit(state.copyWith(articles: updatedArticles));
     } catch (_) {}

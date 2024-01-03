@@ -1,4 +1,5 @@
 import 'package:article_bookmark/model/article.dart';
+import 'package:article_bookmark/view/article/article_tag/add_article_tag_view.dart';
 import 'package:flutter/material.dart';
 import 'package:foundation/foundation.dart';
 import 'package:share_plus/share_plus.dart';
@@ -56,7 +57,7 @@ class ArticleDetailAppBarView extends StatelessWidget {
               ),
             ),
             const PopupMenuItem<int>(
-              value: 0,
+              value: 1,
               child: Wrap(
                 spacing: 8,
                 children: [
@@ -67,7 +68,12 @@ class ArticleDetailAppBarView extends StatelessWidget {
             ),
           ];
         },
-        onSelected: (index) {},
+        onSelected: (index) {
+          if (index == 0) {
+            AddArticleTagView.show(
+                context: context, article: article, articleTags: article.tags);
+          }
+        },
       )
     ];
   }

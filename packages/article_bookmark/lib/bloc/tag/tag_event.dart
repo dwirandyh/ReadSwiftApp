@@ -15,6 +15,5 @@ class SelectedTagChanged extends TagEvent {
   const SelectedTagChanged({this.tag});
 
   @override
-  // TODO: implement props
   List<Object?> get props => [tag];
 }

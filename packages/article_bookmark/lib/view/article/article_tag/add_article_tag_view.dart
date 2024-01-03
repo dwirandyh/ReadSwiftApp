@@ -1,5 +1,5 @@
+import 'package:article_bookmark/bloc/article/add_article_tag/add_article_tag_bloc.dart';
 import 'package:article_bookmark/bloc/article/article_bloc.dart';
-import 'package:article_bookmark/bloc/tag/tag_bloc.dart';
 import 'package:article_bookmark/model/article.dart';
 import 'package:article_bookmark/model/tag.dart';
 import 'package:article_bookmark/view/article/article_tag/add_article_tag_item.dart';
@@ -24,23 +24,24 @@ class AddArticleTagView extends StatelessWidget {
       builder: (bottomSheetContext) {
         return MultiBlocProvider(
           providers: [
-            BlocProvider<TagBloc>.value(
-              value: BlocProvider.of<TagBloc>(context),
+            BlocProvider<AddArticleTagBloc>.value(
+              value: BlocProvider.of<AddArticleTagBloc>(context),
             ),
             BlocProvider<ArticleBloc>.value(
               value: BlocProvider.of<ArticleBloc>(context),
-            )
+            ),
           ],
-          child: BlocConsumer<ArticleBloc, ArticleState>(
+          child: BlocConsumer<AddArticleTagBloc, AddArticleTagState>(
             listener: (context, state) {
-              print(state);
+              if (state is AddArticleTagRemoved) {
+                context.read<ArticleBloc>().add(ArticleTagRemoved(
+                    article: state.article, tag: state.removedTag));
+              }
             },
             builder: (context, state) {
-              Article currentArticle = state.articles
-                  .firstWhere((element) => element.id == article.id);
               return AddArticleTagView(
-                article: currentArticle,
-                articleTags: currentArticle.tags,
+                article: state.article,
+                articleTags: state.article.tags,
               );
             },
           ),
@@ -49,10 +50,52 @@ class AddArticleTagView extends StatelessWidget {
     );
   }
 
+  Widget _tagList(BuildContext context, List<Tag> tags) {
+    return ListView.builder(
+      shrinkWrap: true,
+      itemBuilder: (context, index) {
+        Tag tag = tags[index];
+        return AddArticleTagItem(
+          tag: tag,
+          isChecked:
+              articleTags.isNotEmpty ? article.tags.contains(tag) : false,
+          onChanged: (isChecked) {
+            if (isChecked == true) {
+              context.read<AddArticleTagBloc>().add(
+                    AddArticleTagAddRequested(
+                      article: article.copyWith(),
+                      tag: tag.copyWith(),
+                    ),
+                  );
+            } else {
+              context.read<AddArticleTagBloc>().add(
+                    AddArticleTagRemoveRequested(
+                      article: article.copyWith(),
+                      tag: tag.copyWith(),
+                    ),
+                  );
+            }
+          },
+        );
+      },
+      itemCount: tags.length,
+    );
+  }
+
+  Widget _loading() {
+    return const SizedBox(
+      width: 100,
+      height: 300,
+      child: Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final color = context.theme.uikit;
-    List<Tag> tags = context.read<TagBloc>().state.tags;
+    List<Tag> allTags = context.read<AddArticleTagBloc>().state.allTags;
     return Padding(
       padding: const EdgeInsets.only(
         top: 16,
@@ -86,26 +129,7 @@ class AddArticleTagView extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                Tag tag = tags[index];
-                return AddArticleTagItem(
-                  tag: tag,
-                  isChecked: articleTags.contains(tag),
-                  onChanged: (isChecked) {
-                    if (isChecked == true) {
-                      context.read<ArticleBloc>().add(ArticleTagAdded(
-                          article: article.copyWith(), tag: tag.copyWith()));
-                    } else {
-                      context.read<ArticleBloc>().add(ArticleTagRemoved(
-                          article: article.copyWith(), tag: tag.copyWith()));
-                    }
-                  },
-                );
-              },
-              itemCount: tags.length,
-            ),
+            child: allTags.isNotEmpty ? _tagList(context, allTags) : _loading(),
           )
         ],
       ),
