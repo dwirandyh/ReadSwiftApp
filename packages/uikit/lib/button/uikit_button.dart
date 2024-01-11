@@ -9,6 +9,7 @@ class UIKitButton extends StatelessWidget {
   final UIKitButtonType type;
   final Image? icon;
   final bool isEnabled;
+  final bool isLoading;
   const UIKitButton({
     super.key,
     required this.onPressed,
@@ -16,6 +17,7 @@ class UIKitButton extends StatelessWidget {
     this.type = UIKitButtonType.elevated,
     this.icon,
     this.isEnabled = true,
+    this.isLoading = false,
   });
 
   Widget _elevatedButton(BuildContext context) {
@@ -77,15 +79,58 @@ class UIKitButton extends StatelessWidget {
     );
   }
 
+  Widget _loadingView(BuildContext context) {
+    final color = context.theme.uikit;
+    return Container(
+      decoration: BoxDecoration(
+        color: color.accent,
+        borderRadius: BorderRadius.circular(4),
+      ),
+      child: const Center(
+        child: SizedBox(
+          width: 24,
+          height: 24,
+          child: CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     switch (type) {
       case UIKitButtonType.elevated:
-        return _elevatedButton(context);
+        return SizedBox(
+          height: 40,
+          child: Stack(
+            children: [
+              _elevatedButton(context),
+              if (isLoading) _loadingView(context),
+            ],
+          ),
+        );
       case UIKitButtonType.outlined:
-        return _outlinedButton(context);
+        return SizedBox(
+          height: 40,
+          child: Stack(
+            children: [
+              _outlinedButton(context),
+              if (isLoading) _loadingView(context),
+            ],
+          ),
+        );
       case UIKitButtonType.text:
-        return _textButton(context);
+        return SizedBox(
+          height: 40,
+          child: Stack(
+            children: [
+              _textButton(context),
+              if (isLoading) _loadingView(context),
+            ],
+          ),
+        );
     }
   }
 }

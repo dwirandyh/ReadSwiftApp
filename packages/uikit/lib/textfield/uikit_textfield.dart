@@ -85,7 +85,10 @@ class UIKitTextField extends StatelessWidget {
             ),
             hintText: placeholder,
             isDense: true,
-            contentPadding: const EdgeInsets.fromLTRB(14, 14, 14, 14),
+            contentPadding: const EdgeInsets.fromLTRB(0, 14, 14, 14),
+            prefix: const Padding(
+              padding: EdgeInsets.only(left: 14.0),
+            ),
           ),
           style: const TextStyle(
             fontSize: 14,
