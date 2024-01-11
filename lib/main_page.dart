@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foundation/foundation.dart';
 import 'package:network/network.dart';
+import 'package:rss/rss.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage._();
@@ -73,9 +74,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
 
   static final List<Widget> _pages = <Widget>[
     ArticleBookmarkPage.create(),
-    const Icon(
-      Icons.rss_feed,
-    ),
+    RssPage.create(),
     const SettingPage(),
   ];
 

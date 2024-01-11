@@ -803,6 +803,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.2.1"
+  rss:
+    dependency: "direct main"
+    description:
+      path: "packages/rss"
+      relative: true
+    source: path
+    version: "0.0.1"
   rxdart:
     dependency: transitive
     description:
@@ -1199,5 +1206,5 @@ packages:
     source: hosted
     version: "2.1.1"
 sdks:
-  dart: ">=3.2.0 <4.0.0"
+  dart: ">=3.2.2 <4.0.0"
   flutter: ">=3.16.0"

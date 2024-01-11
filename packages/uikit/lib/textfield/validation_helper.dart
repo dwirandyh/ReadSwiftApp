@@ -21,4 +21,18 @@ class ValidationHelper {
 
     return null;
   }
+
+  static String? validateUrl(String url) {
+    final RegExp urlRegex = RegExp(
+      r'^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$',
+    );
+
+    if (url.isEmpty) {
+      return 'URL cannot be empty';
+    } else if (!urlRegex.hasMatch(url)) {
+      return 'Enter a valid URL';
+    }
+
+    return null;
+  }
 }

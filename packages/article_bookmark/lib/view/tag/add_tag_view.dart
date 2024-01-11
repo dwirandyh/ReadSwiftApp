@@ -96,7 +96,7 @@ class _AddTagViewState extends State<AddTagView> {
                   placeholder: "Add your tag",
                   controller: _textEditingController,
                   rules: const [
-                    ValidationRule.isEmtpy,
+                    ValidationRule.required,
                   ],
                   fieldName: "Tag",
                 ),

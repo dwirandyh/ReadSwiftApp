@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:uikit/textfield/validation_helper.dart';
 import 'package:uikit/theme/uikit_theme_color.dart';
 
-enum ValidationRule { isEmtpy, email }
+enum ValidationRule { required, email, url }
 
 class UIKitTextField extends StatelessWidget {
   final String? title;
@@ -27,7 +27,7 @@ class UIKitTextField extends StatelessWidget {
   String? _validate(String? value) {
     for (var rule in rules) {
       switch (rule) {
-        case ValidationRule.isEmtpy:
+        case ValidationRule.required:
           String? isEmptyError = ValidationHelper.validateIsEmpty(
             value ?? "",
             fieldName ?? title ?? "",
@@ -40,6 +40,12 @@ class UIKitTextField extends StatelessWidget {
           String? emailError = ValidationHelper.validateEmail(value ?? "");
           if (emailError != null) {
             return emailError;
+          }
+          break;
+        case ValidationRule.url:
+          String? urlError = ValidationHelper.validateUrl(value ?? "");
+          if (urlError != null) {
+            return urlError;
           }
           break;
       }
