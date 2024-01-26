@@ -1,9 +1,9 @@
 import 'package:article_bookmark/bloc/tag/tag_bloc.dart';
 import 'package:article_bookmark/model/tag.dart';
 import 'package:article_bookmark/view/tag/add_tag_view.dart';
-import 'package:article_bookmark/view/tag/tag_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:uikit/uikit.dart';
 
 class TagFilterView extends StatelessWidget {
   const TagFilterView({super.key});
@@ -34,8 +34,8 @@ class TagFilterView extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 8),
-                  TagItem(
-                    tag: "All",
+                  UIChip(
+                    text: "All",
                     isActive: selectedTag == Tag.all(),
                     onTap: () {
                       context
@@ -54,8 +54,8 @@ class TagFilterView extends StatelessWidget {
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, index) {
                               Tag tag = state.tags[index];
-                              return TagItem(
-                                tag: tag.name,
+                              return UIChip(
+                                text: tag.name,
                                 isActive: (tag == selectedTag),
                                 onTap: () {
                                   context

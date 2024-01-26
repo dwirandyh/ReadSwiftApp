@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:network/network.dart';
 import 'package:rss/bloc/add_rss/add_rss_bloc.dart';
+import 'package:rss/bloc/rss_feed/rss_feed_bloc.dart';
 import 'package:rss/repository/rss_repository.dart';
 import 'package:uikit/uikit.dart';
 
@@ -13,13 +14,22 @@ class AddRssView extends StatefulWidget {
       context: context,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       builder: (bottomSheetContext) {
-        return BlocProvider(
-          create: (context) => AddRssBloc(
-            rssRepository: RssRepositoryImpl(client: HttpNetwork.client),
-          ),
+        return MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (context) => AddRssBloc(
+                rssRepository: RssRepositoryImpl(client: HttpNetwork.client),
+              ),
+            ),
+            BlocProvider.value(
+              value: BlocProvider.of<RssFeedBloc>(context),
+            ),
+          ],
           child: BlocListener<AddRssBloc, AddRssState>(
             listener: (context, state) {
               if (state is AddRssSuccess) {
+                context.read<RssFeedBloc>().add(RssFeedFetched());
+
                 Navigator.pop(context);
                 UIToast.showToast(
                   context: context,

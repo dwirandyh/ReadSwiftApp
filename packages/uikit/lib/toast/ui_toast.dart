@@ -65,6 +65,12 @@ class UIToastState extends State<UIToast> with SingleTickerProviderStateMixin {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SlideTransition(
       position: _offsetAnimation,
@@ -96,11 +102,5 @@ class UIToastState extends State<UIToast> with SingleTickerProviderStateMixin {
       case ToastType.error:
         return color.danger;
     }
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
   }
 }

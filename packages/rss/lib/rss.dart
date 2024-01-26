@@ -1,3 +1,3 @@
 library rss;
 
-export 'package:rss/view/rss_page.dart';
+export 'package:rss/view/rss_feed/rss_page.dart';

@@ -1,69 +1,25 @@
-import 'package:article_bookmark/bloc/article/add_article_tag/add_article_tag_bloc.dart';
-import 'package:article_bookmark/bloc/article/article_bloc.dart';
-import 'package:article_bookmark/model/article.dart';
-import 'package:article_bookmark/repository/article_repository.dart';
-import 'package:article_bookmark/repository/tag_repository.dart';
-import 'package:article_bookmark/utility/article_action_utility.dart';
-import 'package:article_bookmark/view/article/article_tag/add_article_tag_view.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:network/network.dart';
-import 'package:uikit/theme/uikit_theme_color.dart';
+import 'package:rss/model/rss_content.dart';
+import 'package:uikit/uikit.dart';
 
-class ArticleItem extends StatelessWidget {
-  final Article article;
-
-  const ArticleItem._({
-    super.key,
-    required this.article,
-  });
-
-  static Widget create({required Article article}) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => AddArticleTagBloc(
-            article: article,
-            tagRepository: TagRepositoryImpl(client: HttpNetwork.client),
-            articleRepository: ArticleRepositoryImpl(
-              client: HttpNetwork.client,
-            ),
-          ),
-        ),
-      ],
-      child: BlocListener<AddArticleTagBloc, AddArticleTagState>(
-        listener: (context, state) {
-          if (state is AddArticleTagRemoved) {
-            context.read<ArticleBloc>().add(
-                ArticleTagRemoved(article: article, tag: state.removedTag));
-          }
-        },
-        child: ArticleItem._(
-          article: article,
-        ),
-      ),
-    );
-  }
+class RssContentItem extends StatelessWidget {
+  final RssContent content;
+  const RssContentItem({super.key, required this.content});
 
   Widget _thumbnail(BuildContext context) {
-    final String? leadImageURL = article.leadImage;
+    final String? leadImageURL = content.leadImage;
     if (leadImageURL == null) {
       return const SizedBox();
     } else {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(8),
-            child: CachedNetworkImage(
-              imageUrl: leadImageURL,
-              width: 90,
-              height: 90,
-              fit: BoxFit.cover,
-            ),
-          )
-        ],
+      return ClipRRect(
+        borderRadius: BorderRadius.circular(8),
+        child: CachedNetworkImage(
+          imageUrl: leadImageURL,
+          width: 90,
+          height: 90,
+          fit: BoxFit.cover,
+        ),
       );
     }
   }
@@ -78,13 +34,7 @@ class ArticleItem extends StatelessWidget {
           child: IconButton(
             iconSize: 24,
             padding: EdgeInsets.zero,
-            onPressed: () {
-              AddArticleTagView.show(
-                context: context,
-                article: article,
-                articleTags: article.tags,
-              );
-            },
+            onPressed: () {},
             icon: const Icon(Icons.playlist_add),
           ),
         ),
@@ -94,9 +44,7 @@ class ArticleItem extends StatelessWidget {
           child: IconButton(
             iconSize: 24,
             padding: EdgeInsets.zero,
-            onPressed: () {
-              ArticleActionUtility.shareArticle(context, article);
-            },
+            onPressed: () {},
             icon: const Icon(Icons.share),
           ),
         ),
@@ -106,9 +54,7 @@ class ArticleItem extends StatelessWidget {
           child: IconButton(
             iconSize: 24,
             padding: EdgeInsets.zero,
-            onPressed: () {
-              context.read<ArticleBloc>().add(ArticleDeleted(article: article));
-            },
+            onPressed: () {},
             icon: const Icon(Icons.delete),
           ),
         ),
@@ -118,7 +64,7 @@ class ArticleItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = Theme.of(context).extension<UIKitThemeColor>()!;
+    final color = context.theme.uikit;
     return Padding(
       padding: const EdgeInsets.only(top: 8, bottom: 8),
       child: Column(
@@ -132,12 +78,12 @@ class ArticleItem extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(article.domain),
+                      Text(content.domain),
                       const SizedBox(height: 8),
                       SizedBox(
                         height: 70,
                         child: Text(
-                          article.title,
+                          content.title,
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
@@ -163,7 +109,7 @@ class ArticleItem extends StatelessWidget {
                   spacing: 8,
                   children: [
                     Text(
-                      article.formattedPublishedDate() ?? "",
+                      content.formattedPublishedDate() ?? "",
                       style: TextStyle(
                         color: color.caption,
                         fontSize: 12,
@@ -177,7 +123,7 @@ class ArticleItem extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      article.estimatedReadingTime() ?? "",
+                      content.estimatedReadingTime() ?? "",
                       style: TextStyle(
                         color: color.caption,
                         fontSize: 12,
