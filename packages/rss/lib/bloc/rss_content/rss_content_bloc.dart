@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
 import 'package:rss/model/rss_content.dart';
 import 'package:rss/model/rss_feed.dart';
@@ -8,18 +9,18 @@ part 'rss_content_event.dart';
 part 'rss_content_state.dart';
 
 class RssContentBloc extends Bloc<RssContentEvent, RssContentState> {
-  static RssContentBloc create(RssFeed feed) {
+  static RssContentBloc create(RssFeed? feed) {
     return RssContentBloc(
         feed: feed, repository: RssContentRepositoryImpl.create());
   }
 
   final RssContentRepository repository;
-  final RssFeed feed;
+  final RssFeed? feed;
   int page = 1;
 
-  RssContentBloc({required this.feed, required this.repository})
+  RssContentBloc({this.feed, required this.repository})
       : super(const RssContentState()) {
-    on<RssContentFetched>(_onRssContentFetched);
+    on<RssContentFetched>(_onRssContentFetched, transformer: droppable());
     on<RssContentRefreshed>(_onRssContentRefreshed);
   }
 

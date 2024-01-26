@@ -7,14 +7,14 @@ class RssFeedState extends Equatable {
   final RssFeed? selectedRssFeed;
   final RssFeedStatus status;
 
-  RssFeedState({
+  const RssFeedState({
     required this.rssFeeds,
     required this.selectedRssFeed,
     required this.status,
   });
 
   factory RssFeedState.initial() {
-    return RssFeedState(
+    return const RssFeedState(
         rssFeeds: [], selectedRssFeed: null, status: RssFeedStatus.loading);
   }
 
@@ -25,7 +25,7 @@ class RssFeedState extends Equatable {
   }) {
     return RssFeedState(
       rssFeeds: rssFeeds ?? this.rssFeeds,
-      selectedRssFeed: selectedRssFeed ?? this.selectedRssFeed,
+      selectedRssFeed: selectedRssFeed,
       status: status ?? this.status,
     );
   }

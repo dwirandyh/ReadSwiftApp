@@ -22,11 +22,7 @@ class RssFeedBloc extends Bloc<RssFeedEvent, RssFeedState> {
       RssFeedFetched event, Emitter<RssFeedState> emit) async {
     try {
       List<RssFeed> rssFeeds = await rssRepository.fetchRssFeed();
-      RssFeed selectedRss = rssFeeds.first;
-      emit(state.copyWith(
-          rssFeeds: rssFeeds,
-          selectedRssFeed: selectedRss,
-          status: RssFeedStatus.success));
+      emit(state.copyWith(rssFeeds: rssFeeds, status: RssFeedStatus.success));
     } catch (_) {
       emit(state.copyWith(status: RssFeedStatus.error));
     }

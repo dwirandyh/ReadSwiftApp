@@ -39,10 +39,14 @@ class _RssPageState extends State<RssPage> {
     }
 
     _timer = Timer(const Duration(milliseconds: 300), () {
-      List<RssFeed> rssFeeds = context.read<RssFeedBloc>().state.rssFeeds;
-      context
-          .read<RssFeedBloc>()
-          .add(RssFeedSelectedRssChanged(rssFeed: rssFeeds[index]));
+      if (index == 0) {
+        context.read<RssFeedBloc>().add(const RssFeedSelectedRssChanged());
+      } else {
+        List<RssFeed> rssFeeds = context.read<RssFeedBloc>().state.rssFeeds;
+        context
+            .read<RssFeedBloc>()
+            .add(RssFeedSelectedRssChanged(rssFeed: rssFeeds[index - 1]));
+      }
     });
   }
 
@@ -51,9 +55,13 @@ class _RssPageState extends State<RssPage> {
       return;
     }
 
-    int selectedIndex = state.rssFeeds
-        .indexWhere((element) => element == state.selectedRssFeed);
-    _pageController.jumpToPage(selectedIndex);
+    if (state.selectedRssFeed != null) {
+      int selectedIndex = state.rssFeeds
+          .indexWhere((element) => element == state.selectedRssFeed);
+      _pageController.jumpToPage(selectedIndex + 1);
+    } else {
+      _pageController.jumpToPage(0);
+    }
   }
 
   @override
@@ -75,10 +83,14 @@ class _RssPageState extends State<RssPage> {
                     child: PageView.builder(
                       controller: _pageController,
                       onPageChanged: _onPageChanged,
-                      itemCount: state.rssFeeds.length,
+                      itemCount: state.rssFeeds.length + 1,
                       itemBuilder: (context, index) {
-                        RssFeed rss = state.rssFeeds[index];
-                        return RssFeedContentListView.create(rss);
+                        if (index == 0) {
+                          return RssFeedContentListView.create(null);
+                        } else {
+                          RssFeed rss = state.rssFeeds[index - 1];
+                          return RssFeedContentListView.create(rss);
+                        }
                       },
                     ),
                   )

@@ -10,9 +10,9 @@ class RssFeedFetched extends RssFeedEvent {
 }
 
 class RssFeedSelectedRssChanged extends RssFeedEvent {
-  final RssFeed rssFeed;
+  final RssFeed? rssFeed;
 
-  const RssFeedSelectedRssChanged({required this.rssFeed});
+  const RssFeedSelectedRssChanged({this.rssFeed});
 
   @override
   List<Object?> get props => [rssFeed];

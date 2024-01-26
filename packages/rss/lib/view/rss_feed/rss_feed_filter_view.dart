@@ -37,8 +37,12 @@ class RssFeedFilterView extends StatelessWidget {
                   ),
                   UIChip(
                     text: "All",
-                    isActive: false,
-                    onTap: () {},
+                    isActive: state.selectedRssFeed == null,
+                    onTap: () {
+                      context
+                          .read<RssFeedBloc>()
+                          .add(const RssFeedSelectedRssChanged());
+                    },
                   ),
                   const SizedBox(
                     width: 8,

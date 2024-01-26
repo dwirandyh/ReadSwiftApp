@@ -4,7 +4,7 @@ import 'package:rss/model/rss_feed.dart';
 
 abstract class RssContentRepository {
   Future<List<RssContent>> fetchRssContent(
-      {required RssFeed feed, required int page});
+      {required RssFeed? feed, required int page});
 }
 
 class RssContentRepositoryImpl extends RssContentRepository {
@@ -18,10 +18,15 @@ class RssContentRepositoryImpl extends RssContentRepository {
 
   @override
   Future<List<RssContent>> fetchRssContent(
-      {required RssFeed feed, required int page}) async {
+      {required RssFeed? feed, required int page}) async {
     Map<String, dynamic> parameters = {"page": page};
-    Map<String, dynamic> response = await client.get(URLResolver(
-        path: 'rss-feed/${feed.id}/content', parameters: parameters));
+
+    if (feed != null) {
+      parameters["feedId"] = feed.id;
+    }
+
+    Map<String, dynamic> response = await client
+        .get(URLResolver(path: 'rss-content', parameters: parameters));
 
     List rssContentData = response["data"] as List;
     return rssContentData.map((dynamic json) {
