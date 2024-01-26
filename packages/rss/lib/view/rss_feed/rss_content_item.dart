@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:foundation/foundation.dart';
 import 'package:rss/model/rss_content.dart';
 import 'package:uikit/uikit.dart';
 
@@ -44,7 +45,10 @@ class RssContentItem extends StatelessWidget {
           child: IconButton(
             iconSize: 24,
             padding: EdgeInsets.zero,
-            onPressed: () {},
+            onPressed: () {
+              ShareUtil.shareText(context,
+                  "Check out this article ${content.title} \n${content.url}");
+            },
             icon: const Icon(Icons.share),
           ),
         ),

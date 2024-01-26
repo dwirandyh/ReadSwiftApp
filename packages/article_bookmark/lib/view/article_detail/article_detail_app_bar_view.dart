@@ -1,9 +1,9 @@
 import 'package:article_bookmark/bloc/article/article_bloc.dart';
 import 'package:article_bookmark/model/article.dart';
-import 'package:article_bookmark/utility/article_action_utility.dart';
 import 'package:article_bookmark/view/article/article_tag/add_article_tag_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:foundation/foundation.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ArticleDetailAppBarView extends StatelessWidget {
@@ -27,7 +27,8 @@ class ArticleDetailAppBarView extends StatelessWidget {
       ),
       IconButton(
         onPressed: () {
-          ArticleActionUtility.shareArticle(context, article);
+          ShareUtil.shareText(context,
+              "Check out this story i saved on ReadSwift \n${article.url}");
         },
         icon: const Icon(Icons.share),
       ),
