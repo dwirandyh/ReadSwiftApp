@@ -5,6 +5,7 @@ import 'package:rss/model/rss_feed.dart';
 abstract class RssContentRepository {
   Future<List<RssContent>> fetchRssContent(
       {required RssFeed? feed, required int page});
+  Future<RssContent> fetchRssContentDetail({required int id});
 }
 
 class RssContentRepositoryImpl extends RssContentRepository {
@@ -43,5 +44,24 @@ class RssContentRepositoryImpl extends RssContentRepository {
         wordCount: json["word_count"] as int?,
       );
     }).toList();
+  }
+
+  @override
+  Future<RssContent> fetchRssContentDetail({required int id}) async {
+    Map<String, dynamic> response =
+        await client.get(URLResolver(path: "rss-content/$id"));
+    dynamic contentData = response["data"];
+    return RssContent(
+      id: contentData["id"] as int,
+      title: contentData["title"] as String,
+      author: contentData["author"] as String?,
+      datePublished: DateTime.tryParse(contentData["date_published"]),
+      leadImage: contentData["lead_image_url"] as String?,
+      content: contentData["content"] as String?,
+      url: contentData["url"] as String,
+      domain: contentData["domain"] as String,
+      excerpt: contentData["excerpt"] as String?,
+      wordCount: contentData["word_count"] as int?,
+    );
   }
 }

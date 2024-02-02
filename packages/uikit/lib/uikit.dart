@@ -9,3 +9,5 @@ export 'package:uikit/theme/uikit_theme.dart';
 export 'package:uikit/theme/uikit_theme_color.dart';
 export 'package:uikit/theme/uikit_theme_extension.dart';
 export 'package:uikit/toast/ui_toast.dart';
+export 'package:uikit/web_content_viewer/web_content.dart';
+export 'package:uikit/web_content_viewer/web_content_viewer.dart';

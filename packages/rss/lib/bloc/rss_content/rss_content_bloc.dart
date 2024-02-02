@@ -29,6 +29,8 @@ class RssContentBloc extends Bloc<RssContentEvent, RssContentState> {
     if (state.hasReachMax) return;
     try {
       if (state.status == RssContentStatus.initial) {
+        emit(state.copyWith(status: RssContentStatus.loading));
+
         List<RssContent> contents =
             await repository.fetchRssContent(feed: feed, page: page);
         return emit(state.copyWith(
@@ -52,7 +54,9 @@ class RssContentBloc extends Bloc<RssContentEvent, RssContentState> {
         );
       }
     } catch (_) {
-      emit(state.copyWith(status: RssContentStatus.failure));
+      if (state.contents.isEmpty) {
+        emit(state.copyWith(status: RssContentStatus.failure));
+      }
     }
   }
 

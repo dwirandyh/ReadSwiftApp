@@ -1,10 +1,10 @@
-import 'package:article_bookmark/model/article.dart';
 import 'package:flutter/widgets.dart';
 import 'package:uikit/uikit.dart';
+import 'package:uikit/web_content_viewer/web_content.dart';
 
-class ArticleDetailHeaderView extends StatelessWidget {
-  final Article article;
-  const ArticleDetailHeaderView({super.key, required this.article});
+class WebContentHeaderView extends StatelessWidget {
+  final WebContent content;
+  const WebContentHeaderView({super.key, required this.content});
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +12,7 @@ class ArticleDetailHeaderView extends StatelessWidget {
     return Column(
       children: [
         Text(
-          article.title,
+          content.title,
           style: TextStyle(
             fontSize: 26,
             fontWeight: FontWeight.bold,
@@ -23,23 +23,23 @@ class ArticleDetailHeaderView extends StatelessWidget {
         const SizedBox(height: 16),
         Wrap(
           children: [
-            if (article.author != null)
+            if (content.author != null)
               Wrap(
                 children: [
                   const Text("by"),
                   const SizedBox(width: 2),
                   Text(
-                    "${article.author ?? ""}, ",
+                    "${content.author ?? ""}, ",
                     style: const TextStyle(
                       fontWeight: FontWeight.w700,
                     ),
                   ),
                 ],
               ),
-            Text(article.domain)
+            Text(content.domain)
           ],
         ),
-        Text(article.fullFormattedPublishedDate() ?? "")
+        Text(content.fullFormattedPublishedDate() ?? "")
       ],
     );
   }

@@ -10,7 +10,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_widget_from_html: ^0.14.9
 
 # Internal Packages
   foundation:
