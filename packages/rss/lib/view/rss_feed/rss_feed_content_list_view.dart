@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rss/bloc/rss_content/rss_content_bloc.dart';
-import 'package:rss/external/RssRouter.dart';
+import 'package:rss/external/rss_router.dart';
 import 'package:rss/model/rss_content.dart';
 import 'package:rss/model/rss_feed.dart';
 import 'package:rss/view/rss_feed/rss_content_item.dart';

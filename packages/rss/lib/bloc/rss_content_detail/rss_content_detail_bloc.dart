@@ -8,13 +8,6 @@ part 'rss_content_detail_state.dart';
 
 class RssContentDetailBloc
     extends Bloc<RssContentDetailEvent, RssContentDetailState> {
-  factory RssContentDetailBloc.create(int contentId) {
-    return RssContentDetailBloc(
-      rssContentRepository: RssContentRepositoryImpl.create(),
-      contentId: contentId,
-    );
-  }
-
   final RssContentRepository rssContentRepository;
   final int contentId;
 
@@ -23,6 +16,13 @@ class RssContentDetailBloc
     required this.contentId,
   }) : super(RssContentDetailLoading()) {
     on<RssContentDetailFetched>(_onRssContentDetailFetched);
+  }
+
+  factory RssContentDetailBloc.create(int contentId) {
+    return RssContentDetailBloc(
+      rssContentRepository: RssContentRepositoryImpl.create(),
+      contentId: contentId,
+    );
   }
 
   Future<void> _onRssContentDetailFetched(RssContentDetailFetched event,

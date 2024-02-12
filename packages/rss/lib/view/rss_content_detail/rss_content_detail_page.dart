@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rss/bloc/rss_content_bookmark/rss_content_bookmark_bloc.dart';
 import 'package:rss/bloc/rss_content_detail/rss_content_detail_bloc.dart';
 import 'package:rss/model/rss_content.dart';
 import 'package:rss/view/rss_content_detail/rss_content_detail_app_bar.dart';
@@ -9,9 +10,13 @@ class RssContentDetailPage extends StatelessWidget {
   const RssContentDetailPage({super.key});
 
   static Widget create(int id) {
-    return BlocProvider(
-      create: (context) =>
-          RssContentDetailBloc.create(id)..add(RssContentDetailFetched()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+            create: (context) => RssContentDetailBloc.create(id)
+              ..add(RssContentDetailFetched())),
+        BlocProvider(create: (context) => RssContentBookmarkBloc.create())
+      ],
       child: const RssContentDetailPage(),
     );
   }

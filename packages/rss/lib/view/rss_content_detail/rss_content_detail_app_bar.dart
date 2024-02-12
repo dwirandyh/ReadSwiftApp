@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foundation/foundation.dart';
+import 'package:rss/bloc/rss_content_bookmark/rss_content_bookmark_bloc.dart';
 import 'package:rss/model/rss_content.dart';
+import 'package:uikit/uikit.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class RssContentDetailAppBar extends StatelessWidget {
@@ -59,7 +62,12 @@ class RssContentDetailAppBar extends StatelessWidget {
         onSelected: (index) {
           switch (index) {
             case _popupMenuAddToBookmark:
-              // TODO: Add rss content to bookmark list
+              final int? id = rssContent?.id;
+              if (id != null) {
+                context
+                    .read<RssContentBookmarkBloc>()
+                    .add(RssContentBookmarkAdded(contentId: id));
+              }
               break;
           }
         },
@@ -69,11 +77,21 @@ class RssContentDetailAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SliverAppBar(
-      expandedHeight: 50,
-      floating: true,
-      snap: true,
-      actions: rssContent != null ? _appBarActions(context) : null,
+    return BlocListener<RssContentBookmarkBloc, RssContentBookmarkState>(
+      listener: (context, state) {
+        if (state is RssContentBookmarkAddSuccess) {
+          UIToast.showToast(context: context, message: state.message);
+        } else if (state is RssContentBookmarkAddFailed) {
+          UIToast.showToast(
+              context: context, message: state.message, type: ToastType.error);
+        }
+      },
+      child: SliverAppBar(
+        expandedHeight: 50,
+        floating: true,
+        snap: true,
+        actions: rssContent != null ? _appBarActions(context) : null,
+      ),
     );
   }
 }

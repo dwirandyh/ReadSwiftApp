@@ -6,6 +6,7 @@ abstract class RssContentRepository {
   Future<List<RssContent>> fetchRssContent(
       {required RssFeed? feed, required int page});
   Future<RssContent> fetchRssContentDetail({required int id});
+  Future<void> addToBookmark({required int id});
 }
 
 class RssContentRepositoryImpl extends RssContentRepository {
@@ -63,5 +64,10 @@ class RssContentRepositoryImpl extends RssContentRepository {
       excerpt: contentData["excerpt"] as String?,
       wordCount: contentData["word_count"] as int?,
     );
+  }
+
+  @override
+  Future<void> addToBookmark({required int id}) async {
+    await client.post(URLResolver(path: "rss-content/$id/bookmark"));
   }
 }
