@@ -37,7 +37,7 @@ class _RegisterFormState extends State<RegisterForm> {
             title: "Name",
             placeholder: "Type your name here",
             rules: const [
-              ValidationRule.isEmtpy,
+              ValidationRule.required,
             ],
             controller: _nameTextController,
             fieldName: "Name",
@@ -47,7 +47,7 @@ class _RegisterFormState extends State<RegisterForm> {
             title: "Email",
             placeholder: "Type your email here",
             rules: const [
-              ValidationRule.isEmtpy,
+              ValidationRule.required,
               ValidationRule.email,
             ],
             fieldName: "Email",
@@ -58,7 +58,7 @@ class _RegisterFormState extends State<RegisterForm> {
             title: "Password",
             placeholder: "Type your password here",
             rules: const [
-              ValidationRule.isEmtpy,
+              ValidationRule.required,
             ],
             obscureText: true,
             controller: _passwordTextController,

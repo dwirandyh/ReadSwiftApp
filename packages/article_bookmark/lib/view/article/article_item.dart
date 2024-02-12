@@ -3,11 +3,11 @@ import 'package:article_bookmark/bloc/article/article_bloc.dart';
 import 'package:article_bookmark/model/article.dart';
 import 'package:article_bookmark/repository/article_repository.dart';
 import 'package:article_bookmark/repository/tag_repository.dart';
-import 'package:article_bookmark/utility/article_action_utility.dart';
 import 'package:article_bookmark/view/article/article_tag/add_article_tag_view.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:foundation/foundation.dart';
 import 'package:network/network.dart';
 import 'package:uikit/theme/uikit_theme_color.dart';
 
@@ -95,7 +95,8 @@ class ArticleItem extends StatelessWidget {
             iconSize: 24,
             padding: EdgeInsets.zero,
             onPressed: () {
-              ArticleActionUtility.shareArticle(context, article);
+              ShareUtil.shareText(context,
+                  "Check out this story i saved on ReadSwift \n${article.url}");
             },
             icon: const Icon(Icons.share),
           ),
@@ -185,7 +186,7 @@ class ArticleItem extends StatelessWidget {
                     ),
                   ],
                 ),
-                Spacer(),
+                const Spacer(),
                 _thumbnailAction(context)
               ],
             ),

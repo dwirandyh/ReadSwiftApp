@@ -11,6 +11,8 @@ dependencies:
   flutter:
     sdk: flutter
   cached_network_image: 3.3.0
+  flutter_widget_from_html: ^0.14.9
+  intl: ^0.18.1
 
 dev_dependencies:
   flutter_test:

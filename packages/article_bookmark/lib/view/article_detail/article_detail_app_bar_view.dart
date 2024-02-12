@@ -1,19 +1,19 @@
 import 'package:article_bookmark/bloc/article/article_bloc.dart';
 import 'package:article_bookmark/model/article.dart';
-import 'package:article_bookmark/utility/article_action_utility.dart';
 import 'package:article_bookmark/view/article/article_tag/add_article_tag_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:foundation/foundation.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ArticleDetailAppBarView extends StatelessWidget {
-  final Article article;
-  const ArticleDetailAppBarView({super.key, required this.article});
-
   static const int _popupMenuAddToTag = 0;
   static const int _popupMenuDelete = 1;
 
-  Future<void> openOriginalWeb() async {
+  final Article article;
+  const ArticleDetailAppBarView({super.key, required this.article});
+
+  Future<void> _openOriginalWeb() async {
     try {
       await launchUrl(Uri.parse(article.url));
     } catch (_) {}
@@ -22,12 +22,13 @@ class ArticleDetailAppBarView extends StatelessWidget {
   List<Widget> _appBarActions(BuildContext context) {
     return [
       IconButton(
-        onPressed: openOriginalWeb,
+        onPressed: _openOriginalWeb,
         icon: const Icon(Icons.open_in_browser),
       ),
       IconButton(
         onPressed: () {
-          ArticleActionUtility.shareArticle(context, article);
+          ShareUtil.shareText(context,
+              "Check out this story i saved on ReadSwift \n${article.url}");
         },
         icon: const Icon(Icons.share),
       ),

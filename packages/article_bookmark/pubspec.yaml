@@ -10,9 +10,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_widget_from_html: ^0.14.9
-  url_launcher: ^6.2.2
-  share_plus: ^7.2.1
 
 # Internal Packages
   foundation:

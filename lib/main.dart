@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       create: (context) => GetIt.I.get<AuthenticationBlocAPI>()
         ..add(AuthenticationStatusRequested()),
       child: MaterialApp.router(
-        title: 'Flutter Demo',
+        title: 'ReadSwift',
         theme: UIKitTheme.light,
         darkTheme: UIKitTheme.dark,
         themeMode: ThemeMode.system,

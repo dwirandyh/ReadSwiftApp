@@ -37,7 +37,7 @@ class _LoginFormState extends State<LoginForm> {
             placeholder: "Type your email here",
             rules: const [
               ValidationRule.email,
-              ValidationRule.isEmtpy,
+              ValidationRule.required,
             ],
             fieldName: "Email",
             controller: emailTextController,
@@ -47,7 +47,7 @@ class _LoginFormState extends State<LoginForm> {
             title: "Password",
             placeholder: "Type your password here",
             rules: const [
-              ValidationRule.isEmtpy,
+              ValidationRule.required,
             ],
             fieldName: "Password",
             controller: passwordTextController,

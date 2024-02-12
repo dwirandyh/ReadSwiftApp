@@ -37,7 +37,7 @@ class AuthenticationRepositoryImpl extends AuthenticationRepository {
   }) async {
     Map<String, dynamic> body = {"email": email, "password": password};
     Map<String, dynamic> response =
-        await client.post(const URLResolver(path: "user/login"), body: body);
+        await client.post(const URLResolver(path: "auth/login"), body: body);
     dynamic userData = response["data"];
     return User(
       id: userData["id"],
@@ -61,7 +61,7 @@ class AuthenticationRepositoryImpl extends AuthenticationRepository {
       "password": password
     };
     Map<String, dynamic> response =
-        await client.post(const URLResolver(path: "user"), body: body);
+        await client.post(const URLResolver(path: "auth/register"), body: body);
     dynamic userData = response["data"];
     return User(
       id: userData["id"],

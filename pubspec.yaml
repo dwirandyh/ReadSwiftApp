@@ -47,6 +47,8 @@ dependencies:
     path: packages/network
   storage:
     path: packages/storage
+  rss:
+    path: packages/rss
   uikit:
     path: packages/uikit
 

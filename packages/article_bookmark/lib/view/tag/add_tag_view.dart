@@ -25,7 +25,21 @@ class AddTagView extends StatefulWidget {
               ),
             )
           ],
-          child: const AddTagView(),
+          child: BlocListener<AddTagBloc, AddTagState>(
+            listener: (context, state) {
+              if (state is AddTagError) {
+                UIToast.showToast(
+                  context: context,
+                  message: state.error,
+                  type: ToastType.error,
+                );
+              } else if (state is AddTagSuccess) {
+                context.read<TagBloc>().add(TagFetched());
+              }
+              context.pop();
+            },
+            child: const AddTagView(),
+          ),
         );
       },
     );
@@ -48,71 +62,57 @@ class _AddTagViewState extends State<AddTagView> {
   @override
   Widget build(BuildContext context) {
     final color = context.theme.uikit;
-    return BlocListener<AddTagBloc, AddTagState>(
-      listener: (context, state) {
-        if (state is AddTagError) {
-          UIToast.showToast(
-            context: context,
-            message: state.error,
-            type: ToastType.error,
-          );
-        } else if (state is AddTagSuccess) {
-          context.read<TagBloc>().add(TagFetched());
-        }
-        context.pop();
-      },
-      child: Form(
-        key: _formKey,
-        child: Padding(
-          padding: EdgeInsets.only(
-            left: 24,
-            right: 24,
-            top: 24,
-            bottom: MediaQuery.viewInsetsOf(context).bottom + 24,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                "Create a New Tag",
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                  color: color.title,
-                ),
+    return Form(
+      key: _formKey,
+      child: Padding(
+        padding: EdgeInsets.only(
+          left: 24,
+          right: 24,
+          top: 24,
+          bottom: MediaQuery.viewInsetsOf(context).bottom + 24,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              "Create a New Tag",
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+                color: color.title,
               ),
-              Text(
-                "Enhance your knowledge organization by adding tags to your articles",
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.normal,
-                  color: color.caption,
-                ),
+            ),
+            Text(
+              "Enhance your knowledge organization by adding tags to your articles",
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.normal,
+                color: color.caption,
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 8, bottom: 16),
-                child: UIKitTextField(
-                  placeholder: "Add your tag",
-                  controller: _textEditingController,
-                  rules: const [
-                    ValidationRule.isEmtpy,
-                  ],
-                  fieldName: "Tag",
-                ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 8, bottom: 16),
+              child: UIKitTextField(
+                placeholder: "Add your tag",
+                controller: _textEditingController,
+                rules: const [
+                  ValidationRule.required,
+                ],
+                fieldName: "Tag",
               ),
-              UIKitButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    context
-                        .read<AddTagBloc>()
-                        .add(AddTagRequested(tag: _textEditingController.text));
-                  }
-                },
-                text: "Create Tag",
-              )
-            ],
-          ),
+            ),
+            UIKitButton(
+              onPressed: () {
+                if (_formKey.currentState!.validate()) {
+                  context
+                      .read<AddTagBloc>()
+                      .add(AddTagRequested(tag: _textEditingController.text));
+                }
+              },
+              text: "Create Tag",
+            )
+          ],
         ),
       ),
     );

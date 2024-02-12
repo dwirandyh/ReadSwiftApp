@@ -4,11 +4,10 @@ import 'package:article_bookmark/model/article.dart';
 import 'package:article_bookmark/repository/article_repository.dart';
 import 'package:article_bookmark/repository/tag_repository.dart';
 import 'package:article_bookmark/view/article_detail/article_detail_app_bar_view.dart';
-import 'package:article_bookmark/view/article_detail/article_detail_content_view.dart';
-import 'package:article_bookmark/view/article_detail/article_detail_header_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:network/network.dart';
+import 'package:uikit/uikit.dart';
 
 class ArticleDetailPage extends StatelessWidget {
   final Article article;
@@ -52,14 +51,13 @@ class ArticleDetailPage extends StatelessWidget {
           },
           body: Padding(
             padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  const SizedBox(height: 16),
-                  ArticleDetailHeaderView(article: article),
-                  const SizedBox(height: 16),
-                  ArticleDetailContentView(article: article),
-                ],
+            child: WebContentViewer(
+              content: WebContent(
+                title: article.title,
+                author: article.author,
+                datePublished: article.datePublished,
+                content: article.content,
+                domain: article.domain,
               ),
             ),
           ),
