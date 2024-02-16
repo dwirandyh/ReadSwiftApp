@@ -128,7 +128,7 @@ class SettingPage extends StatelessWidget {
               .read<AuthenticationBlocAPI>()
               .add(AuthenticationLogoutRequested());
         },
-        icon: Icon(Icons.logout),
+        icon: const Icon(Icons.logout),
       ),
     );
   }
