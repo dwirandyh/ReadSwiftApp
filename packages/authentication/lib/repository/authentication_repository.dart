@@ -12,6 +12,8 @@ abstract class AuthenticationRepository {
     required String password,
   });
 
+  Future<User> loginWithGoogle({required String accessToken});
+
   Future<User> register({
     required String name,
     required String email,
@@ -38,15 +40,14 @@ class AuthenticationRepositoryImpl extends AuthenticationRepository {
     Map<String, dynamic> body = {"email": email, "password": password};
     Map<String, dynamic> response =
         await client.post(const URLResolver(path: "auth/login"), body: body);
-    dynamic userData = response["data"];
-    return User(
-      id: userData["id"],
-      name: userData["name"],
-      email: userData["email"],
-      emailVerifiedAt: DateTime.tryParse(userData["email_verified_at"] ?? ""),
-      accessToken: response["access_token"],
-      tokenType: response["token_type"],
-    );
+    return _mapJsonToUser(response);
+  }
+
+  @override
+  Future<User> loginWithGoogle({required String accessToken}) async {
+    Map<String, dynamic> body = {"token": accessToken};
+    Map<String, dynamic> response = await client.post(const URLResolver(path: "auth/google-signin"), body: body);
+    return _mapJsonToUser(response);
   }
 
   @override
@@ -62,14 +63,18 @@ class AuthenticationRepositoryImpl extends AuthenticationRepository {
     };
     Map<String, dynamic> response =
         await client.post(const URLResolver(path: "auth/register"), body: body);
-    dynamic userData = response["data"];
+    return _mapJsonToUser(response);
+  }
+
+  User _mapJsonToUser(dynamic jsonResponse) {
+    dynamic userData = jsonResponse["data"];
     return User(
-      id: userData["id"],
-      name: userData["name"],
-      email: userData["email"],
-      emailVerifiedAt: DateTime.tryParse(userData["email_verified_at"] ?? ""),
-      accessToken: response["access_token"],
-      tokenType: response["token_type"],
+        id: userData["id"],
+        name: userData["name"],
+        email: userData["email"],
+        emailVerifiedAt: DateTime.tryParse(userData["email_verified_at"] ?? ""),
+        accessToken: jsonResponse["access_token"],
+        tokenType: jsonResponse["token_type"]
     );
   }
 

@@ -1,6 +1,6 @@
 part of 'login_bloc.dart';
 
-sealed class LoginEvent {
+abstract class LoginEvent extends Equatable {
   const LoginEvent();
 }
 
@@ -12,4 +12,12 @@ final class LoginRequested extends LoginEvent {
 
   final String email;
   final String password;
+
+  @override
+  List<Object?> get props => [];
+}
+
+final class LoginWithGoogleRequested extends LoginEvent {
+  @override
+  List<Object?> get props => [];
 }

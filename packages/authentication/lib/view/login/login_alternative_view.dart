@@ -1,4 +1,6 @@
+import 'package:authentication/bloc/login/login_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uikit/button/uikit_button.dart';
 import 'package:uikit/theme/uikit_theme_extension.dart';
 
@@ -36,7 +38,9 @@ class LoginAlternativeView extends StatelessWidget {
           children: [
             Expanded(
               child: UIKitButton(
-                onPressed: () {},
+                onPressed: () {
+                  context.read<LoginBloc>().add(LoginWithGoogleRequested());
+                },
                 text: "Google",
                 type: UIKitButtonType.outlined,
                 icon: Image.asset(
