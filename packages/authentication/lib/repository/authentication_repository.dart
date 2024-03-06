@@ -13,6 +13,7 @@ abstract class AuthenticationRepository {
   });
 
   Future<User> loginWithGoogle({required String accessToken});
+  Future<User> loginWithFacebook({required String accessToken});
 
   Future<User> register({
     required String name,
@@ -47,6 +48,13 @@ class AuthenticationRepositoryImpl extends AuthenticationRepository {
   Future<User> loginWithGoogle({required String accessToken}) async {
     Map<String, dynamic> body = {"token": accessToken};
     Map<String, dynamic> response = await client.post(const URLResolver(path: "auth/google-signin"), body: body);
+    return _mapJsonToUser(response);
+  }
+
+  @override
+  Future<User> loginWithFacebook({required String accessToken}) async {
+    Map<String, dynamic> body = {"token": accessToken};
+    Map<String, dynamic> response = await client.post(const URLResolver(path: "auth/facebook-signin"), body: body);
     return _mapJsonToUser(response);
   }
 

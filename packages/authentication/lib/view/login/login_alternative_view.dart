@@ -52,7 +52,9 @@ class LoginAlternativeView extends StatelessWidget {
             const SizedBox(width: 16),
             Expanded(
               child: UIKitButton(
-                onPressed: () {},
+                onPressed: () {
+                  context.read<LoginBloc>().add(LoginWithFacebookRequested());
+                },
                 text: "Facebook",
                 type: UIKitButtonType.outlined,
                 icon: Image.asset(

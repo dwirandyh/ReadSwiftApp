@@ -2,6 +2,7 @@ import 'package:authentication/repository/authentication_repository.dart';
 import 'package:authentication_api/authentication_api.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart' as facebook;
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:network/network.dart';
 
@@ -16,6 +17,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }) : super(const LoginState(LoginStatus.initial, "")) {
     on<LoginRequested>(_onLoginRequested);
     on<LoginWithGoogleRequested>(_onLoginWithGoogleRequested);
+    on<LoginWithFacebookRequested>(_onLoginWithFacebookRequested);
   }
 
   Future<void> _onLoginRequested(
@@ -71,16 +73,37 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             message: "Login Success, navigate to home later",
           ));
         }
-      } else {
-        emit(state.copyWith(
-          status: LoginStatus.error,
-          message: "Failed to open google sign in form, try again later",
-        ));
       }
     } catch (error) {
       emit(state.copyWith(
         status: LoginStatus.error,
         message: "Failed to login, please check your account and try again",
+      ));
+    }
+  }
+
+  Future<void> _onLoginWithFacebookRequested(LoginWithFacebookRequested event,
+      Emitter<LoginState> emit) async {
+    try {
+      final facebook.LoginResult result = await facebook.FacebookAuth.instance.login();
+
+      if (facebook.LoginStatus.success == result.status) {
+        facebook.AccessToken? accessToken = result.accessToken;
+        if (accessToken != null) {
+          await facebook.FacebookAuth.instance.logOut();
+
+          User user = await authenticationRepository.loginWithFacebook(accessToken: accessToken.token);
+          await authenticationRepository.saveAuthenticatedUser(user: user);
+          emit(state.copyWith(
+            status: LoginStatus.success,
+            message: "Login success, navigate to home"
+          ));
+        }
+      }
+    } catch (error) {
+      emit(state.copyWith(
+        status: LoginStatus.error,
+        message: "Failed to login, please check your account and try again"
       ));
     }
   }

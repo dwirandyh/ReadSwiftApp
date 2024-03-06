@@ -21,3 +21,8 @@ final class LoginWithGoogleRequested extends LoginEvent {
   @override
   List<Object?> get props => [];
 }
+
+final class LoginWithFacebookRequested extends LoginEvent {
+  @override
+  List<Object?> get props => [];
+}
