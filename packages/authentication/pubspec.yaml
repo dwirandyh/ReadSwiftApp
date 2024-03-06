@@ -22,6 +22,9 @@ dependencies:
     path: ../storage
   uikit:
     path: ../uikit
+  google_sign_in: ^6.2.1
+  firebase_auth: ^4.17.4
+  flutter_facebook_auth: ^6.1.1
 
 dev_dependencies:
   flutter_test:

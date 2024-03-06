@@ -1,4 +1,4 @@
-package com.dwirandyh.readswift_app
+package com.dwirandyh.readswift
 
 import io.flutter.embedding.android.FlutterActivity
 
