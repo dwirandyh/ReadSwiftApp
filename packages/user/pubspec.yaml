@@ -1,5 +1,5 @@
-name: rss
-description: "A new Flutter project."
+name: user
+description: "User package for ReadSwift"
 version: 0.0.1
 homepage:
 
@@ -11,10 +11,6 @@ dependencies:
   flutter:
     sdk: flutter
 
-  foundation:
-    path: ../foundation
-  network:
-    path: ../network
   uikit:
     path: ../uikit
 
@@ -31,9 +27,7 @@ flutter:
 
   # To add assets to your package, add an assets section, like this:
   assets:
-    - assets/ill_rss.png
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+    - assets/ic_user_placeholder.png
   #
   # For details regarding assets in packages, see
   # https://flutter.dev/assets-and-images/#from-packages

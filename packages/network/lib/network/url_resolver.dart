@@ -5,8 +5,8 @@ class URLResolver {
   const URLResolver({required this.path, this.parameters});
 
   // for android simulator only
-  static const String baseURL = "http://10.0.2.2:80";
-  // static const String baseURL = "http://localhost:80";
+  // static const String baseURL = "http://10.0.2.2:80";
+  static const String baseURL = "http://localhost:80";
 
   String fullURI() {
     String url = "${URLResolver.baseURL}/api/$path";

@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foundation/foundation.dart';
 import 'package:network/network.dart';
 import 'package:rss/rss.dart';
+import 'package:user/view/menu/user_menu_page.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage._();
@@ -75,7 +76,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   static final List<Widget> _pages = <Widget>[
     ArticleBookmarkPage.create(),
     RssPage.create(),
-    const SettingPage(),
+    UserMenuPage.create(),
   ];
 
   int _selectedIndex = 0;
@@ -111,24 +112,6 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
         ],
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
-      ),
-    );
-  }
-}
-
-class SettingPage extends StatelessWidget {
-  const SettingPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: IconButton(
-        onPressed: () {
-          context
-              .read<AuthenticationBlocAPI>()
-              .add(AuthenticationLogoutRequested());
-        },
-        icon: const Icon(Icons.logout),
       ),
     );
   }

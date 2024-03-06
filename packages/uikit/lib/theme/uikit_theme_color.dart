@@ -11,19 +11,22 @@ class UIKitThemeColor extends ThemeExtension<UIKitThemeColor> {
   final Color accent;
   final Color softAccent;
   final Color danger;
+  final Color divider;
   final PreTheme preTheme;
 
-  const UIKitThemeColor(
-      {required this.background,
-      required this.title,
-      required this.subtitle,
-      required this.caption,
-      required this.body,
-      required this.border,
-      required this.accent,
-      required this.softAccent,
-      required this.danger,
-      required this.preTheme});
+  const UIKitThemeColor({
+    required this.background,
+    required this.title,
+    required this.subtitle,
+    required this.caption,
+    required this.body,
+    required this.border,
+    required this.accent,
+    required this.softAccent,
+    required this.danger,
+    required this.divider,
+    required this.preTheme,
+  });
 
   @override
   UIKitThemeColor copyWith({
@@ -37,19 +40,22 @@ class UIKitThemeColor extends ThemeExtension<UIKitThemeColor> {
     Color? accent,
     Color? softAccent,
     Color? danger,
+    Color? divider,
     PreTheme? preTheme,
   }) {
     return UIKitThemeColor(
-        background: background ?? this.background,
-        title: title ?? this.title,
-        subtitle: subtitle ?? this.subtitle,
-        caption: caption ?? this.caption,
-        body: body ?? this.body,
-        border: border ?? this.border,
-        accent: accent ?? this.accent,
-        softAccent: softAccent ?? this.softAccent,
-        danger: danger ?? this.danger,
-        preTheme: preTheme ?? this.preTheme);
+      background: background ?? this.background,
+      title: title ?? this.title,
+      subtitle: subtitle ?? this.subtitle,
+      caption: caption ?? this.caption,
+      body: body ?? this.body,
+      border: border ?? this.border,
+      accent: accent ?? this.accent,
+      softAccent: softAccent ?? this.softAccent,
+      danger: danger ?? this.danger,
+      preTheme: preTheme ?? this.preTheme,
+      divider: divider ?? this.divider,
+    );
   }
 
   @override
@@ -59,16 +65,18 @@ class UIKitThemeColor extends ThemeExtension<UIKitThemeColor> {
       return this;
     }
     return UIKitThemeColor(
-        background: background,
-        title: title,
-        subtitle: subtitle,
-        caption: caption,
-        body: body,
-        border: border,
-        accent: accent,
-        softAccent: softAccent,
-        danger: danger,
-        preTheme: preTheme);
+      background: background,
+      title: title,
+      subtitle: subtitle,
+      caption: caption,
+      body: body,
+      border: border,
+      accent: accent,
+      softAccent: softAccent,
+      danger: danger,
+      preTheme: preTheme,
+      divider: divider,
+    );
   }
 
   static const light = UIKitThemeColor(
@@ -81,6 +89,7 @@ class UIKitThemeColor extends ThemeExtension<UIKitThemeColor> {
     accent: Color.fromRGBO(34, 177, 169, 1.0),
     softAccent: Color.fromRGBO(121, 150, 148, 1.0),
     danger: Color.fromRGBO(241, 96, 99, 1.0),
+    divider: Color.fromRGBO(218, 218, 218, 1.0),
     preTheme: PreTheme(
       background: Color.fromRGBO(249, 249, 249, 1),
       borderColor: Color.fromRGBO(229, 229, 229, 1),
@@ -97,6 +106,7 @@ class UIKitThemeColor extends ThemeExtension<UIKitThemeColor> {
     accent: Color.fromRGBO(34, 177, 169, 1.0),
     softAccent: Color.fromRGBO(106, 131, 129, 1.0),
     danger: Color.fromRGBO(241, 96, 99, 1.0),
+    divider: Color.fromRGBO(218, 218, 218, 1.0),
     preTheme: PreTheme(
       background: Color.fromRGBO(249, 249, 249, 1),
       borderColor: Color.fromRGBO(229, 229, 229, 1),
