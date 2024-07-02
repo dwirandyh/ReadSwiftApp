@@ -11,6 +11,12 @@ dependencies:
   flutter:
     sdk: flutter
 
+  authentication_api:
+    path: ../authentication_api
+  foundation:
+    path: ../foundation
+  network:
+    path: ../network
   uikit:
     path: ../uikit
 

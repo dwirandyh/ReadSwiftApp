@@ -9,6 +9,7 @@ import 'package:readswift_app/main_page.dart';
 import 'package:readswift_app/onboarding/onboard_page.dart';
 import 'package:readswift_app/router/auth_state_provider.dart';
 import 'package:rss/rss.dart';
+import 'package:user/external/user_router.dart';
 
 final GoRouter appRouter = GoRouter(
   routes: [
@@ -35,6 +36,7 @@ final GoRouter appRouter = GoRouter(
     ...AuthenticationRouter.routes,
     ...ArticleBookmarkRouter.routes,
     ...RssRouter.routes,
+    ...UserRouter.routes,
   ],
   redirect: (context, state) {
     final authStatus = context.read<AuthenticationBlocAPI>().state.status;

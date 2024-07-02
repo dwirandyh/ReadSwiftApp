@@ -1,32 +1,35 @@
 import 'package:flutter/material.dart';
 
-class UILoading extends StatefulWidget {
-  const UILoading({Key? key, required this.child, required this.isLoading})
-      : super(key: key);
+class UIKitLoading {
+  static final UIKitLoading _instance = UIKitLoading._internal();
+  factory UIKitLoading() => _instance;
 
-  final Widget child;
-  final bool isLoading;
+  OverlayEntry? _overlayEntry;
 
-  @override
-  State<UILoading> createState() => _UILoadingState();
-}
+  UIKitLoading._internal();
 
-class _UILoadingState extends State<UILoading> {
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        widget.child,
-        if (widget.isLoading)
-          const Opacity(
-            opacity: 0.2,
-            child: ModalBarrier(dismissible: true, color: Colors.black),
-          ),
-        if (widget.isLoading)
-          const Center(
-            child: CircularProgressIndicator(),
-          )
-      ],
+  OverlayEntry _createOverlayEntry() {
+    return OverlayEntry(
+      builder: (context) => Container(
+        color: Color.fromRGBO(0, 0, 0, 0.5),
+        child: Center(
+          child: CircularProgressIndicator(),
+        ),
+      ),
     );
+  }
+
+  void show(BuildContext context) {
+    if (_overlayEntry != null) return;
+
+    _overlayEntry = _createOverlayEntry();
+    Overlay.of(context).insert(_overlayEntry!);
+  }
+
+  void hide() {
+    if (_overlayEntry == null) return;
+
+    _overlayEntry!.remove();
+    _overlayEntry = null;
   }
 }

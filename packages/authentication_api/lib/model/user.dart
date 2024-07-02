@@ -7,6 +7,7 @@ class User {
     required this.name,
     required this.email,
     this.emailVerifiedAt,
+    this.avatar,
     required this.accessToken,
     required this.tokenType,
   });
@@ -15,6 +16,7 @@ class User {
   final String name;
   final String email;
   final DateTime? emailVerifiedAt;
+  final String? avatar;
   final String accessToken;
   final String tokenType;
 
@@ -37,6 +39,7 @@ class User {
       emailVerifiedAt: json['emailVerifiedAt'] != null
           ? DateTime.parse(json['emailVerifiedAt'])
           : null,
+      avatar: json["avatar"],
       accessToken: json['accessToken'],
       tokenType: json['tokenType'],
     );

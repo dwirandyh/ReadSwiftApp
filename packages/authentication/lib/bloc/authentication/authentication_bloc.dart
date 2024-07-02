@@ -14,6 +14,10 @@ class AuthenticationBloc extends AuthenticationBlocAPI {
   Future<void> _onAuthenticationStatusRequested(
       AuthenticationStatusRequested event,
       Emitter<AuthenticationState> emit) async {
+    if (isClosed) {
+      return;
+    }
+
     final User? user = await repository.getAuthenticatedUser();
     if (user != null) {
       emit(AuthenticationState.authenticated(user));

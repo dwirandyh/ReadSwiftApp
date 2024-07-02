@@ -6,22 +6,24 @@ enum ValidationRule { required, email, url }
 
 class UIKitTextField extends StatelessWidget {
   final String? title;
-  final String placeholder;
+  final String? placeholder;
   final List<ValidationRule> rules;
   final String? fieldName;
   final TextEditingController? controller;
   final bool obscureText;
   final FormFieldValidator<String>? validator;
+  final AutovalidateMode? autovalidateMode;
 
   const UIKitTextField({
     super.key,
     this.title,
-    required this.placeholder,
+    this.placeholder,
     this.rules = const [],
     this.fieldName,
     this.controller,
     this.obscureText = false,
     this.validator,
+    this.autovalidateMode = AutovalidateMode.onUserInteraction,
   });
 
   String? _validate(String? value) {
@@ -50,6 +52,10 @@ class UIKitTextField extends StatelessWidget {
           break;
       }
     }
+
+    if (validator != null) {
+      return validator!(value);
+    }
     return null;
   }
 
@@ -70,8 +76,8 @@ class UIKitTextField extends StatelessWidget {
           ),
         const SizedBox(height: 8),
         TextFormField(
-          validator: validator ?? _validate,
-          autovalidateMode: AutovalidateMode.onUserInteraction,
+          validator: _validate,
+          autovalidateMode: autovalidateMode,
           obscureText: obscureText,
           controller: controller,
           decoration: InputDecoration(

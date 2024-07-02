@@ -1,4 +1,8 @@
-# melos_managed_dependency_overrides: uikit
+# melos_managed_dependency_overrides: uikit,authentication_api,foundation
 dependency_overrides:
+  authentication_api:
+    path: ../authentication_api
+  foundation:
+    path: ../foundation
   uikit:
     path: ../uikit
