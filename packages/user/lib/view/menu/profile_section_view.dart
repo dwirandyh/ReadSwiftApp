@@ -1,13 +1,11 @@
 import 'package:authentication_api/authentication_api.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uikit/uikit.dart';
 import 'package:user/external/user_router.dart';
 import 'package:user/view/menu/widget/menu_divider.dart';
 import 'package:user/view/menu/widget/menu_item.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:authentication_api/authentication_api.dart';
 
 class ProfileSectionView extends StatelessWidget {
   const ProfileSectionView({super.key});
@@ -75,11 +73,17 @@ class ProfileSectionView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             MenuItem(
-                menu: "Change Password",
-                onTap: () {
-                  UserRouter.goToChangePassword(context);
-                }),
-            MenuItem(menu: "Delete Account", onTap: () {}),
+              menu: "Change Password",
+              onTap: () {
+                UserRouter.goToChangePassword(context);
+              },
+            ),
+            MenuItem(
+              menu: "Delete Account",
+              onTap: () {
+                UserRouter.goToDeleteAccount(context);
+              },
+            ),
           ],
         ),
         MenuDivider(context: context),

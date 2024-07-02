@@ -7,9 +7,10 @@ import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:readswift_app/main_page.dart';
 import 'package:readswift_app/onboarding/onboard_page.dart';
-import 'package:readswift_app/router/auth_state_provider.dart';
 import 'package:rss/rss.dart';
 import 'package:user/external/user_router.dart';
+
+import 'auth_state_provider.dart';
 
 final GoRouter appRouter = GoRouter(
   routes: [

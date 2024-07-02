@@ -80,7 +80,7 @@ class UIKitThemeColor extends ThemeExtension<UIKitThemeColor> {
   }
 
   static const light = UIKitThemeColor(
-    background: Color.fromRGBO(255, 255, 255, 255),
+    background: Color(0xFFFEFEFE),
     title: Color.fromRGBO(36, 36, 36, 1),
     subtitle: Color.fromRGBO(77, 77, 77, 1),
     caption: Color.fromRGBO(153, 153, 153, 1),

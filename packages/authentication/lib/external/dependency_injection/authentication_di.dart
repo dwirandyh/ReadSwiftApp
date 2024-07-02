@@ -7,8 +7,8 @@ import 'package:storage/secure_storage.dart';
 
 class AuthenticationDI {
   static void setup() {
-    GetIt.I.registerLazySingleton<AuthenticationBlocAPI>(
-      () => AuthenticationBloc(
+    GetIt.I.registerSingleton<AuthenticationBlocAPI>(
+      AuthenticationBloc(
         repository: AuthenticationRepositoryImpl(
           client: HttpNetwork.client,
           secureStorageService: SecureStorageService.instance(),

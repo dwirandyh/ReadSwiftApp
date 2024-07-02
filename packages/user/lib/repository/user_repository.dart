@@ -6,6 +6,8 @@ abstract class UserRepository {
     required String newPassword,
     required String confirmPassword,
   });
+
+  Future<void> deleteAccount();
 }
 
 class UserRepositoryImpl extends UserRepository {
@@ -26,5 +28,10 @@ class UserRepositoryImpl extends UserRepository {
     };
     await client.post(const URLResolver(path: "user/change-password"),
         body: body);
+  }
+
+  @override
+  Future<void> deleteAccount() async {
+    await client.delete(const URLResolver(path: "user"));
   }
 }

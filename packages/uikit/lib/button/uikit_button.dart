@@ -3,10 +3,13 @@ import 'package:uikit/uikit.dart';
 
 enum UIKitButtonType { elevated, outlined, text }
 
+enum UIKitButtonStyle { primary, secondary, danger }
+
 class UIKitButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
   final UIKitButtonType type;
+  final UIKitButtonStyle style;
   final Image? icon;
   final bool isEnabled;
   final bool isLoading;
@@ -15,10 +18,34 @@ class UIKitButton extends StatelessWidget {
     required this.onPressed,
     required this.text,
     this.type = UIKitButtonType.elevated,
+    this.style = UIKitButtonStyle.primary,
     this.icon,
     this.isEnabled = true,
     this.isLoading = false,
   });
+
+  Color textColor(BuildContext context) {
+    switch (style) {
+      case UIKitButtonStyle.primary:
+        return const Color(0xFFFFFFFF);
+      case UIKitButtonStyle.secondary:
+        return const Color(0xFF656A6F);
+      case UIKitButtonStyle.danger:
+        return const Color(0xFFFFFFFF);
+    }
+  }
+
+  Color backgroundColor(BuildContext context) {
+    final color = context.theme.uikit;
+    switch (style) {
+      case UIKitButtonStyle.primary:
+        return color.accent;
+      case UIKitButtonStyle.secondary:
+        return Color(0xFFE0E0E1);
+      case UIKitButtonStyle.danger:
+        return color.danger;
+    }
+  }
 
   Widget _elevatedButton(BuildContext context) {
     return SizedBox(
@@ -29,14 +56,14 @@ class UIKitButton extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(4),
           ),
+          backgroundColor: backgroundColor(context),
         ),
         child: Row(
           children: [
             if (icon != null) icon!,
             Expanded(
-              child: Center(
-                child: Text(text),
-              ),
+              child: _buttonText(context,
+                  textStyle: TextStyle(color: textColor(context))),
             ),
           ],
         ),
@@ -69,12 +96,22 @@ class UIKitButton extends StatelessWidget {
           children: [
             if (icon != null) icon!,
             Expanded(
-              child: Center(
-                child: Text(text),
-              ),
+              child: _buttonText(context),
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buttonText(BuildContext context, {TextStyle? textStyle = null}) {
+    return Center(
+      child: Text(
+        text,
+        style: TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.w600,
+        ).merge(textStyle),
       ),
     );
   }

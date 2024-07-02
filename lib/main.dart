@@ -38,8 +38,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => GetIt.I.get<AuthenticationBlocAPI>()
+    return BlocProvider.value(
+      value: GetIt.I.get<AuthenticationBlocAPI>()
         ..add(AuthenticationStatusRequested()),
       child: MaterialApp.router(
         title: 'ReadSwift',

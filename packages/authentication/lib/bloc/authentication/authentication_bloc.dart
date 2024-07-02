@@ -1,6 +1,6 @@
 import 'package:authentication/repository/authentication_repository.dart';
 import 'package:authentication_api/authentication_api.dart';
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AuthenticationBloc extends AuthenticationBlocAPI {
   final AuthenticationRepository repository;
@@ -31,5 +31,10 @@ class AuthenticationBloc extends AuthenticationBlocAPI {
       Emitter<AuthenticationState> emit) async {
     await repository.logout();
     emit(AuthenticationState.unauthenticated());
+  }
+
+  @override
+  Future<void> close() {
+    return super.close();
   }
 }
