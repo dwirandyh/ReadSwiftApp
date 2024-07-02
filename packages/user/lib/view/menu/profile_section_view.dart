@@ -22,27 +22,8 @@ class ProfileSectionView extends StatelessWidget {
             builder: (context, state) {
               return Row(
                 children: [
-                  if (state.user?.avatar != null)
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 16),
-                      child: CachedNetworkImage(
-                        imageUrl: state.user!.avatar!,
-                        imageBuilder: (context, imageProvider) => Container(
-                          width: 60,
-                          height: 60,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                              image: imageProvider,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                        placeholder: (context, url) => Container(),
-                        errorWidget: (context, url, error) =>
-                            _userPlaceholder(),
-                      ),
-                    ),
+                  _userProfileImage(state.user),
+                  const SizedBox(width: 16),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -107,6 +88,29 @@ class ProfileSectionView extends StatelessWidget {
         MenuDivider(context: context),
       ],
     );
+  }
+
+  Widget _userProfileImage(User? user) {
+    if (user?.avatar != null) {
+      return CachedNetworkImage(
+        imageUrl: user!.avatar!,
+        imageBuilder: (context, imageProvider) => Container(
+          width: 60,
+          height: 60,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            image: DecorationImage(
+              image: imageProvider,
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+        placeholder: (context, url) => _userPlaceholder(),
+        errorWidget: (context, url, error) => _userPlaceholder(),
+      );
+    } else {
+      return _userPlaceholder();
+    }
   }
 
   Widget _userPlaceholder() {
