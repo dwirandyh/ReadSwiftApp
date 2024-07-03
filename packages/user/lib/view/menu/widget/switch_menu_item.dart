@@ -20,14 +20,29 @@ class SwitchMenuItem extends StatefulWidget {
 }
 
 class _SwitchMenuItemState extends State<SwitchMenuItem> {
+  void _toggle() {
+    setState(() {
+      widget.isSelected = !widget.isSelected;
+      if (widget.onChanged != null) {
+        widget.onChanged!(widget.isSelected);
+      }
+    });
+  }
+
+  @override
+  void didUpdateWidget(covariant SwitchMenuItem oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.isSelected != widget.isSelected) {
+      _toggle();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final color = context.theme.uikit;
     return InkWell(
       onTap: () {
-        setState(() {
-          widget.isSelected = !widget.isSelected;
-        });
+        _toggle();
       },
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
@@ -52,10 +67,12 @@ class _SwitchMenuItemState extends State<SwitchMenuItem> {
               height: 30,
               child: FittedBox(
                 fit: BoxFit.fill,
-                child: Switch(
-                  value: widget.isSelected,
-                  activeColor: color.accent,
-                  onChanged: (value) {},
+                child: IgnorePointer(
+                  child: Switch(
+                    value: widget.isSelected,
+                    activeColor: color.accent,
+                    onChanged: (value) {},
+                  ),
                 ),
               ),
             )

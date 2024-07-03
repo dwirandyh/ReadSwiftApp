@@ -17,6 +17,8 @@ dependencies:
     path: ../foundation
   network:
     path: ../network
+  storage:
+    path: ../storage
   uikit:
     path: ../uikit
 

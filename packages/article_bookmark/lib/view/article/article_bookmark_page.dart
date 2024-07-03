@@ -77,7 +77,7 @@ class _ArticleBookmarkPageState extends State<ArticleBookmarkPage>
   Widget build(BuildContext context) {
     super.build(context);
 
-    final colors = Theme.of(context).extension<UIKitThemeColor>()!;
+    final colors = context.theme.uikit;
     return Scaffold(
       backgroundColor: colors.background,
       body: SafeArea(
