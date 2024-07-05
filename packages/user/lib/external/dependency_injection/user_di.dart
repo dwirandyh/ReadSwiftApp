@@ -2,6 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:network/network.dart';
 import 'package:storage/storage.dart';
 import 'package:user/bloc/change_password/change_password_bloc.dart';
+import 'package:user/bloc/menu/theme/theme_bloc.dart';
 import 'package:user/repository/user_setting_repository.dart';
 
 import '../../bloc/delete_account/delete_account_bloc.dart';
@@ -31,6 +32,10 @@ class UserDI {
       () async => UserSettingRepositoryImpl(
         preferenceService: await SharedPreferenceService.instance(),
       ),
+    );
+
+    GetIt.I.registerFactory<ThemeBloc>(
+      () => ThemeBloc(userSettingRepository: GetIt.I.get()),
     );
   }
 }

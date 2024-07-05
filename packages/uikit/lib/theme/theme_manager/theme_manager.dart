@@ -18,28 +18,37 @@ class _ThemeManagerState extends State<ThemeManager> {
   @override
   void initState() {
     super.initState();
-
-    _updateTheme(widget.themeModePreference);
   }
 
   void _updateTheme(ThemeModePreference preference) {
     switch (preference) {
       case ThemeModePreference.light:
         setState(() {
-          _themeData = UIKitTheme.light;
+          _themeData = _getThemeData(preference);
         });
       case ThemeModePreference.dark:
         setState(() {
-          _themeData = UIKitTheme.dark;
+          _themeData = _getThemeData(preference);
         });
       case ThemeModePreference.system:
         setState(() {
-          Brightness platformBrightness =
-              MediaQuery.platformBrightnessOf(context);
-          _themeData = platformBrightness == Brightness.dark
-              ? UIKitTheme.dark
-              : UIKitTheme.light;
+          _themeData = _getThemeData(preference);
         });
+    }
+  }
+
+  ThemeData _getThemeData(ThemeModePreference preference) {
+    switch (preference) {
+      case ThemeModePreference.light:
+        return UIKitTheme.light;
+      case ThemeModePreference.dark:
+        return UIKitTheme.dark;
+      case ThemeModePreference.system:
+        Brightness platformBrightness =
+            MediaQuery.platformBrightnessOf(context);
+        return platformBrightness == Brightness.dark
+            ? UIKitTheme.dark
+            : UIKitTheme.light;
     }
   }
 
@@ -53,6 +62,7 @@ class _ThemeManagerState extends State<ThemeManager> {
 
   @override
   Widget build(BuildContext context) {
+    _themeData ??= _getThemeData(widget.themeModePreference);
     return ThemeProvider(
       themeData: _themeData ?? UIKitTheme.light,
       updateTheme: _updateTheme,

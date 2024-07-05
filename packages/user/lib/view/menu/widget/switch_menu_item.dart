@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:uikit/uikit.dart';
 
-class SwitchMenuItem extends StatefulWidget {
-  SwitchMenuItem({
+class SwitchMenuItem extends StatelessWidget {
+  const SwitchMenuItem({
     super.key,
     required this.menu,
     this.description,
@@ -13,27 +13,11 @@ class SwitchMenuItem extends StatefulWidget {
   final String menu;
   final String? description;
   final ValueChanged<bool>? onChanged;
-  bool isSelected;
+  final bool isSelected;
 
-  @override
-  State<SwitchMenuItem> createState() => _SwitchMenuItemState();
-}
-
-class _SwitchMenuItemState extends State<SwitchMenuItem> {
   void _toggle() {
-    setState(() {
-      widget.isSelected = !widget.isSelected;
-      if (widget.onChanged != null) {
-        widget.onChanged!(widget.isSelected);
-      }
-    });
-  }
-
-  @override
-  void didUpdateWidget(covariant SwitchMenuItem oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.isSelected != widget.isSelected) {
-      _toggle();
+    if (onChanged != null) {
+      onChanged!(!isSelected);
     }
   }
 
@@ -41,9 +25,7 @@ class _SwitchMenuItemState extends State<SwitchMenuItem> {
   Widget build(BuildContext context) {
     final color = context.theme.uikit;
     return InkWell(
-      onTap: () {
-        _toggle();
-      },
+      onTap: _toggle,
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
         width: double.infinity,
@@ -54,10 +36,10 @@ class _SwitchMenuItemState extends State<SwitchMenuItem> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    widget.menu,
+                    menu,
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  if (widget.description != null) Text(widget.description ?? "")
+                  if (description != null) Text(description ?? "")
                 ],
               ),
             ),
@@ -69,7 +51,7 @@ class _SwitchMenuItemState extends State<SwitchMenuItem> {
                 fit: BoxFit.fill,
                 child: IgnorePointer(
                   child: Switch(
-                    value: widget.isSelected,
+                    value: isSelected,
                     activeColor: color.accent,
                     onChanged: (value) {},
                   ),

@@ -8,6 +8,7 @@ export 'text/font_weight_extension.dart';
 export 'text/text_style.dart';
 export 'textfield/uikit_textfield.dart';
 export 'theme/component/pre_theme.dart';
+export 'theme/extension/brightness_extension.dart';
 export 'theme/theme_manager/theme_manager.dart';
 export 'theme/theme_manager/theme_provider.dart';
 export 'theme/uikit_theme.dart';

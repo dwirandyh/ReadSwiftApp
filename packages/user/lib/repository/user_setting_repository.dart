@@ -4,6 +4,7 @@ import 'package:user/external/preferences/user_preference_key.dart';
 
 abstract class UserSettingRepository {
   ThemeModePreference getCurrentThemeMode();
+  Future<void> setThemeMode(ThemeModePreference themeModePreference);
 }
 
 class UserSettingRepositoryImpl implements UserSettingRepository {
@@ -22,7 +23,13 @@ class UserSettingRepositoryImpl implements UserSettingRepository {
     } else if (mode == ThemeModePreference.light.key) {
       return ThemeModePreference.dark;
     } else {
-      return ThemeModePreference.dark;
+      return ThemeModePreference.system;
     }
+  }
+
+  @override
+  Future<void> setThemeMode(ThemeModePreference themeModePreference) async {
+    await preferenceService.setValue(
+        UserPreferenceKeys.themeMode, themeModePreference.key);
   }
 }

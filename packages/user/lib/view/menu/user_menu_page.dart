@@ -38,7 +38,7 @@ class UserMenuPage extends StatelessWidget {
                 child: Column(
                   children: [
                     const ProfileSectionView(),
-                    const ThemeSectionView(),
+                    ThemeSectionView.create(),
                     MenuDivider(context: context),
                     const ReadingSectionView(),
                     MenuDivider(context: context),
