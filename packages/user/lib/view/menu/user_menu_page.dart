@@ -6,7 +6,7 @@ import 'package:user/view/menu/reading_section_view.dart';
 import 'package:user/view/menu/theme_section_view.dart';
 import 'package:user/view/menu/widget/menu_divider.dart';
 
-class UserMenuPage extends StatelessWidget {
+class UserMenuPage extends StatefulWidget {
   const UserMenuPage._({super.key});
 
   static Widget create() {
@@ -14,10 +14,19 @@ class UserMenuPage extends StatelessWidget {
   }
 
   @override
+  State<UserMenuPage> createState() => _UserMenuPageState();
+}
+
+class _UserMenuPageState extends State<UserMenuPage>
+    with AutomaticKeepAliveClientMixin<UserMenuPage> {
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     final colors = Theme.of(context).extension<UIKitThemeColor>()!;
     return Scaffold(
-      backgroundColor: colors.background,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

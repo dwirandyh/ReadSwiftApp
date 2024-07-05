@@ -6,6 +6,15 @@ class UIKitTheme {
     colorScheme: ThemeData.light().colorScheme.copyWith(
           primary: const Color.fromRGBO(34, 177, 169, 1.0),
         ),
+    bottomSheetTheme: BottomSheetThemeData(
+      backgroundColor: UIKitThemeColor.light.background,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(16),
+        ),
+      ),
+    ),
+    scaffoldBackgroundColor: UIKitThemeColor.light.background,
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         foregroundColor: Colors.white,
@@ -33,6 +42,18 @@ class UIKitTheme {
   );
 
   static final dark = ThemeData.dark().copyWith(
+    scaffoldBackgroundColor: UIKitThemeColor.dark.background,
+    bottomSheetTheme: BottomSheetThemeData(
+      backgroundColor: UIKitThemeColor.dark.background,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(16),
+        ),
+      ),
+    ),
+    colorScheme: ThemeData.light().colorScheme.copyWith(
+          primary: const Color.fromRGBO(34, 177, 169, 1.0),
+        ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         foregroundColor: Colors.white,

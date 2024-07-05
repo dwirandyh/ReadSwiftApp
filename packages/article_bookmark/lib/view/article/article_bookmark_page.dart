@@ -28,12 +28,13 @@ class ArticleBookmarkPage extends StatefulWidget {
 }
 
 class _ArticleBookmarkPageState extends State<ArticleBookmarkPage>
-    with AutomaticKeepAliveClientMixin {
-  @override
-  bool get wantKeepAlive => true;
+    with AutomaticKeepAliveClientMixin<ArticleBookmarkPage> {
   Tag? selectedTag;
   Timer? _timer;
   final PageController _pageController = PageController();
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void dispose() {

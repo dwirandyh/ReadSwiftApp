@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uikit/uikit.dart';
 
 class ThemeSelectionView extends StatefulWidget {
   final String selectedTheme;
@@ -26,25 +27,30 @@ class _ThemeSelectionViewState extends State<ThemeSelectionView> {
 
   @override
   Widget build(BuildContext context) {
+    final color = context.theme.uikit;
     return SafeArea(
       child: Wrap(
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Padding(
-                padding: EdgeInsets.all(16.0),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
                 child: Text(
                   "Select Theme",
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
+                    color: color.title,
                   ),
                 ),
               ),
               RadioListTile(
                 contentPadding: const EdgeInsets.symmetric(horizontal: 8),
-                title: const Text("Light"),
+                title: Text(
+                  "Light",
+                  style: TextStyle(color: color.title),
+                ),
                 value: "Light",
                 groupValue: _selectedTheme,
                 onChanged: (value) {
@@ -58,7 +64,10 @@ class _ThemeSelectionViewState extends State<ThemeSelectionView> {
               ),
               RadioListTile(
                 contentPadding: const EdgeInsets.symmetric(horizontal: 8),
-                title: const Text("Dark"),
+                title: Text(
+                  "Dark",
+                  style: TextStyle(color: color.title),
+                ),
                 value: "Dark",
                 groupValue: _selectedTheme,
                 onChanged: (value) {

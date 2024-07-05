@@ -17,6 +17,8 @@ void main() async {
 
   DependencyComposition.setup();
 
+  initializeAuthenticatedStatus();
+
   runApp(
     FutureBuilder(
       future: getThemeData(),
@@ -45,6 +47,11 @@ Future<void> initializeFirebase() async {
     FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
     return true;
   };
+}
+
+void initializeAuthenticatedStatus() {
+  final authenticationBloc = GetIt.I.get<AuthenticationBlocAPI>();
+  authenticationBloc.add(AuthenticationStatusRequested());
 }
 
 Future<ThemeModePreference> getThemeData() async {

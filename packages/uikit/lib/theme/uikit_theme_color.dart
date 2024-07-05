@@ -97,7 +97,7 @@ class UIKitThemeColor extends ThemeExtension<UIKitThemeColor> {
   );
 
   static const dark = UIKitThemeColor(
-    background: Color.fromRGBO(0, 0, 0, 1),
+    background: Color.fromRGBO(33, 33, 33, 1),
     title: Color.fromRGBO(255, 255, 255, 1),
     subtitle: Color.fromRGBO(204, 204, 204, 1),
     caption: Color.fromRGBO(153, 153, 153, 1),

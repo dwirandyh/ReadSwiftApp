@@ -15,12 +15,11 @@ class UserSettingRepositoryImpl implements UserSettingRepository {
   @override
   ThemeModePreference getCurrentThemeMode() {
     final String mode =
-        preferenceService.getValue(UserPreferenceKeys.themeMode) ??
-            ThemeModePreference.system.key;
+        preferenceService.getValue(UserPreferenceKeys.themeMode);
 
     if (mode == ThemeModePreference.light.key) {
       return ThemeModePreference.light;
-    } else if (mode == ThemeModePreference.light.key) {
+    } else if (mode == ThemeModePreference.dark.key) {
       return ThemeModePreference.dark;
     } else {
       return ThemeModePreference.system;
