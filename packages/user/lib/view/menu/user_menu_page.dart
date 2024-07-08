@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:uikit/uikit.dart';
 import 'package:user/view/menu/about_section_view.dart';
 import 'package:user/view/menu/profile_section_view.dart';
@@ -19,6 +20,10 @@ class UserMenuPage extends StatefulWidget {
 
 class _UserMenuPageState extends State<UserMenuPage>
     with AutomaticKeepAliveClientMixin<UserMenuPage> {
+  Future<PackageInfo> _loadPackageInfo() async {
+    return await PackageInfo.fromPlatform();
+  }
+
   @override
   bool get wantKeepAlive => true;
 
@@ -45,13 +50,15 @@ class _UserMenuPageState extends State<UserMenuPage>
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const ProfileSectionView(),
                     ThemeSectionView.create(),
                     MenuDivider(context: context),
-                    const ReadingSectionView(),
+                    ReadingSectionView.create(),
                     MenuDivider(context: context),
-                    const AboutSectionView()
+                    const AboutSectionView(),
+                    _appVersion(context),
                   ],
                 ),
               ),
@@ -59,6 +66,29 @@ class _UserMenuPageState extends State<UserMenuPage>
           ],
         ),
       ),
+    );
+  }
+
+  Widget _appVersion(BuildContext context) {
+    final color = context.theme.uikit;
+    return FutureBuilder(
+      future: _loadPackageInfo(),
+      builder: (context, snapshot) {
+        final packageInfo = snapshot.data as PackageInfo?;
+        final version = packageInfo?.version ?? "";
+        final buildNumber = packageInfo?.buildNumber ?? "";
+        return Padding(
+          padding: const EdgeInsets.all(16),
+          child: Text(
+            "Version $version ($buildNumber)",
+            style: TextStyle(
+              color: color.subtitle,
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        );
+      },
     );
   }
 }

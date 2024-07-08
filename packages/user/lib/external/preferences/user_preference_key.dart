@@ -5,4 +5,14 @@ extension UserPreferenceKeys on PreferenceKey {
     'theme_mode',
     defaultValue: 'system',
   );
+
+  static const PreferenceKey<bool> displayImage = PreferenceKey<bool>(
+    'display_image',
+    defaultValue: true,
+  );
+
+  static const PreferenceKey<bool> continueReading = PreferenceKey<bool>(
+    'continue_reading',
+    defaultValue: true,
+  );
 }
