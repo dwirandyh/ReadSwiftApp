@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:network/network.dart';
-import 'package:storage/secure_storage.dart';
+import 'package:storage/secure_storage_service.dart';
 import 'package:uikit/uikit.dart';
 
 import 'login_form.dart';

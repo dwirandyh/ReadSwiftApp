@@ -1,12 +1,12 @@
 import 'package:article_bookmark/article_bookmark.dart';
 import 'package:article_bookmark/repository/article_repository.dart';
-import 'package:authentication_api/authentication_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foundation/foundation.dart';
 import 'package:network/network.dart';
 import 'package:rss/rss.dart';
+import 'package:user/view/menu/user_menu_page.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage._();
@@ -29,6 +29,15 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
+  final List<Widget> _pages = <Widget>[
+    ArticleBookmarkPage.create(),
+    RssPage.create(),
+    UserMenuPage.create(),
+  ];
+
+  int _selectedIndex = 0;
+  final PageController _pageController = PageController();
+
   @override
   void initState() {
     super.initState();
@@ -49,6 +58,8 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    _pageController.dispose();
+
     super.dispose();
   }
 
@@ -72,25 +83,20 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
     }
   }
 
-  static final List<Widget> _pages = <Widget>[
-    ArticleBookmarkPage.create(),
-    RssPage.create(),
-    const SettingPage(),
-  ];
-
-  int _selectedIndex = 0;
-
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+      _pageController.jumpToPage(_selectedIndex);
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: _pages[_selectedIndex],
+      body: PageView(
+        controller: _pageController,
+        physics: const NeverScrollableScrollPhysics(),
+        children: _pages,
       ),
       bottomNavigationBar: BottomNavigationBar(
         showSelectedLabels: false,
@@ -111,24 +117,6 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
         ],
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
-      ),
-    );
-  }
-}
-
-class SettingPage extends StatelessWidget {
-  const SettingPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: IconButton(
-        onPressed: () {
-          context
-              .read<AuthenticationBlocAPI>()
-              .add(AuthenticationLogoutRequested());
-        },
-        icon: const Icon(Icons.logout),
       ),
     );
   }

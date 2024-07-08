@@ -7,7 +7,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:readswift_app/di/dependency_composition.dart';
 import 'package:readswift_app/router/router.dart';
-import 'package:uikit/theme/uikit_theme.dart';
+import 'package:uikit/uikit.dart';
+import 'package:user/repository/user_setting_repository.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,7 +16,23 @@ void main() async {
   await initializeFirebase();
 
   DependencyComposition.setup();
-  runApp(const MyApp());
+
+  initializeAuthenticatedStatus();
+
+  runApp(
+    FutureBuilder(
+      future: getThemeData(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return ThemeManager(
+            themeModePreference: snapshot.requireData,
+            child: const MyApp(),
+          );
+        }
+        return const CircularProgressIndicator();
+      },
+    ),
+  );
 }
 
 Future<void> initializeFirebase() async {
@@ -32,20 +49,29 @@ Future<void> initializeFirebase() async {
   };
 }
 
+void initializeAuthenticatedStatus() {
+  final authenticationBloc = GetIt.I.get<AuthenticationBlocAPI>();
+  authenticationBloc.add(AuthenticationStatusRequested());
+}
+
+Future<ThemeModePreference> getThemeData() async {
+  await GetIt.I.isReady<UserSettingRepository>();
+  final userSettings = GetIt.I.get<UserSettingRepository>();
+  final themeMode = userSettings.getCurrentThemeMode();
+  return themeMode;
+}
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => GetIt.I.get<AuthenticationBlocAPI>()
+    return BlocProvider.value(
+      value: GetIt.I.get<AuthenticationBlocAPI>()
         ..add(AuthenticationStatusRequested()),
       child: MaterialApp.router(
         title: 'ReadSwift',
-        theme: UIKitTheme.light,
-        darkTheme: UIKitTheme.dark,
-        themeMode: ThemeMode.system,
+        theme: ThemeProvider.of(context).themeData,
         routerConfig: appRouter,
       ),
     );

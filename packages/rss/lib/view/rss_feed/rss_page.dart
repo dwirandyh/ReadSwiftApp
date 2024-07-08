@@ -23,9 +23,13 @@ class RssPage extends StatefulWidget {
   State<RssPage> createState() => _RssPageState();
 }
 
-class _RssPageState extends State<RssPage> {
+class _RssPageState extends State<RssPage>
+    with AutomaticKeepAliveClientMixin<RssPage> {
   Timer? _timer;
   final PageController _pageController = PageController();
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void dispose() {
@@ -66,6 +70,7 @@ class _RssPageState extends State<RssPage> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       body: SafeArea(
         child: BlocConsumer<RssFeedBloc, RssFeedState>(

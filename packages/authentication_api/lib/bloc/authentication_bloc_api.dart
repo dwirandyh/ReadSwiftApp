@@ -6,7 +6,7 @@ import '../model/user.dart';
 part 'authentication_event.dart';
 part 'authentication_state.dart';
 
-class AuthenticationBlocAPI
+abstract class AuthenticationBlocAPI
     extends Bloc<AuthenticationEvent, AuthenticationState> {
   AuthenticationBlocAPI(super.initialState);
 }

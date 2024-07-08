@@ -4,7 +4,7 @@ import 'package:authentication/external/interceptor/authentication_interceptor.d
 import 'package:authentication/utils/storage_key.dart';
 import 'package:authentication_api/authentication_api.dart';
 import 'package:network/network.dart';
-import 'package:storage/secure_storage.dart';
+import 'package:storage/secure_storage_service.dart';
 
 abstract class AuthenticationRepository {
   Future<User> login({
@@ -47,14 +47,16 @@ class AuthenticationRepositoryImpl extends AuthenticationRepository {
   @override
   Future<User> loginWithGoogle({required String accessToken}) async {
     Map<String, dynamic> body = {"token": accessToken};
-    Map<String, dynamic> response = await client.post(const URLResolver(path: "auth/google-signin"), body: body);
+    Map<String, dynamic> response = await client
+        .post(const URLResolver(path: "auth/google-signin"), body: body);
     return _mapJsonToUser(response);
   }
 
   @override
   Future<User> loginWithFacebook({required String accessToken}) async {
     Map<String, dynamic> body = {"token": accessToken};
-    Map<String, dynamic> response = await client.post(const URLResolver(path: "auth/facebook-signin"), body: body);
+    Map<String, dynamic> response = await client
+        .post(const URLResolver(path: "auth/facebook-signin"), body: body);
     return _mapJsonToUser(response);
   }
 
@@ -82,8 +84,7 @@ class AuthenticationRepositoryImpl extends AuthenticationRepository {
         email: userData["email"],
         emailVerifiedAt: DateTime.tryParse(userData["email_verified_at"] ?? ""),
         accessToken: jsonResponse["access_token"],
-        tokenType: jsonResponse["token_type"]
-    );
+        tokenType: jsonResponse["token_type"]);
   }
 
   @override
