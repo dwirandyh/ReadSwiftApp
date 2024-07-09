@@ -37,6 +37,8 @@ dependencies:
   # Local packages
   article_bookmark:
     path: packages/article_bookmark
+  article_bookmark_api:
+    path: packages/article_bookmark_api
   authentication:
     path: packages/authentication
   foundation:
