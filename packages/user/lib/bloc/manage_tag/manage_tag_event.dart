@@ -5,8 +5,15 @@ sealed class ManageTagEvent {}
 
 final class ManageTagLoadTags extends ManageTagEvent {}
 
-final class ManageTagDeleted extends ManageTagEvent {
+final class ManageTagDelete extends ManageTagEvent {
   final int id;
 
-  ManageTagDeleted({required this.id});
+  ManageTagDelete({required this.id});
+}
+
+final class ManageTagRename extends ManageTagEvent {
+  final int id;
+  final String newName;
+
+  ManageTagRename({required this.id, required this.newName});
 }

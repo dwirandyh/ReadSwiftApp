@@ -39,6 +39,17 @@ class TagRepositoryImpl extends TagRepository {
   }
 
   @override
+  Future<Tag> renameTag({required int id, required String name}) async {
+    Map<String, dynamic> body = {"name": name};
+    Map<String, dynamic> response =
+        await client.put(URLResolver(path: "tag/$id"), body: body);
+    return Tag(
+      id: response["data"]["id"],
+      name: response["data"]["name"],
+    );
+  }
+
+  @override
   Future<void> deleteTag({required int id}) async {
     await client.delete(URLResolver(path: "tag/$id"));
   }

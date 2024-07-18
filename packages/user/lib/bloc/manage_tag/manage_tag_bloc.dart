@@ -10,7 +10,8 @@ class ManageTagBloc extends Bloc<ManageTagEvent, ManageTagState> {
   ManageTagBloc({required this.tagRepository})
       : super(ManageTagState.initial()) {
     on<ManageTagLoadTags>(_onManageTagLoadTags);
-    on<ManageTagDeleted>(_onManageTagDeleted);
+    on<ManageTagDelete>(_onManageTagDeleted);
+    on<ManageTagRename>(_onManageTagRename);
   }
 
   void _onManageTagLoadTags(
@@ -25,11 +26,28 @@ class ManageTagBloc extends Bloc<ManageTagEvent, ManageTagState> {
   }
 
   void _onManageTagDeleted(
-      ManageTagDeleted event, Emitter<ManageTagState> emit) async {
+      ManageTagDelete event, Emitter<ManageTagState> emit) async {
     try {
       await tagRepository.deleteTag(id: event.id);
       final List<Tag> updatedTags = state.tags;
       updatedTags.removeWhere((tag) => tag.id == event.id);
+      emit(state.copyWith(tags: List.of(updatedTags)));
+    } catch (e) {
+      emit(state.copyWith(status: ManageTagStatus.error));
+    }
+  }
+
+  void _onManageTagRename(
+      ManageTagRename event, Emitter<ManageTagState> emit) async {
+    try {
+      final tag =
+          await tagRepository.renameTag(id: event.id, name: event.newName);
+      final updatedIndex = state.tags.indexWhere((tag) {
+        return tag.id == event.id;
+      });
+
+      final List<Tag> updatedTags = state.tags;
+      updatedTags[updatedIndex] = tag;
       emit(state.copyWith(tags: List.of(updatedTags)));
     } catch (e) {
       emit(state.copyWith(status: ManageTagStatus.error));
