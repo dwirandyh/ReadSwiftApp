@@ -12,6 +12,7 @@ class ManageTagBloc extends Bloc<ManageTagEvent, ManageTagState> {
     on<ManageTagLoadTags>(_onManageTagLoadTags);
     on<ManageTagDelete>(_onManageTagDeleted);
     on<ManageTagRename>(_onManageTagRename);
+    on<ManageTagUpdateOrder>(_onManageTagUpdateOrder);
   }
 
   void _onManageTagLoadTags(
@@ -49,6 +50,22 @@ class ManageTagBloc extends Bloc<ManageTagEvent, ManageTagState> {
       final List<Tag> updatedTags = state.tags;
       updatedTags[updatedIndex] = tag;
       emit(state.copyWith(tags: List.of(updatedTags)));
+    } catch (e) {
+      emit(state.copyWith(status: ManageTagStatus.error));
+    }
+  }
+
+  void _onManageTagUpdateOrder(
+      ManageTagUpdateOrder event, Emitter<ManageTagState> emit) async {
+    try {
+      final updatedTags = state.tags;
+      final Tag reorderedTag = updatedTags.removeAt(event.oldIndex);
+      updatedTags.insert(event.newIndex, reorderedTag);
+      emit(state.copyWith(tags: List.of(updatedTags)));
+
+      final orderedTagIds = updatedTags.map((item) => item.id).toList();
+      final tags = await tagRepository.orderTag(orderedId: orderedTagIds);
+      emit(state.copyWith(tags: List.of(tags)));
     } catch (e) {
       emit(state.copyWith(status: ManageTagStatus.error));
     }

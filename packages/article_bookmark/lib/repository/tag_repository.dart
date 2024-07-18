@@ -53,4 +53,20 @@ class TagRepositoryImpl extends TagRepository {
   Future<void> deleteTag({required int id}) async {
     await client.delete(URLResolver(path: "tag/$id"));
   }
+
+  @override
+  Future<List<Tag>> orderTag({required List<int> orderedId}) async {
+    Map<String, dynamic> body = {"tagIds": orderedId};
+    Map<String, dynamic> response =
+        await client.put(const URLResolver(path: "tag-order"), body: body);
+
+    List tagData = response["data"];
+    return tagData.map((dynamic json) {
+      final Map<String, dynamic> map = json;
+      return Tag(
+        id: map["id"] as int,
+        name: map["name"] as String,
+      );
+    }).toList();
+  }
 }

@@ -24,7 +24,13 @@ class TagReorderableList extends StatelessWidget {
             );
           },
           itemCount: state.tags.length,
-          onReorder: (oldIndex, newIndex) {},
+          onReorder: (oldIndex, newIndex) {
+            if (oldIndex < newIndex) {
+              newIndex -= 1;
+            }
+            context.read<ManageTagBloc>().add(
+                ManageTagUpdateOrder(oldIndex: oldIndex, newIndex: newIndex));
+          },
         );
       },
     );

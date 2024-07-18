@@ -17,3 +17,10 @@ final class ManageTagRename extends ManageTagEvent {
 
   ManageTagRename({required this.id, required this.newName});
 }
+
+final class ManageTagUpdateOrder extends ManageTagEvent {
+  final int oldIndex;
+  final int newIndex;
+
+  ManageTagUpdateOrder({required this.oldIndex, required this.newIndex});
+}
