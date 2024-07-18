@@ -1,7 +1,4 @@
 library article_bookmark_api;
 
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
-}
+export 'model/tag.dart';
+export 'repository/tag_repository_api.dart';

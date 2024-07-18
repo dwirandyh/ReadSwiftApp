@@ -1,7 +1,8 @@
-import 'package:article_bookmark/model/tag.dart';
+import 'package:article_bookmark_api/article_bookmark_api.dart';
 import 'package:network/network.dart';
 
-abstract class TagRepository {
+abstract class TagRepository extends TagRepositoryApi {
+  @override
   Future<List<Tag>> fetchTag({required int page});
   Future<Tag> addTag({required String tag});
 }
@@ -35,5 +36,10 @@ class TagRepositoryImpl extends TagRepository {
       id: response["data"]["id"],
       name: response["data"]["name"],
     );
+  }
+
+  @override
+  Future<void> deleteTag({required int id}) async {
+    await client.delete(URLResolver(path: "tag/$id"));
   }
 }

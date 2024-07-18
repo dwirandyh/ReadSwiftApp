@@ -1,5 +1,7 @@
-# melos_managed_dependency_overrides: uikit,authentication_api,foundation,network,storage
+# melos_managed_dependency_overrides: uikit,authentication_api,foundation,network,storage,article_bookmark_api
 dependency_overrides:
+  article_bookmark_api:
+    path: ../article_bookmark_api
   authentication_api:
     path: ../authentication_api
   foundation:

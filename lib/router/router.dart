@@ -1,4 +1,4 @@
-import 'package:article_bookmark/external/ArticleBookmarkRouter.dart';
+import 'package:article_bookmark/external/article_bookmark_router.dart';
 import 'package:authentication/authentication.dart';
 import 'package:authentication_api/authentication_api.dart';
 import 'package:flutter/material.dart';

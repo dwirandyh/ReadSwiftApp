@@ -1,4 +1,4 @@
-import 'package:article_bookmark/model/tag.dart';
+import 'package:article_bookmark_api/article_bookmark_api.dart';
 import 'package:flutter/material.dart';
 import 'package:uikit/uikit.dart';
 

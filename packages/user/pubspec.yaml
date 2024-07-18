@@ -11,6 +11,8 @@ dependencies:
   flutter:
     sdk: flutter
 
+  article_bookmark_api:
+    path: ../article_bookmark_api
   authentication_api:
     path: ../authentication_api
   foundation:

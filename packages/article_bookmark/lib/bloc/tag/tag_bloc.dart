@@ -1,5 +1,5 @@
-import 'package:article_bookmark/model/tag.dart';
 import 'package:article_bookmark/repository/tag_repository.dart';
+import 'package:article_bookmark_api/article_bookmark_api.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 

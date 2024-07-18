@@ -1,5 +1,5 @@
 import 'package:article_bookmark/bloc/article/article_bloc.dart';
-import 'package:article_bookmark/external/ArticleBookmarkRouter.dart';
+import 'package:article_bookmark/external/article_bookmark_router.dart';
 import 'package:article_bookmark/model/article.dart';
 import 'package:article_bookmark/view/article/article_item.dart';
 import 'package:flutter/material.dart';

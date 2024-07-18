@@ -1,5 +1,5 @@
 import 'package:article_bookmark/model/article.dart';
-import 'package:article_bookmark/model/tag.dart';
+import 'package:article_bookmark_api/article_bookmark_api.dart';
 import 'package:network/network.dart';
 
 abstract class ArticleRepository {

@@ -1,8 +1,8 @@
 import 'package:article_bookmark/bloc/article/add_article_tag/add_article_tag_bloc.dart';
 import 'package:article_bookmark/bloc/article/article_bloc.dart';
 import 'package:article_bookmark/model/article.dart';
-import 'package:article_bookmark/model/tag.dart';
 import 'package:article_bookmark/view/article/article_tag/add_article_tag_item.dart';
+import 'package:article_bookmark_api/article_bookmark_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';

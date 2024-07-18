@@ -1,5 +1,7 @@
-# melos_managed_dependency_overrides: foundation,network,uikit
+# melos_managed_dependency_overrides: foundation,network,uikit,article_bookmark_api
 dependency_overrides:
+  article_bookmark_api:
+    path: ../article_bookmark_api
   foundation:
     path: ../foundation
   network:

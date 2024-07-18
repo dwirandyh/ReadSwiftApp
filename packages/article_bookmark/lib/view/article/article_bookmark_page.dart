@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:article_bookmark/bloc/tag/tag_bloc.dart';
-import 'package:article_bookmark/model/tag.dart';
 import 'package:article_bookmark/repository/tag_repository.dart';
 import 'package:article_bookmark/view/article/article_bookmark_header.dart';
 import 'package:article_bookmark/view/article/article_per_tag_section.dart';
 import 'package:article_bookmark/view/tag/tag_filter_view.dart';
+import 'package:article_bookmark_api/article_bookmark_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:network/network.dart';

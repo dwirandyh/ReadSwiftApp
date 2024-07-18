@@ -1,6 +1,6 @@
 import 'package:article_bookmark/bloc/tag/tag_bloc.dart';
-import 'package:article_bookmark/model/tag.dart';
 import 'package:article_bookmark/view/tag/add_tag_view.dart';
+import 'package:article_bookmark_api/article_bookmark_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uikit/uikit.dart';
