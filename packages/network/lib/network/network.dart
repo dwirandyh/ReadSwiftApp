@@ -1,19 +1,43 @@
 import 'dart:convert' as convert;
+import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:dio/io.dart';
 import 'package:network/network/network_exception.dart';
 import 'package:network/network/url_resolver.dart';
 
+class DioFactory {
+  static Dio create() {
+    Dio dio = Dio(BaseOptions(
+      headers: {
+        'Content-type': 'application/json',
+        'Accept': 'application/json',
+      },
+    ));
+
+    String proxy =
+        Platform.isAndroid ? '<YOUR_LOCAL_IP>:9090' : 'localhost:9090';
+
+    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+        (client) {
+      // Hook into the findProxy callback to set the client's proxy.
+      client.findProxy = (url) {
+        return 'PROXY $proxy';
+      };
+
+      // This is a workaround to allow Proxyman to receive
+      // SSL payloads when your app is running on Android.
+      client.badCertificateCallback =
+          (X509Certificate cert, String host, int port) => Platform.isAndroid;
+    };
+
+    return dio;
+  }
+}
+
 abstract interface class HttpNetwork {
   static final HttpNetwork _instance = HttpNetworkImpl(
-    client: Dio(
-      BaseOptions(
-        headers: {
-          'Content-type': 'application/json',
-          'Accept': 'application/json',
-        },
-      ),
-    ),
+    client: DioFactory.create(),
   );
 
   HttpNetwork._();

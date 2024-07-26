@@ -23,7 +23,7 @@ class RssFeedBloc extends Bloc<RssFeedEvent, RssFeedState> {
     try {
       List<RssFeed> rssFeeds = await rssRepository.fetchRssFeed();
       emit(state.copyWith(rssFeeds: rssFeeds, status: RssFeedStatus.success));
-    } catch (_) {
+    } catch (error) {
       emit(state.copyWith(status: RssFeedStatus.error));
     }
   }

@@ -18,19 +18,21 @@ class RssRepositoryImpl extends RssRepository {
   @override
   Future<void> addRssFeed({String? name, required String url}) async {
     Map<String, dynamic> body = {"name": name, "url": url};
-    await client.post(const URLResolver(path: "rss-feed"), body: body);
+    await client.post(const URLResolver(path: "rss-feed-subscription"),
+        body: body);
   }
 
   @override
   Future<List<RssFeed>> fetchRssFeed() async {
     Map<String, dynamic> response =
-        await client.get(const URLResolver(path: "rss-feed"));
+        await client.get(const URLResolver(path: "rss-feed-subscription"));
     List rssFeedData = response["data"] as List;
     return rssFeedData.map((dynamic json) {
+      Map<String, dynamic> rssFeed = json['rss_feed'];
       return RssFeed(
-        id: json["id"] as int,
-        url: json["url"] as String,
-        name: json["name"] as String,
+        id: rssFeed["id"] as int,
+        url: rssFeed["url"] as String,
+        name: json['name'] as String,
       );
     }).toList();
   }
