@@ -49,6 +49,8 @@ dependencies:
     path: packages/storage
   rss:
     path: packages/rss
+  rss_api:
+    path: packages/rss_api
   uikit:
     path: packages/uikit
   user:

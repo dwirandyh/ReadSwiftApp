@@ -1025,6 +1025,13 @@ packages:
       relative: true
     source: path
     version: "0.0.1"
+  rss_api:
+    dependency: "direct main"
+    description:
+      path: "packages/rss_api"
+      relative: true
+    source: path
+    version: "0.0.1"
   rxdart:
     dependency: transitive
     description:

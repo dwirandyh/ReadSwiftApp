@@ -1,4 +1,5 @@
 library rss;
 
-export 'package:rss/external/rss_router.dart';
-export 'package:rss/view/rss_feed/rss_page.dart';
+export 'external/dependency_injection/rss_di.dart';
+export 'external/rss_router.dart';
+export 'view/rss_feed/rss_page.dart';

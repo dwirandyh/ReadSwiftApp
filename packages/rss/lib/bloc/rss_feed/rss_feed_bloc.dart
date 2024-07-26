@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:rss/model/rss_feed.dart';
 import 'package:rss/repository/rss_repository.dart';
+import 'package:rss_api/rss_api.dart';
 
 part 'rss_feed_event.dart';
 part 'rss_feed_state.dart';

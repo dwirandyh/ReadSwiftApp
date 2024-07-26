@@ -1,9 +1,8 @@
 import 'package:network/network.dart';
-import 'package:rss/model/rss_feed.dart';
+import 'package:rss_api/rss_api.dart';
 
-abstract class RssRepository {
+abstract class RssRepository extends RssRepositoryApi {
   Future<void> addRssFeed({String? name, required String url});
-  Future<List<RssFeed>> fetchRssFeed();
 }
 
 class RssRepositoryImpl extends RssRepository {
