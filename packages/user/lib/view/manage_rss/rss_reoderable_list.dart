@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:user/view/manage_tag/tag_list_item.dart';
+import 'package:user/bloc/manage_rss/manage_rss_bloc.dart';
+import 'package:user/view/manage_rss/rss_list_item.dart';
+import 'package:user/view/widget/reorderable_proxy_decator.dart';
 
-import '../../bloc/manage_tag/manage_tag_bloc.dart';
-import '../widget/reorderable_proxy_decator.dart';
-
-class TagReorderableList extends StatelessWidget {
-  const TagReorderableList({super.key});
+class RssReoderableList extends StatelessWidget {
+  const RssReoderableList({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ManageTagBloc, ManageTagState>(
+    return BlocBuilder<ManageRssBloc, ManageRssState>(
       builder: (context, state) {
         return ReorderableListView.builder(
           proxyDecorator: (child, index, animation) {
@@ -20,19 +19,20 @@ class TagReorderableList extends StatelessWidget {
             );
           },
           itemBuilder: (context, index) {
-            final tag = state.tags[index];
-            return TagListItem(
-              key: Key(tag.id.toString()),
-              tag: state.tags[index],
+            final rss = state.rss[index];
+            return RssListItem(
+              key: Key(rss.id.toString()),
+              rss: rss,
             );
           },
-          itemCount: state.tags.length,
+          itemCount: state.rss.length,
           onReorder: (oldIndex, newIndex) {
             if (oldIndex < newIndex) {
               newIndex -= 1;
             }
-            context.read<ManageTagBloc>().add(
-                ManageTagUpdateOrder(oldIndex: oldIndex, newIndex: newIndex));
+
+            context.read<ManageRssBloc>().add(
+                ManageRssUpdateOrder(oldIndex: oldIndex, newIndex: newIndex));
           },
         );
       },

@@ -56,6 +56,12 @@ class ReadingSectionView extends StatelessWidget {
                 UserRouter.goToManageTag(context);
               },
             ),
+            MenuItem(
+              menu: "Manage Your RSS",
+              onTap: () {
+                UserRouter.goToManageRss(context);
+              },
+            ),
             SwitchMenuItem(
               menu: "Image Display Options",
               description:

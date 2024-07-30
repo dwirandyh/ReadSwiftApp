@@ -2,6 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:network/network.dart';
 import 'package:storage/storage.dart';
 import 'package:user/bloc/change_password/change_password_bloc.dart';
+import 'package:user/bloc/manage_rss/manage_rss_bloc.dart';
 import 'package:user/bloc/manage_tag/manage_tag_bloc.dart';
 import 'package:user/bloc/menu/reading/reading_section_bloc.dart';
 import 'package:user/bloc/menu/theme/theme_bloc.dart';
@@ -49,6 +50,12 @@ class UserDI {
     GetIt.I.registerFactory(
       () => ManageTagBloc(
         tagRepository: GetIt.I.get(),
+      ),
+    );
+
+    GetIt.I.registerFactory(
+      () => ManageRssBloc(
+        rssRepository: GetIt.I.get(),
       ),
     );
   }

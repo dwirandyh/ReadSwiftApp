@@ -29,7 +29,30 @@ class RssRepositoryImpl extends RssRepository {
     return rssFeedData.map((dynamic json) {
       Map<String, dynamic> rssFeed = json['rss_feed'];
       return RssFeed(
-        id: rssFeed["id"] as int,
+        id: json["id"] as int,
+        url: rssFeed["url"] as String,
+        name: json['name'] as String,
+      );
+    }).toList();
+  }
+
+  @override
+  Future<void> deleteRssFeed({required int id}) async {
+    await client.delete(URLResolver(path: "rss-feed-subscription/$id"));
+  }
+
+  @override
+  Future<List<RssFeed>> orderRss({required List<int> orderedId}) async {
+    Map<String, dynamic> body = {"subscriptionIds": orderedId};
+    Map<String, dynamic> response = await client.put(
+        const URLResolver(path: "rss-feed-subscription-order"),
+        body: body);
+
+    List rssFeedData = response["data"] as List;
+    return rssFeedData.map((dynamic json) {
+      Map<String, dynamic> rssFeed = json['rss_feed'];
+      return RssFeed(
+        id: json["id"] as int,
         url: rssFeed["url"] as String,
         name: json['name'] as String,
       );
