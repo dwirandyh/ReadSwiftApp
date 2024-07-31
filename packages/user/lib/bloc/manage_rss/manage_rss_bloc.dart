@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:rss_api/rss_api.dart';
@@ -7,20 +9,25 @@ part 'manage_rss_state.dart';
 
 class ManageRssBloc extends Bloc<ManageRssEvent, ManageRssState> {
   final RssRepositoryApi rssRepository;
+  late final StreamSubscription<List<RssFeed>> _rssFeedSubscription;
 
   ManageRssBloc({required this.rssRepository})
       : super(ManageRssState.initial()) {
     on<ManageRssLoadRss>(_onManageRssLoadRss);
     on<ManageRssDeleteRss>(_onManageRssDeleteRss);
     on<ManageRssUpdateOrder>(_onManageRssUpdateOrder);
+    on<ManageRssUpdateList>(_onManageRssUpdateList);
+
+    _rssFeedSubscription = rssRepository.rssFeeds.listen((rssFeeds) {
+      add(ManageRssUpdateList(rss: rssFeeds));
+    });
   }
 
   void _onManageRssLoadRss(
       ManageRssLoadRss event, Emitter<ManageRssState> emit) async {
     emit(state.copyWith(status: ManageRssStatus.loading));
     try {
-      final rss = await rssRepository.fetchRssFeed();
-      emit(state.copyWith(status: ManageRssStatus.loaded, rss: List.of(rss)));
+      await rssRepository.fetchRssFeed();
     } catch (e) {
       emit(state.copyWith(status: ManageRssStatus.error));
     }
@@ -52,5 +59,17 @@ class ManageRssBloc extends Bloc<ManageRssEvent, ManageRssState> {
     } catch (e) {
       emit(state.copyWith(status: ManageRssStatus.error));
     }
+  }
+
+  void _onManageRssUpdateList(
+      ManageRssUpdateList event, Emitter<ManageRssState> emit) {
+    emit(state.copyWith(
+        rss: List.of(event.rss), status: ManageRssStatus.loaded));
+  }
+
+  @override
+  Future<void> close() async {
+    await _rssFeedSubscription.cancel();
+    return super.close();
   }
 }

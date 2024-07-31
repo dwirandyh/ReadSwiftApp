@@ -1,30 +1,38 @@
+import 'dart:async';
+
 import 'package:article_bookmark_api/article_bookmark_api.dart';
 import 'package:network/network.dart';
 
 abstract class TagRepository extends TagRepositoryApi {
-  @override
-  Future<List<Tag>> fetchTag({required int page});
   Future<Tag> addTag({required String tag});
 }
 
 class TagRepositoryImpl extends TagRepository {
   final HttpNetwork client;
 
+  final _tagController = StreamController<List<Tag>>.broadcast();
+  @override
+  Stream<List<Tag>> get tags => _tagController.stream;
+  List<Tag> _tags = [];
+
   TagRepositoryImpl({required this.client});
 
   @override
-  Future<List<Tag>> fetchTag({required int page}) async {
-    Map<String, dynamic> parameters = {"page": page};
+  Future<List<Tag>> fetchTag() async {
     Map<String, dynamic> response =
-        await client.get(URLResolver(path: "tag", parameters: parameters));
-    List tagData = response["data"];
-    return tagData.map((dynamic json) {
+        await client.get(const URLResolver(path: "tag"));
+    List data = response["data"];
+    final tags = data.map((dynamic json) {
       final Map<String, dynamic> map = json;
       return Tag(
         id: map["id"] as int,
         name: map["name"] as String,
       );
     }).toList();
+
+    _tags = tags;
+    _tagController.add(_tags);
+    return tags;
   }
 
   @override
@@ -32,10 +40,15 @@ class TagRepositoryImpl extends TagRepository {
     Map<String, dynamic> body = {"name": tag};
     Map<String, dynamic> response =
         await client.post(const URLResolver(path: "tag"), body: body);
-    return Tag(
+    final newTag = Tag(
       id: response["data"]["id"],
       name: response["data"]["name"],
     );
+
+    _tags.add(newTag);
+    _tagController.add(_tags);
+
+    return newTag;
   }
 
   @override
@@ -43,15 +56,22 @@ class TagRepositoryImpl extends TagRepository {
     Map<String, dynamic> body = {"name": name};
     Map<String, dynamic> response =
         await client.put(URLResolver(path: "tag/$id"), body: body);
-    return Tag(
+    final updatedTag = Tag(
       id: response["data"]["id"],
       name: response["data"]["name"],
     );
+
+    final index = _tags.indexWhere((element) => element.id == id);
+    _tags[index] = updatedTag;
+    _tagController.add(_tags);
+    return updatedTag;
   }
 
   @override
   Future<void> deleteTag({required int id}) async {
     await client.delete(URLResolver(path: "tag/$id"));
+    _tags.removeWhere((e) => e.id == id);
+    _tagController.add(_tags);
   }
 
   @override
@@ -60,13 +80,17 @@ class TagRepositoryImpl extends TagRepository {
     Map<String, dynamic> response =
         await client.put(const URLResolver(path: "tag-order"), body: body);
 
-    List tagData = response["data"];
-    return tagData.map((dynamic json) {
+    List data = response["data"];
+    final tags = data.map((dynamic json) {
       final Map<String, dynamic> map = json;
       return Tag(
         id: map["id"] as int,
         name: map["name"] as String,
       );
     }).toList();
+
+    _tags = tags;
+    _tagController.add(_tags);
+    return tags;
   }
 }

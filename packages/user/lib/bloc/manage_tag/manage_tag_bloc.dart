@@ -19,7 +19,7 @@ class ManageTagBloc extends Bloc<ManageTagEvent, ManageTagState> {
       ManageTagLoadTags event, Emitter<ManageTagState> emit) async {
     emit(state.copyWith(status: ManageTagStatus.loading));
     try {
-      final tags = await tagRepository.fetchTag(page: 1);
+      final tags = await tagRepository.fetchTag();
       emit(state.copyWith(status: ManageTagStatus.loaded, tags: List.of(tags)));
     } catch (e) {
       emit(state.copyWith(status: ManageTagStatus.error));

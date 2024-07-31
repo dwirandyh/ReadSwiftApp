@@ -6,10 +6,12 @@ import '../../repository/tag_repository.dart';
 
 class ArticleBookmarkDI {
   static void setup() {
-    GetIt.I.registerFactory<TagRepositoryApi>(
-      () => TagRepositoryImpl(
-        client: HttpNetwork.client,
-      ),
+    GetIt.I.registerLazySingleton<TagRepository>(
+      () => TagRepositoryImpl(client: HttpNetwork.client),
+    );
+
+    GetIt.I.registerLazySingleton<TagRepositoryApi>(
+      () => GetIt.I.get<TagRepository>(),
     );
   }
 }

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:rss/bloc/rss_feed/rss_feed_bloc.dart';
 import 'package:rss/view/rss_feed/empty_rss_view.dart';
 import 'package:rss/view/rss_feed/rss_feed_content_list_view.dart';
@@ -14,7 +15,8 @@ class RssPage extends StatefulWidget {
 
   static Widget create() {
     return BlocProvider(
-      create: (context) => RssFeedBloc.create()..add(RssFeedFetched()),
+      create: (context) =>
+          RssFeedBloc(rssRepository: GetIt.I.get())..add(RssFeedFetched()),
       child: const RssPage._(),
     );
   }

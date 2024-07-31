@@ -5,6 +5,12 @@ sealed class ManageRssEvent {}
 
 final class ManageRssLoadRss extends ManageRssEvent {}
 
+final class ManageRssUpdateList extends ManageRssEvent {
+  final List<RssFeed> rss;
+
+  ManageRssUpdateList({required this.rss});
+}
+
 final class ManageRssDeleteRss extends ManageRssEvent {
   final int id;
 

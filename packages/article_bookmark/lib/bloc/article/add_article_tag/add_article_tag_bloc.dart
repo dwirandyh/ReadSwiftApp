@@ -28,7 +28,7 @@ class AddArticleTagBloc extends Bloc<AddArticleTagEvent, AddArticleTagState> {
     Emitter<AddArticleTagState> emit,
   ) async {
     try {
-      List<Tag> tags = await tagRepository.fetchTag(page: 1);
+      List<Tag> tags = await tagRepository.fetchTag();
       emit(AddArticleTagInitial(tags, article));
     } catch (_) {}
   }

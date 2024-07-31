@@ -6,10 +6,12 @@ import '../../repository/rss_repository.dart';
 
 class RssDI {
   static void setup() {
-    GetIt.I.registerFactory<RssRepositoryApi>(
-      () => RssRepositoryImpl(
-        client: HttpNetwork.client,
-      ),
+    GetIt.I.registerLazySingleton<RssRepository>(
+      () => RssRepositoryImpl(client: HttpNetwork.client),
+    );
+
+    GetIt.I.registerLazySingleton<RssRepositoryApi>(
+      () => GetIt.I.get<RssRepository>(),
     );
   }
 }
