@@ -10,7 +10,7 @@ class RssHeaderView extends StatelessWidget {
     return Row(
       children: [
         Text(
-          "RSS Feed",
+          "RSS",
           style: TextStyle(
             fontWeight: FontWeight.w700,
             fontSize: 26,
