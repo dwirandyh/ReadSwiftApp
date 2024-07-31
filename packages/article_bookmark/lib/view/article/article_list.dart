@@ -5,6 +5,7 @@ import 'package:article_bookmark/view/article/article_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:uikit/uikit.dart';
 
 class ArticleList extends StatefulWidget {
   final List<Article> articles;
@@ -46,8 +47,18 @@ class _ArticleListState extends State<ArticleList> {
   @override
   Widget build(BuildContext context) {
     if (widget.articles.isEmpty) {
-      return const Center(
-        child: Text("TODO: Add widget to encourage user to bookmark article"),
+      return const Padding(
+        padding: EdgeInsets.all(24.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            MessageDisplayWidget(
+              icon: Icons.bookmark_border,
+              title: "No articles in this tag yet!",
+              subtitle: "Start bookmarking articles to see them here",
+            ),
+          ],
+        ),
       );
     }
     return ListView.builder(
