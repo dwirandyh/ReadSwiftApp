@@ -44,6 +44,11 @@ class _ArticleListState extends State<ArticleList> {
     return currentScroll >= (maxScroll * 0.9);
   }
 
+  Future<void> _onRefresh() {
+    context.read<ArticleBloc>().add(ArticleRefreshed());
+    return Future.value();
+  }
+
   @override
   Widget build(BuildContext context) {
     if (widget.articles.isEmpty) {
@@ -61,24 +66,28 @@ class _ArticleListState extends State<ArticleList> {
         ),
       );
     }
-    return ListView.builder(
-      itemBuilder: (context, index) {
-        Article article = widget.articles[index];
-        return InkWell(
-          onTap: () {
-            context.push(
-              ArticleBookmarkRouter.articleDetailPage,
-              extra: {
-                "article": article,
-                "articleBloc": context.read<ArticleBloc>()
-              },
-            );
-          },
-          child: ArticleItem.create(article: article),
-        );
-      },
-      itemCount: widget.articles.length,
-      controller: _scrollController,
+    return RefreshIndicator(
+      onRefresh: _onRefresh,
+      child: ListView.builder(
+        physics: const AlwaysScrollableScrollPhysics(),
+        itemBuilder: (context, index) {
+          Article article = widget.articles[index];
+          return InkWell(
+            onTap: () {
+              context.push(
+                ArticleBookmarkRouter.articleDetailPage,
+                extra: {
+                  "article": article,
+                  "articleBloc": context.read<ArticleBloc>()
+                },
+              );
+            },
+            child: ArticleItem.create(article: article),
+          );
+        },
+        itemCount: widget.articles.length,
+        controller: _scrollController,
+      ),
     );
   }
 }

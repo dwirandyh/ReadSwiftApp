@@ -6,6 +6,7 @@ import 'package:article_bookmark_api/article_bookmark_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:network/network.dart';
+import 'package:uikit/uikit.dart';
 
 class ArticlePerTagSection extends StatelessWidget {
   final Tag? tag;
@@ -27,30 +28,53 @@ class ArticlePerTagSection extends StatelessWidget {
           value: BlocProvider.of<BookmarkClipboardBloc>(context),
         ),
       ],
-      child: BlocListener<BookmarkClipboardBloc, BookmarkClipboardState>(
-        listener: (context, state) {
-          if (tag == null && state is BookmarkClipboardSaved) {
-            context.read<ArticleBloc>().add(ArticleRefreshed());
-          }
-        },
-        child: ArticlePerTagSection._(tag: tag),
-      ),
+      child: ArticlePerTagSection._(tag: tag),
     );
+  }
+
+  void _retryTapped(BuildContext context) {
+    context.read<ArticleBloc>().add(ArticleRefreshed());
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ArticleBloc, ArticleState>(
-      builder: (context, state) {
-        switch (state.status) {
-          case ArticleStatus.initial:
-            return const Center(child: CircularProgressIndicator());
-          case ArticleStatus.success:
-            return ArticleList(articles: state.articles);
-          case ArticleStatus.failure:
-            return const Center(child: Text("failed to fetch articles"));
+    return BlocListener<BookmarkClipboardBloc, BookmarkClipboardState>(
+      listener: (context, state) {
+        if (tag == null && state is BookmarkClipboardSaved) {
+          context.read<ArticleBloc>().add(ArticleRefreshed());
         }
       },
+      child: BlocBuilder<ArticleBloc, ArticleState>(
+        builder: (context, state) {
+          switch (state.status) {
+            case ArticleStatus.initial:
+              return const Center(child: CircularProgressIndicator());
+            case ArticleStatus.success:
+              return ArticleList(articles: state.articles);
+            case ArticleStatus.failure:
+              return Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    MessageDisplayWidget(
+                      icon: Icons.error_outline,
+                      title: "Failed to Load Bookmarks",
+                      subtitle:
+                          "We couldn't retrieve your bookmarked articles. Please check your connection and try again.",
+                      actionWidget: ElevatedButton(
+                        onPressed: () {
+                          _retryTapped(context);
+                        },
+                        child: const Text("Retry"),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+          }
+        },
+      ),
     );
   }
 }
