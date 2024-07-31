@@ -1,7 +1,7 @@
 import 'package:article_bookmark/model/article.dart';
-import 'package:article_bookmark/model/tag.dart';
 import 'package:article_bookmark/repository/article_repository.dart';
 import 'package:article_bookmark/repository/tag_repository.dart';
+import 'package:article_bookmark_api/article_bookmark_api.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
@@ -28,7 +28,7 @@ class AddArticleTagBloc extends Bloc<AddArticleTagEvent, AddArticleTagState> {
     Emitter<AddArticleTagState> emit,
   ) async {
     try {
-      List<Tag> tags = await tagRepository.fetchTag(page: 1);
+      List<Tag> tags = await tagRepository.fetchTag();
       emit(AddArticleTagInitial(tags, article));
     } catch (_) {}
   }

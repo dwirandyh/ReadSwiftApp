@@ -37,6 +37,8 @@ dependencies:
   # Local packages
   article_bookmark:
     path: packages/article_bookmark
+  article_bookmark_api:
+    path: packages/article_bookmark_api
   authentication:
     path: packages/authentication
   foundation:
@@ -47,6 +49,8 @@ dependencies:
     path: packages/storage
   rss:
     path: packages/rss
+  rss_api:
+    path: packages/rss_api
   uikit:
     path: packages/uikit
   user:

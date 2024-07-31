@@ -12,6 +12,8 @@ dependencies:
     sdk: flutter
 
 # Internal Packages
+  article_bookmark_api:
+    path: ../article_bookmark_api
   foundation:
     path: ../foundation
   network:

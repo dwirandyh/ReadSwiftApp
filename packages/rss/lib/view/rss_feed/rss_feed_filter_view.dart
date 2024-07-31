@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rss/bloc/rss_feed/rss_feed_bloc.dart';
-import 'package:rss/model/rss_feed.dart';
 import 'package:rss/view/add_rss/add_rss_view.dart';
+import 'package:rss_api/rss_api.dart';
 import 'package:uikit/uikit.dart';
 
 class RssFeedFilterView extends StatelessWidget {

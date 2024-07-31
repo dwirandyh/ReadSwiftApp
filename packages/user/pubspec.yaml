@@ -11,12 +11,16 @@ dependencies:
   flutter:
     sdk: flutter
 
+  article_bookmark_api:
+    path: ../article_bookmark_api
   authentication_api:
     path: ../authentication_api
   foundation:
     path: ../foundation
   network:
     path: ../network
+  rss_api:
+    path: ../rss_api
   storage:
     path: ../storage
   uikit:

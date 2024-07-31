@@ -5,6 +5,9 @@ import 'package:uikit/uikit.dart';
 import 'package:user/bloc/menu/reading/reading_section_bloc.dart';
 import 'package:user/view/menu/widget/switch_menu_item.dart';
 
+import '../../external/user_router.dart';
+import 'widget/menu_item.dart';
+
 class ReadingSectionView extends StatelessWidget {
   const ReadingSectionView._({super.key});
 
@@ -46,6 +49,18 @@ class ReadingSectionView extends StatelessWidget {
                     fontSize: 14,
                     fontWeight: FontWeight.w600),
               ),
+            ),
+            MenuItem(
+              menu: "Manage Your Tag",
+              onTap: () {
+                UserRouter.goToManageTag(context);
+              },
+            ),
+            MenuItem(
+              menu: "Manage Your RSS",
+              onTap: () {
+                UserRouter.goToManageRss(context);
+              },
             ),
             SwitchMenuItem(
               menu: "Image Display Options",

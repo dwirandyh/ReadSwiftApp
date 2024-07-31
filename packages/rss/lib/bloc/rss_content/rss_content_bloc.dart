@@ -2,8 +2,8 @@ import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
 import 'package:rss/model/rss_content.dart';
-import 'package:rss/model/rss_feed.dart';
 import 'package:rss/repository/rss_content_repository.dart';
+import 'package:rss_api/rss_api.dart';
 
 part 'rss_content_event.dart';
 part 'rss_content_state.dart';

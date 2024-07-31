@@ -1,6 +1,6 @@
 import 'package:network/network.dart';
 import 'package:rss/model/rss_content.dart';
-import 'package:rss/model/rss_feed.dart';
+import 'package:rss_api/rss_api.dart';
 
 abstract class RssContentRepository {
   Future<List<RssContent>> fetchRssContent(

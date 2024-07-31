@@ -103,8 +103,8 @@ class _AddRssViewState extends State<AddRssView> {
               child: Column(
                 children: [
                   UIKitTextField(
-                    title: "Name",
-                    placeholder: "Enter RSS Name",
+                    title: "Title (Optional)",
+                    placeholder: "Enter RSS Title",
                     controller: _nameTextController,
                   ),
                   const SizedBox(
