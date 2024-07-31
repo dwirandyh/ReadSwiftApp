@@ -4,6 +4,7 @@ export 'button/uikit_button.dart';
 export 'chip/uikit_chip.dart';
 export 'loading/ui_loading.dart';
 export 'loading/uikit_loading.dart';
+export 'message/message_display_widget.dart';
 export 'text/font_weight_extension.dart';
 export 'text/text_style.dart';
 export 'textfield/uikit_textfield.dart';

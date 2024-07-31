@@ -73,6 +73,10 @@ class _ArticleBookmarkPageState extends State<ArticleBookmarkPage>
     }
   }
 
+  void _retryTapped() {
+    context.read<TagBloc>().add(TagFetched());
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -115,6 +119,25 @@ class _ArticleBookmarkPageState extends State<ArticleBookmarkPage>
                             }
                           },
                           itemCount: state.tags.length + 1,
+                        );
+                      } else if (state.status == TagStatus.error) {
+                        return Padding(
+                          padding: const EdgeInsets.all(24.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              MessageDisplayWidget(
+                                icon: Icons.error_outline,
+                                title: "Failed to Load Bookmarks",
+                                subtitle:
+                                    "We couldn't retrieve your bookmarked articles. Please check your connection and try again.",
+                                actionWidget: ElevatedButton(
+                                  onPressed: _retryTapped,
+                                  child: const Text("Retry"),
+                                ),
+                              ),
+                            ],
+                          ),
                         );
                       } else {
                         return const Center(

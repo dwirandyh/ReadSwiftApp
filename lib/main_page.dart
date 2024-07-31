@@ -99,12 +99,10 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
         children: _pages,
       ),
       bottomNavigationBar: BottomNavigationBar(
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: "Home",
+            icon: Icon(Icons.bookmark),
+            label: "Bookmark",
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.rss_feed),

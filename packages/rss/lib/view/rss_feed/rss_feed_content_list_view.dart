@@ -50,6 +50,10 @@ class _RssFeedContentListViewState extends State<RssFeedContentListView> {
     return currentScroll >= (maxScroll * 0.9);
   }
 
+  Future<void> _onRefresh() async {
+    context.read<RssContentBloc>().add(RssContentRefreshed());
+  }
+
   @override
   Widget build(BuildContext context) {
     final color = context.theme.uikit;
@@ -87,18 +91,22 @@ class _RssFeedContentListViewState extends State<RssFeedContentListView> {
             ),
           );
         } else {
-          return ListView.builder(
-            itemCount: contents.length,
-            controller: _scrollController,
-            itemBuilder: (context, index) {
-              RssContent selectedContent = contents[index];
-              return InkWell(
-                onTap: () {
-                  RssRouter.goToRssContentDetail(context, selectedContent.id);
-                },
-                child: RssContentItem(content: selectedContent),
-              );
-            },
+          return RefreshIndicator(
+            onRefresh: _onRefresh,
+            child: ListView.builder(
+              physics: const AlwaysScrollableScrollPhysics(),
+              itemCount: contents.length,
+              controller: _scrollController,
+              itemBuilder: (context, index) {
+                RssContent selectedContent = contents[index];
+                return InkWell(
+                  onTap: () {
+                    RssRouter.goToRssContentDetail(context, selectedContent.id);
+                  },
+                  child: RssContentItem(content: selectedContent),
+                );
+              },
+            ),
           );
         }
       },
