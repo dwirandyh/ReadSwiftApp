@@ -91,9 +91,9 @@ class UIKitThemeColor extends ThemeExtension<UIKitThemeColor> {
     danger: Color.fromRGBO(241, 96, 99, 1.0),
     divider: Color.fromRGBO(218, 218, 218, 1.0),
     preTheme: PreTheme(
-      background: Color.fromRGBO(249, 249, 249, 1),
-      borderColor: Color.fromRGBO(229, 229, 229, 1),
-    ),
+        background: Color.fromRGBO(249, 249, 249, 1),
+        borderColor: Color.fromRGBO(229, 229, 229, 1),
+        textColor: Color.fromRGBO(36, 36, 36, 1)),
   );
 
   static const dark = UIKitThemeColor(
@@ -108,8 +108,9 @@ class UIKitThemeColor extends ThemeExtension<UIKitThemeColor> {
     danger: Color.fromRGBO(241, 96, 99, 1.0),
     divider: Color.fromRGBO(218, 218, 218, 1.0),
     preTheme: PreTheme(
-      background: Color.fromRGBO(249, 249, 249, 1),
-      borderColor: Color.fromRGBO(229, 229, 229, 1),
+      background: Color(0xFF1E1E1E),
+      borderColor: Color(0xFF333333),
+      textColor: Color(0xFFE0E0E0),
     ),
   );
 }

@@ -45,8 +45,9 @@ class Pre extends StatelessWidget {
       ),
       padding: const EdgeInsets.all(16),
       child: DefaultTextStyle.merge(
-        style: const TextStyle(
+        style: TextStyle(
           fontStyle: FontStyle.normal,
+          color: color.preTheme.textColor,
         ),
         child: HtmlWidget(
           "<pre>${_extractPreContent(element.outerHtml)}</pre>",
