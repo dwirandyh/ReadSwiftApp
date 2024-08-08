@@ -1,41 +1,22 @@
 import 'package:storage/storage.dart';
-import 'package:uikit/uikit.dart';
 import 'package:user/external/preferences/user_preference_key.dart';
+import 'package:user_api/user_api.dart';
 
-abstract class UserSettingRepository {
-  ThemeModePreference getCurrentThemeMode();
-  Future<void> setThemeMode(ThemeModePreference themeModePreference);
-
-  Future<void> setImageDisplayOptions({required bool isEnabled});
-  bool getImageDisplayOptions();
-
-  Future<void> setContinueReading({required bool isEnabled});
-  bool getContinueReading();
-}
-
-class UserSettingRepositoryImpl implements UserSettingRepository {
+class UserSettingRepositoryImpl implements UserSettingRepositoryApi {
   final SharedPreferenceService preferenceService;
 
   UserSettingRepositoryImpl({required this.preferenceService});
 
   @override
-  ThemeModePreference getCurrentThemeMode() {
+  String getCurrentThemeMode() {
     final String mode =
         preferenceService.getValue(UserPreferenceKeys.themeMode);
-
-    if (mode == ThemeModePreference.light.key) {
-      return ThemeModePreference.light;
-    } else if (mode == ThemeModePreference.dark.key) {
-      return ThemeModePreference.dark;
-    } else {
-      return ThemeModePreference.system;
-    }
+    return mode;
   }
 
   @override
-  Future<void> setThemeMode(ThemeModePreference themeModePreference) async {
-    await preferenceService.setValue(
-        UserPreferenceKeys.themeMode, themeModePreference.key);
+  Future<void> setThemeMode(String themeModePreference) async {
+    await preferenceService.setValue(UserPreferenceKeys.themeMode, String);
   }
 
   @override

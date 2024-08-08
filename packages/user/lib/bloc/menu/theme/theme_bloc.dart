@@ -3,14 +3,13 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:uikit/theme/theme_manager/theme_provider.dart';
-
-import '../../../repository/user_setting_repository.dart';
+import 'package:user_api/user_api.dart';
 
 part 'theme_event.dart';
 part 'theme_state.dart';
 
 class ThemeBloc extends Bloc<ThemeEvent, ThemeConfiguration> {
-  final UserSettingRepository userSettingRepository;
+  final UserSettingRepositoryApi userSettingRepository;
 
   ThemeBloc({required this.userSettingRepository})
       : super(const ThemeConfiguration(
@@ -24,7 +23,8 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeConfiguration> {
     try {
       final themeMode = userSettingRepository.getCurrentThemeMode();
 
-      emit(ThemeConfiguration(selectedMode: themeMode));
+      emit(ThemeConfiguration(
+          selectedMode: ThemeModePreference.fromString(themeMode)));
     } catch (e) {
       emit(const ThemeConfiguration(selectedMode: ThemeModePreference.system));
     }
@@ -33,7 +33,7 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeConfiguration> {
   void _onThemeChangedRequested(
       ThemeChangedRequested event, Emitter<ThemeConfiguration> emit) async {
     try {
-      await userSettingRepository.setThemeMode(event.themeModePreference);
+      await userSettingRepository.setThemeMode(event.themeModePreference.key);
       emit(ThemeConfiguration(selectedMode: event.themeModePreference));
     } catch (e) {
       emit(const ThemeConfiguration(selectedMode: ThemeModePreference.system));

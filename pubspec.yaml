@@ -55,6 +55,8 @@ dependencies:
     path: packages/uikit
   user:
     path: packages/user
+  user_api:
+    path: packages/user_api
 
   # Third party packages
   cupertino_icons: ^1.0.2

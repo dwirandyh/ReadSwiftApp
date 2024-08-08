@@ -7,6 +7,19 @@ enum ThemeModePreference {
 
   final String key;
   const ThemeModePreference(this.key);
+
+  factory ThemeModePreference.fromString(String key) {
+    switch (key) {
+      case 'light':
+        return ThemeModePreference.light;
+      case 'dark':
+        return ThemeModePreference.dark;
+      case 'system':
+        return ThemeModePreference.system;
+      default:
+        throw ArgumentError('Invalid key: $key');
+    }
+  }
 }
 
 @immutable

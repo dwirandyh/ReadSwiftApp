@@ -5,9 +5,6 @@ packages:
   - '*'
 
 scripts:
-  pub:install:
-    run: melos bootstrap && flutter pub get
-    description: Run pub get for all packages 
   clean:
     run: melos run clean:flutter --no-select
     description: Runs "flutter clean" in all Flutter packages

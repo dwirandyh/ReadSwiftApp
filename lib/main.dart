@@ -8,7 +8,7 @@ import 'package:get_it/get_it.dart';
 import 'package:readswift_app/di/dependency_composition.dart';
 import 'package:readswift_app/router/router.dart';
 import 'package:uikit/uikit.dart';
-import 'package:user/repository/user_setting_repository.dart';
+import 'package:user_api/user_api.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -55,10 +55,10 @@ void initializeAuthenticatedStatus() {
 }
 
 Future<ThemeModePreference> getThemeData() async {
-  await GetIt.I.isReady<UserSettingRepository>();
-  final userSettings = GetIt.I.get<UserSettingRepository>();
+  await GetIt.I.isReady<UserSettingRepositoryApi>();
+  final userSettings = GetIt.I.get<UserSettingRepositoryApi>();
   final themeMode = userSettings.getCurrentThemeMode();
-  return themeMode;
+  return ThemeModePreference.fromString(themeMode);
 }
 
 class MyApp extends StatelessWidget {

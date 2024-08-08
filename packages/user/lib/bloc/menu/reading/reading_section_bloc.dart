@@ -1,14 +1,13 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-
-import '../../../repository/user_setting_repository.dart';
+import 'package:user_api/user_api.dart';
 
 part 'reading_section_event.dart';
 part 'reading_section_state.dart';
 
 class ReadingSectionBloc
     extends Bloc<ReadingSectionEvent, ReadingSectionState> {
-  final UserSettingRepository userSettingRepository;
+  final UserSettingRepositoryApi userSettingRepository;
 
   ReadingSectionBloc({required this.userSettingRepository})
       : super(ReadingSectionState.initial()) {

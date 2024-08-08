@@ -7,6 +7,7 @@ import 'package:user/bloc/manage_tag/manage_tag_bloc.dart';
 import 'package:user/bloc/menu/reading/reading_section_bloc.dart';
 import 'package:user/bloc/menu/theme/theme_bloc.dart';
 import 'package:user/repository/user_setting_repository.dart';
+import 'package:user_api/user_api.dart';
 
 import '../../bloc/delete_account/delete_account_bloc.dart';
 import '../../repository/user_repository.dart';
@@ -31,7 +32,7 @@ class UserDI {
       ),
     );
 
-    GetIt.I.registerSingletonAsync<UserSettingRepository>(
+    GetIt.I.registerSingletonAsync<UserSettingRepositoryApi>(
       () async => UserSettingRepositoryImpl(
         preferenceService: await SharedPreferenceService.instance(),
       ),
