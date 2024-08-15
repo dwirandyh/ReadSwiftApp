@@ -1,4 +1,6 @@
+import 'package:article_bookmark/bloc/text_setting/text_setting_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uikit/uikit.dart';
 
 class ModeSelectionWidget extends StatefulWidget {
@@ -8,6 +10,21 @@ class ModeSelectionWidget extends StatefulWidget {
 
 class _ModeSelectionWidgetState extends State<ModeSelectionWidget> {
   int _selectedMode = 0;
+
+  void _changeThemeMode() {
+    ThemeModePreference themeModePreference;
+    if (_selectedMode == 0) {
+      themeModePreference = ThemeModePreference.light;
+    } else if (_selectedMode == 1) {
+      themeModePreference = ThemeModePreference.system;
+    } else {
+      themeModePreference = ThemeModePreference.dark;
+    }
+
+    context
+        .read<TextSettingBloc>()
+        .add(TextSettingChangeTheme(theme: themeModePreference));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +52,7 @@ class _ModeSelectionWidgetState extends State<ModeSelectionWidget> {
       onTap: () {
         setState(() {
           _selectedMode = index;
+          _changeThemeMode();
         });
       },
       child: Container(

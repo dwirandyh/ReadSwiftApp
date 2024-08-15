@@ -14,7 +14,7 @@ class RssRouter {
     );
   }
 
-  static List<RouteBase> routes = [
+  static final List<RouteBase> routes = [
     GoRoute(
       path: rssContentDetailPage,
       builder: (context, state) {

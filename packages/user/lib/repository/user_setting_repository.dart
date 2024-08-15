@@ -16,7 +16,8 @@ class UserSettingRepositoryImpl implements UserSettingRepositoryApi {
 
   @override
   Future<void> setThemeMode(String themeModePreference) async {
-    await preferenceService.setValue(UserPreferenceKeys.themeMode, String);
+    await preferenceService.setValue(
+        UserPreferenceKeys.themeMode, themeModePreference);
   }
 
   @override

@@ -39,7 +39,7 @@ class UserRouter {
     );
   }
 
-  static List<RouteBase> routes = [
+  static final List<RouteBase> routes = [
     GoRoute(
       path: changePassword,
       builder: (context, state) {

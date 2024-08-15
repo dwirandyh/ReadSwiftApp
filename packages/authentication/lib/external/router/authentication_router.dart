@@ -7,7 +7,7 @@ class AuthenticationRouter {
   static const String loginPage = "/authentication/login";
   static const String registerPage = "/authentication/register";
 
-  static List<RouteBase> routes = [
+  static final List<RouteBase> routes = [
     GoRoute(
       path: AuthenticationRouter.loginPage,
       builder: (context, state) {

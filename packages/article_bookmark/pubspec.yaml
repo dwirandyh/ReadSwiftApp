@@ -20,6 +20,8 @@ dependencies:
     path: ../network
   uikit:
     path: ../uikit
+  user_api:
+    path: ../user_api
 
 dev_dependencies:
   flutter_test:

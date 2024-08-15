@@ -6,12 +6,12 @@ class ArticleBookmarkRouter {
 
   static const String articleDetailPage = "/article/detail";
 
-  static List<RouteBase> routes = [
+  static final List<RouteBase> routes = [
     GoRoute(
       path: articleDetailPage,
       builder: (context, state) {
         Map<String, dynamic> extra = state.extra as Map<String, dynamic>;
-        return ArticleDetailPage.create(extra["article"], extra["articleBloc"]);
+        return ArticleDetailPage.create(extra["article"]);
       },
     )
   ];

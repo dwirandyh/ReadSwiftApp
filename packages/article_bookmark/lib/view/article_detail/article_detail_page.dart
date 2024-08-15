@@ -1,5 +1,4 @@
 import 'package:article_bookmark/bloc/article/add_article_tag/add_article_tag_bloc.dart';
-import 'package:article_bookmark/bloc/article/article_bloc.dart';
 import 'package:article_bookmark/model/article.dart';
 import 'package:article_bookmark/repository/article_repository.dart';
 import 'package:article_bookmark/repository/tag_repository.dart';
@@ -13,12 +12,9 @@ class ArticleDetailPage extends StatelessWidget {
   final Article article;
   const ArticleDetailPage._({super.key, required this.article});
 
-  static Widget create(Article article, ArticleBloc articleBloc) {
+  static Widget create(Article article) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<ArticleBloc>.value(
-          value: articleBloc,
-        ),
         BlocProvider<AddArticleTagBloc>(
           create: (context) => AddArticleTagBloc(
             tagRepository: TagRepositoryImpl(

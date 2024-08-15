@@ -72,7 +72,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp.router(
         title: 'ReadSwift',
         theme: ThemeProvider.of(context).themeData,
-        routerConfig: appRouter,
+        routerConfig: AppRouter.router,
       ),
     );
   }
